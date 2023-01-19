@@ -13,13 +13,16 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import java.lang.AutoCloseable;
 
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -35,17 +38,21 @@ public class SwerveModule {
     busy = true;
     finished = false;
     System.out.println("Start of Execute");
-    RobotDrive drive = RobotMap.driveSystemdrive;
-    CANTalon talon =  RobotMap.driveSystemCANTalon2;
-    talon.changeControlMode(ControlMode.Position); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
-    talon.setFeedbackDevice(FeedbackDevice.QuadEncoder); //Set the feedback device that is hooked up to the talon
-  
-    talon.setPID(0.5, 0.001, 0.00, 0.00, 360, 36, 0); //Set the PID constants (p, i, d)
+    //RobotDrive drive = RobotMap.driveSystemdrive;
+    TalonSRX talon = RobotMap.driveSystemCANTalon2; // 1/19 CHANGE TO NEW TALONSRX
+    //talon.changeControlMode(ControlMode.Position); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
+    talon.set(ControlMode.Position, 0);
+    //talon.setFeedbackDevice(FeedbackDevice.QuadEncoder); //Set the feedback device that is hooked up to the talon
+    talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+    //talon.setPID(0.5, 0.001, 0.00, 0.00, 360, 36, 0); //Set the PID constants (p, i, d)
     
-    talon.enableControl(); //Enable PID control on the talon
-    int currentPosition = talon.getEncPosition();
+    //talon.enableControl(); //Enable PID control on the talon
+    //int currentPosition = talon.getEncPosition();
+    int currentPosition = (int) talon.getSelectedSensorPosition();
     System.out.println(currentPosition);
-    talon.setPosition( 9158); 
+    //talon.setPosition( 9158); 
+    talon.setSelectedSensorPosition(9158);
   
   }
 
@@ -97,7 +104,8 @@ public class SwerveModule {
     //m_turningMotor.configurePID (0.5, 0.001, 0.00, 0.00, 360, 36, 0); //Set the PID constants (p, i, d)
     
     // m_turningMotor.enableControl(); //Enable PID control on the talon
-    int currentPosition = talon.getEncPosition();
+    //int currentPosition = talon.getEncPosition();
+    int currentPosition = (int) m_turningMotor.getSelectedSensorPosition();
 
     m_driveEncoder = m_driveMotor.getEncoder();
 
@@ -106,10 +114,10 @@ public class SwerveModule {
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
     // resolution.
-    m_driveEncoder.setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
+    ((Encoder) m_driveEncoder).setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
 
     // Set whether drive encoder should be reversed or not
-    m_driveEncoder.setReverseDirection(driveEncoderReversed);
+    ((Encoder) m_driveEncoder).setReverseDirection(driveEncoderReversed);
 
     // Set the distance (in this case, angle) in radians per pulse for the turning encoder.
     // This is the the angle through an entire rotation (2 * pi) divided by the
@@ -131,7 +139,7 @@ public class SwerveModule {
    */
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        m_driveEncoder.getRate(), new Rotation2d(m_turningEncoder.getDistance()));
+        ((Encoder) m_driveEncoder).getRate(), new Rotation2d(m_turningEncoder.getDistance()));
   }
 
   /**
@@ -141,7 +149,7 @@ public class SwerveModule {
    */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        m_driveEncoder.getDistance(), new Rotation2d(m_turningEncoder.getDistance()));
+        ((Encoder) m_driveEncoder).getDistance(), new Rotation2d(m_turningEncoder.getDistance()));
   }
 
   /**
@@ -156,7 +164,7 @@ public class SwerveModule {
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput =
-        m_drivePIDController.calculate(m_driveEncoder.getRate(), state.speedMetersPerSecond);
+        m_drivePIDController.calculate(((Encoder) m_driveEncoder).getRate(), state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
@@ -164,12 +172,12 @@ public class SwerveModule {
 
     // Calculate the turning motor output from the turning PID controller.
     m_driveMotor.set(driveOutput);
-    m_turningMotor.set(turnOutput);
+    m_turningMotor.set(TalonSRXControlMode.Position, turnOutput);
   }
 
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
-    m_driveEncoder.reset();
+    ((PIDController) m_driveEncoder).reset();
     m_turningEncoder.reset();
   }
 }
