@@ -92,7 +92,7 @@ public class SwerveModule {
     TalonSRXConfiguration srxConfig;
     
     m_turningMotor.set(ControlMode.Position, 0.0); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
-    m_turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0 ) //Set the feedback device that is hooked up to the talon
+    m_turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0 ); //Set the feedback device that is hooked up to the talon
   
     //m_turningMotor.configurePID (0.5, 0.001, 0.00, 0.00, 360, 36, 0); //Set the PID constants (p, i, d)
     
