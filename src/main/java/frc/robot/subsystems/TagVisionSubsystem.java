@@ -9,7 +9,7 @@ public class TagVisionSubsystem extends SubsystemBase {
 
     public TagVisionSubsystem() {
         pv = new PhotonCamera("apriltagvision");
-        setDefaultCommand(this.run(() -> {System.out.println("TagVisionSubsystem fully inactive!!!");}));
+        setDefaultCommand(this.run(() -> System.out.println("TagVisionSubsystem fully inactive!!!")));
     }
 
     @Override
