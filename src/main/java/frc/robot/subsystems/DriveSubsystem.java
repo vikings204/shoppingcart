@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -26,7 +27,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kFrontLeftDriveEncoderReversed,
           DriveConstants.kFrontLeftTurningEncoderReversed);
 
-  private final SwerveModule m_rearLeft =
+  /*private final SwerveModule m_rearLeft =
       new SwerveModule(
           DriveConstants.kRearLeftDriveMotorPort,
           DriveConstants.kRearLeftTurningMotorPort,
@@ -51,21 +52,43 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearRightDriveEncoderPorts,
           DriveConstants.kRearRightTurningEncoderPorts,
           DriveConstants.kRearRightDriveEncoderReversed,
-          DriveConstants.kRearRightTurningEncoderReversed);
+          DriveConstants.kRearRightTurningEncoderReversed);*/
 
   // The gyro sensor
-  private final Gyro m_gyro = new ADXRS450_Gyro();
+  /*private final Gyro m_gyro = new ADXRS450_Gyro(){
+    @Override
+    public Rotation2d getRotation2d() {
+      return new Rotation2d();
+    }
+    @Override
+    public double getRate() {
+      return 0.0;
+    }
+    @Override
+    public void reset() {}
+  };*/
+
+  public Rotation2d g_getRotation2d() {
+    return new Rotation2d();
+  }
+  public double g_getRate() {
+    return 0.0;
+  }
+  public void g_reset() {}
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry =
       new SwerveDriveOdometry(
           DriveConstants.kDriveKinematics,
-          m_gyro.getRotation2d(),
+          g_getRotation2d(),
           new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
+                  g_getPosition(),
+                  g_getPosition(),
+                  g_getPosition()
+            /*m_frontRight.getPosition(),
             m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
+            m_rearRight.getPosition()*/
           });
 
   /** Creates a new DriveSubsystem. */
@@ -75,13 +98,20 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        m_gyro.getRotation2d(),
+        g_getRotation2d(),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
+                g_getPosition(),
+                g_getPosition(),
+                g_getPosition()
+          //m_frontRight.getPosition(),
+          //m_rearLeft.getPosition(),
+          //m_rearRight.getPosition()
         });
+  }
+
+  public SwerveModulePosition g_getPosition() {
+    return new SwerveModulePosition();
   }
 
   /**
@@ -100,12 +130,15 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     m_odometry.resetPosition(
-        m_gyro.getRotation2d(),
+        g_getRotation2d(),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
+                g_getPosition(),
+                g_getPosition(),
+                g_getPosition()
+          /*m_frontRight.getPosition(),
           m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
+          m_rearRight.getPosition()*/
         },
         pose);
   }
@@ -122,14 +155,14 @@ public class DriveSubsystem extends SubsystemBase {
     var swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
             fieldRelative
-                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d())
+                ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, g_getRotation2d())
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
+    /*m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
+    m_rearRight.setDesiredState(swerveModuleStates[3]);*/
   }
 
   /**
@@ -141,22 +174,22 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(desiredStates[0]);
-    m_frontRight.setDesiredState(desiredStates[1]);
+    /*m_frontRight.setDesiredState(desiredStates[1]);
     m_rearLeft.setDesiredState(desiredStates[2]);
-    m_rearRight.setDesiredState(desiredStates[3]);
+    m_rearRight.setDesiredState(desiredStates[3]);*/
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();
-    m_rearLeft.resetEncoders();
+    /*m_rearLeft.resetEncoders();
     m_frontRight.resetEncoders();
-    m_rearRight.resetEncoders();
+    m_rearRight.resetEncoders();*/
   }
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_gyro.reset();
+    g_reset();
   }
 
   /**
@@ -165,7 +198,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return m_gyro.getRotation2d().getDegrees();
+    return g_getRotation2d().getDegrees();
   }
 
   /**
@@ -174,6 +207,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return g_getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 }

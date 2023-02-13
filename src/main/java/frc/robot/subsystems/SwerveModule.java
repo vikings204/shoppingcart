@@ -75,12 +75,15 @@ public class SwerveModule {
     m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     m_turningMotor = new TalonSRX(turningMotorChannel);
 
+
+    //m_turningMotor.setSelectedSensorPosition(0);
+
     
-    m_turningMotor.set(ControlMode.Position, 0.0); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
+    //m_turningMotor.set(ControlMode.Position, 0.0); //Change control mode of talon, default is PercentVbus (-1.0 to 1.0)
     m_turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, 0, 0 ); //Set the feedback device that is hooked up to the talon
 
     //m_turningMotor.configurePID (0.5, 0.001, 0.00, 0.00, 360, 36, 0); //Set the PID constants (p, i, d)
-    m_turningMotor.config_kP(0, 0.5);
+    m_turningMotor.config_kP(0, 1);
     m_turningMotor.config_kI(0, 0.001);
     m_turningMotor.config_kD(0, 0.0);
     
@@ -97,15 +100,16 @@ public class SwerveModule {
     // Set the distance per pulse for the drive encoder. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
     // resolution.
-    ((Encoder) m_driveEncoder).setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
+    //((Encoder) m_driveEncoder).setDistancePerPulse(ModuleConstants.kDriveEncoderDistancePerPulse);
 
     // Set whether drive encoder should be reversed or not
-    ((Encoder) m_driveEncoder).setReverseDirection(driveEncoderReversed);
+    //((Encoder) m_driveEncoder).setReverseDirection(driveEncoderReversed);
 
     // Set the distance (in this case, angle) in radians per pulse for the turning encoder.
     // This is the the angle through an entire rotation (2 * pi) divided by the
     // encoder resolution.
-    m_turningMotor.configSelectedFeedbackCoefficient(ModuleConstants.kTurningEncoderDistancePerPulse);
+    //m_turningMotor.configSelectedFeedbackCoefficient(ModuleConstants.kTurningEncoderDistancePerPulse);
+    m_turningMotor.configSelectedFeedbackCoefficient(1);
 
     // Set whether turning encoder should be reversed or not
     m_turningMotor.setInverted(turningEncoderReversed);
@@ -132,7 +136,7 @@ public class SwerveModule {
    */
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        ((Encoder) m_driveEncoder).getDistance(), new Rotation2d(m_turningMotor.getSelectedSensorPosition()));
+        m_driveEncoder.getPosition(), new Rotation2d(m_turningMotor.getSelectedSensorPosition()));
   }
 
   /**
@@ -147,20 +151,29 @@ public class SwerveModule {
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput =
-        m_drivePIDController.calculate(((Encoder) m_driveEncoder).getRate(), state.speedMetersPerSecond);
+        m_drivePIDController.calculate(m_driveEncoder.getCountsPerRevolution(), state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
     //final double turnOutput = m_turningPIDController.calculate(m_turningMotor.getSelectedSensorPosition(), state.angle.getRadians());
 
     // Calculate the turning motor output from the turning PID controller.
     m_driveMotor.set(driveOutput);
-    m_turningMotor.set(TalonSRXControlMode.Position, state.angle.getRadians());
+    m_turningMotor.set(TalonSRXControlMode.Position, unitConv(state.angle.getDegrees()));
+    //m_turningMotor.set(TalonSRXControlMode.Position, 850);
+    System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+    System.out.println("DEGREES: " + state.angle.getDegrees());
+    System.out.println("CALCD: " + unitConv(state.angle.getDegrees()));
   }
 
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
     ((PIDController) m_driveEncoder).reset();
     // FIXME: is this right? maybe offset
-    m_turningMotor.setSelectedSensorPosition(0);
+    m_turningMotor.setSelectedSensorPosition(1);
+  }
+
+  public double unitConv(double d) {
+    d = d/360;
+    return d*1023;
   }
 }

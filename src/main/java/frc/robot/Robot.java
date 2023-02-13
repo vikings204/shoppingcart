@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+
   private Command m_autonomousCommand;
+  private Command m_teleopCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -56,7 +58,11 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if (m_teleopCommand != null) {
+      m_teleopCommand.cancel();
+    }
+
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -67,7 +73,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      //m_autonomousCommand.schedule();
     }
   }
 
@@ -83,6 +89,13 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    }
+
+    //m_teleopCommand = m_robotContainer.getTeleopCommand();
+    //m_teleopCommand = m_robotContainer.getTeleopCommand2();
+    m_teleopCommand = m_robotContainer.getTeleopSingleStrafeCommand();
+    if (m_teleopCommand != null) {
+      m_teleopCommand.schedule();
     }
   }
 
