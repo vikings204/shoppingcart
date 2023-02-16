@@ -28,6 +28,8 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(Constants204.Controller.PORT);
   Joystick m_joystick = new Joystick(0);
 
+  private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -52,6 +54,7 @@ public class RobotContainer {
               m_singleStrafeDrive.strafe(m_driverController.getLeftX());
               //System.out.println("LX-CTRL: " + m_driverController.getLeftX());
 
+              System.out.println(gyrotest.readNext());
             }, m_singleStrafeDrive);
   }
 
