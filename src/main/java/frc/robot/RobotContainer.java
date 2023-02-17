@@ -12,6 +12,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.SingleStrafeSubsystem;
 import frc.robot.subsystems.StrafeSubsystem;
 
+import edu.wpi.first.wpilibj.CAN;
+import edu.wpi.first.hal.CANData;
+import edu.wpi.first.math.geometry.Quaternion;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.numbers.N3;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -28,7 +34,9 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(Constants204.Controller.PORT);
   Joystick m_joystick = new Joystick(0);
 
-  private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
+  //private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
+  private final CAN gyrotest = new CAN(1, 8, 4);
+  private final CANData gyrodata = new CANData();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -48,13 +56,12 @@ public class RobotContainer {
     return new RunCommand(
             () -> {
               if (m_driverController.getYButton()) {
-                m_singleStrafeDrive.setZero();
+                //m_singleStrafeDrive.setZero();
+                canTest();
               }
 
               m_singleStrafeDrive.strafe(m_driverController.getLeftX());
               //System.out.println("LX-CTRL: " + m_driverController.getLeftX());
-
-              System.out.println(gyrotest.readNext());
             }, m_singleStrafeDrive);
   }
 
@@ -67,4 +74,55 @@ public class RobotContainer {
           }
       }, strafeDrive);
   }
+
+  public void canTest() {
+    //System.out.println(gyrotest.readNext());
+      synchronized (this) {
+          gyrotest.readPacketLatest(0, gyrodata);
+          //System.out.println("DATAZERO: " + gyrodata.data[0]);
+          double x = (double) (gyrodata.data[0] | gyrodata.data[1] << 8) / (1 << 14);
+          double y = (double) (gyrodata.data[2] | gyrodata.data[3] << 8) / (1 << 14);
+          double z = (double) (gyrodata.data[4] | gyrodata.data[5] << 8) / (1 << 14);
+          double w = (double) (gyrodata.data[6] | gyrodata.data[7] << 8) / (1 << 14);
+
+         /* System.out.println("DATA_0: " + (0xFF & gyrodata.data[0]));
+          System.out.println("DATA_1: " + (0xFF & gyrodata.data[1]));
+          System.out.println("DATA_2: " + (0xFF & gyrodata.data[2]));
+          System.out.println("DATA_3: " + (0xFF & gyrodata.data[3]));
+          System.out.println("DATA_4: " + (0xFF & gyrodata.data[4]));
+          System.out.println("DATA_5: " + (0xFF & gyrodata.data[5]));
+          System.out.println("DATA_6: " + (0xFF & gyrodata.data[6]));
+          System.out.println("DATA_7: " + (0xFF & gyrodata.data[7]));*/
+
+      /*Quaternion q = new Quaternion(w,x,y,z);
+      Vector<N3> vector = q.toRotationVector();
+      System.out.println("ZERO-ZERO: " + vector.get(0,0));
+      System.out.println("ONE-ZERO: " + vector.get(1,0));
+      System.out.println("TWO-ZERO: " + vector.get(2,0));*/
+
+          System.out.println("GYRO-X: " + x);
+          System.out.println("GYRO-Y: " + y);
+          System.out.println("GYRO-Z: " + z);
+          System.out.println("GYRO-W: " + w);
+
+          double[] euler = toEuler(x, y, z, w);
+          System.out.println("EULER-X: " + euler[0] * 180 / 3.1415);
+          System.out.println("EULER-Y: " + euler[1] * 180 / 3.1415);
+          System.out.println("EULER-Z: " + euler[2] * 180 / 3.1415);
+      }
+  }
+
+  public double[] toEuler(double _x, double _y, double _z, double _w) {
+        double[] ret = new double[3];
+        double sqw = _w * _w;
+        double sqx = _x * _x;
+        double sqy = _y * _y;
+        double sqz = _z * _z;
+
+        ret[0] = Math.atan2(2.0 * (_x * _y + _z * _w), (sqx - sqy - sqz + sqw));
+        ret[1] = Math.asin(-2.0 * (_x * _z - _y * _w) / (sqx + sqy + sqz + sqw));
+        ret[2] = Math.atan2(2.0 * (_y * _z + _x * _w), (-sqx - sqy + sqz + sqw));
+
+        return ret;
+    }
 }
