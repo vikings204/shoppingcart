@@ -80,10 +80,13 @@ public class RobotContainer {
       synchronized (this) {
           gyrotest.readPacketLatest(0, gyrodata);
           //System.out.println("DATAZERO: " + gyrodata.data[0]);
-          double x = (double) (gyrodata.data[0] | gyrodata.data[1] << 8) / (1 << 14);
-          double y = (double) (gyrodata.data[2] | gyrodata.data[3] << 8) / (1 << 14);
+          double x = (double) ((gyrodata.data[0]&0xFF) | (gyrodata.data[1]&0xFF) << 8) / (1 << 14);
+          double y = (double) ((gyrodata.data[2]&0xFF) | (gyrodata.data[3]&0xFF) << 8) / (1 << 14);
+          double z = (double) ((gyrodata.data[4]&0xFF) | (gyrodata.data[5]&0xFF) << 8) / (1 << 14);
+          double w = (double) ((gyrodata.data[6]&0xFF) | (gyrodata.data[7]&0xFF) << 8) / (1 << 14);
+          /*double y = (double) (gyrodata.data[2] | gyrodata.data[3] << 8) / (1 << 14);
           double z = (double) (gyrodata.data[4] | gyrodata.data[5] << 8) / (1 << 14);
-          double w = (double) (gyrodata.data[6] | gyrodata.data[7] << 8) / (1 << 14);
+          double w = (double) (gyrodata.data[6] | gyrodata.data[7] << 8) / (1 << 14);*/
 
          /* System.out.println("DATA_0: " + (0xFF & gyrodata.data[0]));
           System.out.println("DATA_1: " + (0xFF & gyrodata.data[1]));
