@@ -25,65 +25,68 @@ import edu.wpi.first.math.numbers.N3;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-  //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
-  private final StrafeSubsystem strafeDrive = new StrafeSubsystem();
+    // The robot's subsystems
+    //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
+    private final StrafeSubsystem strafeDrive = new StrafeSubsystem();
 
-  // The driver's controller
-  XboxController m_driverController = new XboxController(Constants204.Controller.PORT);
-  Joystick m_joystick = new Joystick(0);
+    // The driver's controller
+    XboxController m_driverController = new XboxController(Constants204.Controller.PORT);
+    Joystick m_joystick = new Joystick(0);
 
-  //private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
-  private final CAN gyrotest = new CAN(1, 8, 4);
-  private final CANData gyrodata = new CANData();
+    //private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
+    private final CAN gyrotest = new CAN(1, 8, 4);
+    private final CANData gyrodata = new CANData();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-  }
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the button bindings
+        configureButtonBindings();
+    }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
-   * {@link JoystickButton}.
-   */
-  private void configureButtonBindings() {}
+    /**
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
+     * {@link JoystickButton}.
+     */
+    private void configureButtonBindings() {
+    }
 
-  public Command getTeleopSingleStrafeCommand() {
-    return new RunCommand(
-            () -> {
-              if (m_driverController.getYButton()) {
-                //m_singleStrafeDrive.setZero();
-                canTest();
-              }
+    public Command getTeleopSingleStrafeCommand() {
+        return new RunCommand(
+                () -> {
+                    if (m_driverController.getYButton()) {
+                        //m_singleStrafeDrive.setZero();
+                        canTest();
+                    }
 
-              m_singleStrafeDrive.strafe(m_driverController.getLeftX());
-              //System.out.println("LX-CTRL: " + m_driverController.getLeftX());
-            }, m_singleStrafeDrive);
-  }
+                    m_singleStrafeDrive.strafe(m_driverController.getLeftX());
+                    //System.out.println("LX-CTRL: " + m_driverController.getLeftX());
+                }, m_singleStrafeDrive);
+    }
 
-  public Command getTeleopStrafeCommand() {
-      return new RunCommand(() -> {
-          if (m_driverController.getYButton()) {
-              strafeDrive.setZero();
-          } else {
-              strafeDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX());
-          }
-      }, strafeDrive);
-  }
+    public Command getTeleopStrafeCommand() {
+        return new RunCommand(() -> {
+            if (m_driverController.getYButton()) {
+                strafeDrive.setZero();
+            } else {
+                strafeDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX());
+            }
+        }, strafeDrive);
+    }
 
-  public void canTest() {
-    //System.out.println(gyrotest.readNext());
-      synchronized (this) {
-          gyrotest.readPacketLatest(0, gyrodata);
-          //System.out.println("DATAZERO: " + gyrodata.data[0]);
-          double x = (double) ((gyrodata.data[0]&0xFF) | (gyrodata.data[1]&0xFF) << 8) / (1 << 14);
-          double y = (double) ((gyrodata.data[2]&0xFF) | (gyrodata.data[3]&0xFF) << 8) / (1 << 14);
-          double z = (double) ((gyrodata.data[4]&0xFF) | (gyrodata.data[5]&0xFF) << 8) / (1 << 14);
-          double w = (double) ((gyrodata.data[6]&0xFF) | (gyrodata.data[7]&0xFF) << 8) / (1 << 14);
+    public void canTest() {
+        //System.out.println(gyrotest.readNext());
+        synchronized (this) {
+            gyrotest.readPacketLatest(0, gyrodata);
+            //System.out.println("DATAZERO: " + gyrodata.data[0]);
+            double x = (double) ((gyrodata.data[0] & 0xFF) | (gyrodata.data[1]) << 8) / (1 << 14);
+            double y = (double) ((gyrodata.data[2] & 0xFF) | (gyrodata.data[3]) << 8) / (1 << 14);
+            double z = (double) ((gyrodata.data[4] & 0xFF) | (gyrodata.data[5]) << 8) / (1 << 14);
+            double w = (double) ((gyrodata.data[6] & 0xFF) | (gyrodata.data[7]) << 8) / (1 << 14);
           /*double y = (double) (gyrodata.data[2] | gyrodata.data[3] << 8) / (1 << 14);
           double z = (double) (gyrodata.data[4] | gyrodata.data[5] << 8) / (1 << 14);
           double w = (double) (gyrodata.data[6] | gyrodata.data[7] << 8) / (1 << 14);*/
@@ -103,19 +106,19 @@ public class RobotContainer {
       System.out.println("ONE-ZERO: " + vector.get(1,0));
       System.out.println("TWO-ZERO: " + vector.get(2,0));*/
 
-          System.out.println("GYRO-X: " + x);
-          System.out.println("GYRO-Y: " + y);
-          System.out.println("GYRO-Z: " + z);
-          System.out.println("GYRO-W: " + w);
+            System.out.println("GYRO-X: " + x);
+            System.out.println("GYRO-Y: " + y);
+            System.out.println("GYRO-Z: " + z);
+            System.out.println("GYRO-W: " + w);
 
-          double[] euler = toEuler(x, y, z, w);
-          System.out.println("EULER-X: " + euler[0] * 180 / 3.1415);
-          System.out.println("EULER-Y: " + euler[1] * 180 / 3.1415);
-          System.out.println("EULER-Z: " + euler[2] * 180 / 3.1415);
-      }
-  }
+            double[] euler = toEuler(x, y, z, w);
+            System.out.println("EULER-X: " + euler[0] * 180 / 3.1415);
+            System.out.println("EULER-Y: " + euler[1] * 180 / 3.1415);
+            System.out.println("EULER-Z: " + euler[2] * 180 / 3.1415);
+        }
+    }
 
-  public double[] toEuler(double _x, double _y, double _z, double _w) {
+    public double[] toEuler(double _x, double _y, double _z, double _w) {
         double[] ret = new double[3];
         double sqw = _w * _w;
         double sqx = _x * _x;
