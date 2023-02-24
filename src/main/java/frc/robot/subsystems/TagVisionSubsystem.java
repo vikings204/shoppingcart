@@ -15,5 +15,6 @@ public class TagVisionSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // runs every scheduler loop (every ~20ms)
+        pv.getLatestResult();
     }
 }

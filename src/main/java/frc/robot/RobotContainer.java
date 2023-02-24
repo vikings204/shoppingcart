@@ -17,6 +17,7 @@ import edu.wpi.first.hal.CANData;
 import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N3;
+import frc.robot.subsystems.TagVisionSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,12 +26,11 @@ import edu.wpi.first.math.numbers.N3;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems
     //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
     private final StrafeSubsystem strafeDrive = new StrafeSubsystem();
+    private final TagVisionSubsystem visionTestSubsystem = new TagVisionSubsystem();
 
-    // The driver's controller
     XboxController m_driverController = new XboxController(Constants204.Controller.PORT);
     Joystick m_joystick = new Joystick(0);
 
