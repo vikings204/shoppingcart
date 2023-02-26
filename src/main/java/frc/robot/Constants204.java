@@ -10,15 +10,18 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public final class Constants204 {
   public static final class CAN {
-    public static final int FL_DRIVE_MOTOR_ID = 5;//9;
+    public static final int FL_DRIVE_MOTOR_ID = 5;;
     public static final int RL_DRIVE_MOTOR_ID = 6;
     public static final int FR_DRIVE_MOTOR_ID = 7;
     public static final int RR_DRIVE_MOTOR_ID = 8;
 
-    public static final int FL_TURNING_MOTOR_ID = 1;
-    public static final int RL_TURNING_MOTOR_ID = 2;
+    public static final int FL_TURNING_MOTOR_ID = 4;//1;
+    public static final int RL_TURNING_MOTOR_ID = 1;//2;
     public static final int FR_TURNING_MOTOR_ID = 3;
-    public static final int RR_TURNING_MOTOR_ID = 4;
+    public static final int RR_TURNING_MOTOR_ID = 2;//4;
+
+    public static final int SINGLE_STRAFE_DRIVE_MOTOR = 69;
+    public static final int SINGLE_STRAFE_TURNING_MOTOR = 1;
   }
 
   public static final class Controller {

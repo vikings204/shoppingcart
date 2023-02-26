@@ -19,11 +19,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants204;
 
 
 public class SingleStrafeSubsystem extends SubsystemBase {
-  private final CANSparkMax m_driveMotor = new CANSparkMax(Constants.DriveConstants.kFrontLeftDriveMotorPort, MotorType.kBrushless);
-  private final TalonSRX m_turningMotor = new TalonSRX(Constants.DriveConstants.kFrontLeftTurningMotorPort);
+  private final CANSparkMax m_driveMotor = new CANSparkMax(Constants204.CAN.SINGLE_STRAFE_DRIVE_MOTOR, MotorType.kBrushless);
+  private final TalonSRX m_turningMotor = new TalonSRX(Constants204.CAN.SINGLE_STRAFE_TURNING_MOTOR);
   private final RelativeEncoder m_driveEncoder;
 
   private final PIDController m_drivePIDController =

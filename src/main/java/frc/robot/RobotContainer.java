@@ -59,8 +59,10 @@ public class RobotContainer {
         return new RunCommand(
                 () -> {
                     if (m_driverController.getYButton()) {
-                        //m_singleStrafeDrive.setZero();
-                        canTest();
+                        m_singleStrafeDrive.setZero();
+                        //canTest();
+                    } else if (m_driverController.getXButton()) {
+                        System.out.println(visionTestSubsystem.printLatestID());
                     }
 
                     m_singleStrafeDrive.strafe(m_driverController.getLeftX());
