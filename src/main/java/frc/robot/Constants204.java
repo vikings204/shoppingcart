@@ -21,7 +21,7 @@ public final class Constants204 {
     public static final int RR_TURNING_MOTOR_ID = 2;//4;
 
     public static final int SINGLE_STRAFE_DRIVE_MOTOR = 69;
-    public static final int SINGLE_STRAFE_TURNING_MOTOR = 1;
+    public static final int SINGLE_STRAFE_TURNING_MOTOR = 3;
   }
 
   public static final class Controller {

@@ -54,12 +54,19 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
     }
-
+    int i = 1;
     public Command getTeleopSingleStrafeCommand() {
         return new RunCommand(
                 () -> {
                     if (m_driverController.getYButton()) {
                         m_singleStrafeDrive.setZero();
+                        /*if((i&2)==1){
+                        m_singleStrafeDrive.m_turningMotor.setInverted(false);
+                        i++;}
+                        else{
+                            m_singleStrafeDrive.m_turningMotor.setInverted(true);
+                            i++;
+                        }*/
                         //canTest();
                     } else if (m_driverController.getXButton()) {
                         System.out.println(visionTestSubsystem.printLatestID());

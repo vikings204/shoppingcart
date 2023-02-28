@@ -24,7 +24,7 @@ import frc.robot.Constants204;
 
 public class SingleStrafeSubsystem extends SubsystemBase {
   private final CANSparkMax m_driveMotor = new CANSparkMax(Constants204.CAN.SINGLE_STRAFE_DRIVE_MOTOR, MotorType.kBrushless);
-  private final TalonSRX m_turningMotor = new TalonSRX(Constants204.CAN.SINGLE_STRAFE_TURNING_MOTOR);
+  public final TalonSRX m_turningMotor = new TalonSRX(Constants204.CAN.SINGLE_STRAFE_TURNING_MOTOR);
   private final RelativeEncoder m_driveEncoder;
 
   private final PIDController m_drivePIDController =
@@ -57,7 +57,7 @@ public class SingleStrafeSubsystem extends SubsystemBase {
 
     // Set whether turning encoder should be reversed or not
     m_turningMotor.setInverted(Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
-
+    //m_turningMotor.setInverted(false);
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
     //m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
