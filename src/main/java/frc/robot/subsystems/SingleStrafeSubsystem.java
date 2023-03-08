@@ -23,8 +23,8 @@ import frc.robot.Constants204;
 
 
 public class SingleStrafeSubsystem extends SubsystemBase {
-  private final CANSparkMax m_driveMotor = new CANSparkMax(Constants204.CAN.SINGLE_STRAFE_DRIVE_MOTOR, MotorType.kBrushless);
-  public final TalonSRX m_turningMotor = new TalonSRX(Constants204.CAN.SINGLE_STRAFE_TURNING_MOTOR);
+  private final CANSparkMax m_driveMotor = new CANSparkMax(Constants204.DrivetrainCAN.SINGLE_STRAFE_DRIVE_MOTOR, MotorType.kBrushless);
+  public final TalonSRX m_turningMotor = new TalonSRX(Constants204.DrivetrainCAN.SINGLE_STRAFE_TURNING_MOTOR);
   private final RelativeEncoder m_driveEncoder;
 
   private final PIDController m_drivePIDController =
@@ -57,7 +57,6 @@ public class SingleStrafeSubsystem extends SubsystemBase {
 
     // Set whether turning encoder should be reversed or not
     m_turningMotor.setInverted(Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
-    //m_turningMotor.setInverted(false);
     // Limit the PID Controller's input range between -pi and pi and set the input
     // to be continuous.
     //m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
@@ -129,19 +128,5 @@ public class SingleStrafeSubsystem extends SubsystemBase {
       d = d * 1023;
       return d + 1023;
     }*/
-  }
-
-  public boolean compare(double a, double b) {
-    a = Math.abs(a);
-    b = Math.abs(b);
-    if (a>b) {
-      double x = b;
-      b = a;
-      a = x;
-    }
-    if (a-b < b*0.1) {
-      return true;
-    }
-    return false;
   }
 }

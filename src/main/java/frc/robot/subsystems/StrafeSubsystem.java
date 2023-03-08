@@ -4,37 +4,32 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants204;
 
 public class StrafeSubsystem extends SubsystemBase {
   private final StrafeModule m_frontLeft =
       new StrafeModule(
-          Constants204.CAN.FL_DRIVE_MOTOR_ID,
-          Constants204.CAN.FL_TURNING_MOTOR_ID
+          Constants204.DrivetrainCAN.FL_DRIVE_MOTOR_ID,
+          Constants204.DrivetrainCAN.FL_TURNING_MOTOR_ID
       );
 
   private final StrafeModule m_rearLeft =
       new StrafeModule(
-          Constants204.CAN.RL_DRIVE_MOTOR_ID,
-          Constants204.CAN.RL_TURNING_MOTOR_ID
+          Constants204.DrivetrainCAN.RL_DRIVE_MOTOR_ID,
+          Constants204.DrivetrainCAN.RL_TURNING_MOTOR_ID
       );
 
   private final StrafeModule m_frontRight =
       new StrafeModule(
-          Constants204.CAN.FR_DRIVE_MOTOR_ID,
-          Constants204.CAN.FR_TURNING_MOTOR_ID
+          Constants204.DrivetrainCAN.FR_DRIVE_MOTOR_ID,
+          Constants204.DrivetrainCAN.FR_TURNING_MOTOR_ID
       );
 
   private final StrafeModule m_rearRight =
       new StrafeModule(
-          Constants204.CAN.RR_DRIVE_MOTOR_ID,
-          Constants204.CAN.RR_TURNING_MOTOR_ID
+          Constants204.DrivetrainCAN.RR_DRIVE_MOTOR_ID,
+          Constants204.DrivetrainCAN.RR_TURNING_MOTOR_ID
       );
 
   public StrafeSubsystem() {}

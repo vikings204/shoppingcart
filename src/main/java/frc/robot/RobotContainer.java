@@ -69,7 +69,7 @@ public class RobotContainer {
                         }*/
                         //canTest();
                     } else if (m_driverController.getXButton()) {
-                        System.out.println(visionTestSubsystem.printLatestID());
+                        //System.out.println(visionTestSubsystem.printLatestID());
                     }
 
                     m_singleStrafeDrive.strafe(m_driverController.getLeftX());
@@ -96,24 +96,24 @@ public class RobotContainer {
             double y = (double) ((gyrodata.data[2] & 0xFF) | (gyrodata.data[3]) << 8) / (1 << 14);
             double z = (double) ((gyrodata.data[4] & 0xFF) | (gyrodata.data[5]) << 8) / (1 << 14);
             double w = (double) ((gyrodata.data[6] & 0xFF) | (gyrodata.data[7]) << 8) / (1 << 14);
-          /*double y = (double) (gyrodata.data[2] | gyrodata.data[3] << 8) / (1 << 14);
-          double z = (double) (gyrodata.data[4] | gyrodata.data[5] << 8) / (1 << 14);
-          double w = (double) (gyrodata.data[6] | gyrodata.data[7] << 8) / (1 << 14);*/
+            /*double y = (double) (gyrodata.data[2] | gyrodata.data[3] << 8) / (1 << 14);
+            double z = (double) (gyrodata.data[4] | gyrodata.data[5] << 8) / (1 << 14);
+            double w = (double) (gyrodata.data[6] | gyrodata.data[7] << 8) / (1 << 14);*/
 
-         /* System.out.println("DATA_0: " + (0xFF & gyrodata.data[0]));
-          System.out.println("DATA_1: " + (0xFF & gyrodata.data[1]));
-          System.out.println("DATA_2: " + (0xFF & gyrodata.data[2]));
-          System.out.println("DATA_3: " + (0xFF & gyrodata.data[3]));
-          System.out.println("DATA_4: " + (0xFF & gyrodata.data[4]));
-          System.out.println("DATA_5: " + (0xFF & gyrodata.data[5]));
-          System.out.println("DATA_6: " + (0xFF & gyrodata.data[6]));
-          System.out.println("DATA_7: " + (0xFF & gyrodata.data[7]));*/
+            /* System.out.println("DATA_0: " + (0xFF & gyrodata.data[0]));
+            System.out.println("DATA_1: " + (0xFF & gyrodata.data[1]));
+            System.out.println("DATA_2: " + (0xFF & gyrodata.data[2]));
+            System.out.println("DATA_3: " + (0xFF & gyrodata.data[3]));
+            System.out.println("DATA_4: " + (0xFF & gyrodata.data[4]));
+            System.out.println("DATA_5: " + (0xFF & gyrodata.data[5]));
+            System.out.println("DATA_6: " + (0xFF & gyrodata.data[6]));
+            System.out.println("DATA_7: " + (0xFF & gyrodata.data[7]));*/
 
-      /*Quaternion q = new Quaternion(w,x,y,z);
-      Vector<N3> vector = q.toRotationVector();
-      System.out.println("ZERO-ZERO: " + vector.get(0,0));
-      System.out.println("ONE-ZERO: " + vector.get(1,0));
-      System.out.println("TWO-ZERO: " + vector.get(2,0));*/
+            /*Quaternion q = new Quaternion(w,x,y,z);
+            Vector<N3> vector = q.toRotationVector();
+            System.out.println("ZERO-ZERO: " + vector.get(0,0));
+            System.out.println("ONE-ZERO: " + vector.get(1,0));
+            System.out.println("TWO-ZERO: " + vector.get(2,0));*/
 
             System.out.println("GYRO-X: " + x);
             System.out.println("GYRO-Y: " + y);
