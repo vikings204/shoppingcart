@@ -19,7 +19,9 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.util.InterpLUT;
 import frc.robot.Constants204;
+
 
 
 public class SingleStrafeSubsystem extends SubsystemBase {
@@ -39,6 +41,7 @@ public class SingleStrafeSubsystem extends SubsystemBase {
           new TrapezoidProfile.Constraints(
               ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
               ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+
 
   public SingleStrafeSubsystem() {
     m_turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, 0, 0 ); //Set the feedback device that is hooked up to the talon
@@ -61,6 +64,8 @@ public class SingleStrafeSubsystem extends SubsystemBase {
     // to be continuous.
     //m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
     m_turningPIDController.enableContinuousInput(-1023, 1023);
+  
+
   }
 
   public void strafe(double x) {
