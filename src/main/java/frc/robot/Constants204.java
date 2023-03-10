@@ -51,10 +51,34 @@ public final class Constants204 {
         public static final double FL_Output_2=90.0 ; 
         public static final double FL_Output_3=-90.0 ; 
         public static final double FL_Output_4=180.0 ; 
+        public static final double FR_Input_1=0.0 ; 
+        public static final double FR_Input_2=90.0 ; 
+        public static final double FR_Input_3=-90.0 ; 
+        public static final double FR_Input_4=180.0 ;
+        public static final double FR_Output_1=0.0 ; 
+        public static final double FR_Output_2=90.0 ; 
+        public static final double FR_Output_3=-90.0 ; 
+        public static final double FR_Output_4=180.0 ; 
+        public static final double BL_Input_1=0.0 ; 
+        public static final double BL_Input_2=90.0 ; 
+        public static final double BL_Input_3=-90.0 ; 
+        public static final double BL_Input_4=180.0 ;
+        public static final double BL_Output_1=0.0 ; 
+        public static final double BL_Output_2=90.0 ; 
+        public static final double BL_Output_3=-90.0 ; 
+        public static final double BL_Output_4=180.0 ; 
+        public static final double BR_Input_1=0.0 ; 
+        public static final double BR_Input_2=90.0 ; 
+        public static final double BR_Input_3=-90.0 ; 
+        public static final double BR_Input_4=180.0 ;
+        public static final double BR_Output_1=0.0 ; 
+        public static final double BR_Output_2=90.0 ; 
+        public static final double BR_Output_3=-90.0 ; 
+        public static final double BR_Output_4=180.0 ; 
         public static final InterpLUT FL_LUT = new InterpLUT(FL_Input_1,FL_Input_2,FL_Input_3,FL_Input_4,FL_Output_1,FL_Output_2,FL_Output_3,FL_Output_4);
-        public static final InterpLUT BL_LUT = new InterpLUT(FL_Input_1,FL_Input_2,FL_Input_3,FL_Input_4,FL_Output_1,FL_Output_2,FL_Output_3,FL_Output_4);
-        public static final InterpLUT FR_LUT = new InterpLUT(FL_Input_1,FL_Input_2,FL_Input_3,FL_Input_4,FL_Output_1,FL_Output_2,FL_Output_3,FL_Output_4);
-        public static final InterpLUT BR_LUT = new InterpLUT(FL_Input_1,FL_Input_2,FL_Input_3,FL_Input_4,FL_Output_1,FL_Output_2,FL_Output_3,FL_Output_4);
+        public static final InterpLUT BL_LUT = new InterpLUT(BL_Input_1,BL_Input_2,BL_Input_3,BL_Input_4,BL_Output_1,BL_Output_2,BL_Output_3,BL_Output_4);
+        public static final InterpLUT FR_LUT = new InterpLUT(FR_Input_1,FR_Input_2,FR_Input_3,FR_Input_4,FR_Output_1,FR_Output_2,FR_Output_3,FR_Output_4);
+        public static final InterpLUT BR_LUT = new InterpLUT(BR_Input_1,BR_Input_2,BR_Input_3,BR_Input_4,BR_Output_1,BR_Output_2,BR_Output_3,BR_Output_4);
 
     
         //FL_LUT.add(FL_Input_1, FL_Output_1);
