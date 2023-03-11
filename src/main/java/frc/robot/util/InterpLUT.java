@@ -1,13 +1,9 @@
-//package com.arcrobotics.ftclib.util;
 package frc.robot.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Performs spline interpolation given a set of control points.
- */
 public class InterpLUT {
 
     private List<Double> mX = new ArrayList<>();

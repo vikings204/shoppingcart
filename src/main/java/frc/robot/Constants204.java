@@ -23,8 +23,8 @@ public final class Constants204 {
     }
 
     public static final class ArmCAN {
-        public static final int BOOM_MOTOR_ID = 71;
-        public static final int DIPPER_MOTOR_ID = 72;
+        public static final int BOOM_MOTOR_ID = 11;
+        public static final int DIPPER_MOTOR_ID = 21;
         public static final int /*CLAW_MOTOR_ID*/CLAW_SERVO_PWM_CH = 1; // controlled with PWM, NOT CAN
     }
 
@@ -43,45 +43,41 @@ public final class Constants204 {
         public static final double RIGHT_Y_DEADBAND = 0.0;
     }
     public static final class Drivetrain {
-        public static final double FL_Input_1=0.0 ; 
-        public static final double FL_Input_2=90.0 ; 
-        public static final double FL_Input_3=-90.0 ; 
-        public static final double FL_Input_4=180.0 ;
-        public static final double FL_Output_1=0.0 ; 
-        public static final double FL_Output_2=90.0 ; 
-        public static final double FL_Output_3=-90.0 ; 
-        public static final double FL_Output_4=180.0 ; 
-        public static final double FR_Input_1=0.0 ; 
-        public static final double FR_Input_2=90.0 ; 
-        public static final double FR_Input_3=-90.0 ; 
-        public static final double FR_Input_4=180.0 ;
-        public static final double FR_Output_1=0.0 ; 
-        public static final double FR_Output_2=90.0 ; 
-        public static final double FR_Output_3=-90.0 ; 
-        public static final double FR_Output_4=180.0 ; 
-        public static final double BL_Input_1=0.0 ; 
-        public static final double BL_Input_2=90.0 ; 
-        public static final double BL_Input_3=-90.0 ; 
-        public static final double BL_Input_4=180.0 ;
-        public static final double BL_Output_1=0.0 ; 
-        public static final double BL_Output_2=90.0 ; 
-        public static final double BL_Output_3=-90.0 ; 
-        public static final double BL_Output_4=180.0 ; 
-        public static final double BR_Input_1=0.0 ; 
-        public static final double BR_Input_2=90.0 ; 
-        public static final double BR_Input_3=-90.0 ; 
-        public static final double BR_Input_4=180.0 ;
-        public static final double BR_Output_1=0.0 ; 
-        public static final double BR_Output_2=90.0 ; 
-        public static final double BR_Output_3=-90.0 ; 
-        public static final double BR_Output_4=180.0 ; 
-        public static final InterpLUT FL_LUT = new InterpLUT(FL_Input_1,FL_Input_2,FL_Input_3,FL_Input_4,FL_Output_1,FL_Output_2,FL_Output_3,FL_Output_4);
-        public static final InterpLUT BL_LUT = new InterpLUT(BL_Input_1,BL_Input_2,BL_Input_3,BL_Input_4,BL_Output_1,BL_Output_2,BL_Output_3,BL_Output_4);
-        public static final InterpLUT FR_LUT = new InterpLUT(FR_Input_1,FR_Input_2,FR_Input_3,FR_Input_4,FR_Output_1,FR_Output_2,FR_Output_3,FR_Output_4);
-        public static final InterpLUT BR_LUT = new InterpLUT(BR_Input_1,BR_Input_2,BR_Input_3,BR_Input_4,BR_Output_1,BR_Output_2,BR_Output_3,BR_Output_4);
-
-    
-        //FL_LUT.add(FL_Input_1, FL_Output_1);
-
+        public static final double FL_Input_1 = 0.0;
+        public static final double FL_Input_2 = 90.0;
+        public static final double FL_Input_3 = -90.0;
+        public static final double FL_Input_4 = 180.0;
+        public static final double FL_Output_1 = 0.0;
+        public static final double FL_Output_2 = 90.0;
+        public static final double FL_Output_3 = -90.0;
+        public static final double FL_Output_4 = 180.0;
+        public static final double RL_Input_1 = 0.0;
+        public static final double RL_Input_2 = 90.0;
+        public static final double RL_Input_3 = -90.0;
+        public static final double RL_Input_4 = 180.0;
+        public static final double RL_Output_1 = 0.0;
+        public static final double RL_Output_2 = 90.0;
+        public static final double RL_Output_3 = -90.0;
+        public static final double RL_Output_4 = 180.0;
+        public static final double FR_Input_1 = 0.0;
+        public static final double FR_Input_2 = 90.0;
+        public static final double FR_Input_3 = -90.0;
+        public static final double FR_Input_4 = 180.0;
+        public static final double FR_Output_1 = 0.0;
+        public static final double FR_Output_2 = 90.0;
+        public static final double FR_Output_3 = -90.0;
+        public static final double FR_Output_4 = 180.0;
+        public static final double RR_Input_1 = 0.0;
+        public static final double RR_Input_2 = 90.0;
+        public static final double RR_Input_3 = -90.0;
+        public static final double RR_Input_4 = 180.0;
+        public static final double RR_Output_1 = 0.0;
+        public static final double RR_Output_2 = 90.0;
+        public static final double RR_Output_3 = -90.0;
+        public static final double RR_Output_4 = 180.0; 
+        public static final InterpLUT FL_LUT = new InterpLUT(FL_Input_1, FL_Input_2, FL_Input_3, FL_Input_4, FL_Output_1, FL_Output_2, FL_Output_3, FL_Output_4);
+        public static final InterpLUT RL_LUT = new InterpLUT(RL_Input_1, RL_Input_2, RL_Input_3, RL_Input_4, RL_Output_1, RL_Output_2, RL_Output_3, RL_Output_4);
+        public static final InterpLUT FR_LUT = new InterpLUT(FR_Input_1, FR_Input_2, FR_Input_3, FR_Input_4, FR_Output_1, FR_Output_2, FR_Output_3, FR_Output_4);
+        public static final InterpLUT RR_LUT = new InterpLUT(RR_Input_1, RR_Input_2, RR_Input_3, RR_Input_4, RR_Output_1, RR_Output_2, RR_Output_3, RR_Output_4);
     }
 }

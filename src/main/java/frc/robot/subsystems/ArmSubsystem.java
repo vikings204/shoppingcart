@@ -4,10 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants204.Arm;
 import frc.robot.Constants204.ArmCAN;
 
@@ -20,13 +18,13 @@ public class ArmSubsystem extends SubsystemBase {
     private final SparkMaxPIDController dipperPIDCon = dipperMotor.getPIDController();
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
 
-    private double kP = 0.1;
-    private double kI = 1e-4;
-    private double kD = 1;
-    private double kIz = 0;
-    private double kFF = 0;
-    private double kMaxOutput = 1;
-    private double kMinOutput = -1;
+    private final double kP = 0.1;
+    private final double kI = 1e-4;
+    private final double kD = 1;
+    private final double kIz = 0;
+    private final double kFF = 0;
+    private final double kMaxOutput = 1;
+    private final double kMinOutput = -1;
 
     public ArmSubsystem() {
         boomPIDCon.setP(kP);

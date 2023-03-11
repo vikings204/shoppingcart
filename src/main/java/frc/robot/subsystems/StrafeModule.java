@@ -22,90 +22,90 @@ import frc.robot.Constants.ModuleConstants;
 
 
 public class StrafeModule {
-  private final CANSparkMax m_driveMotor;
-  private final TalonSRX m_turningMotor;
-  private final RelativeEncoder m_driveEncoder;
+    private final CANSparkMax m_driveMotor;
+    private final TalonSRX m_turningMotor;
+    private final RelativeEncoder m_driveEncoder;
 
-  private final PIDController m_drivePIDController =
-      new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
+    private final PIDController m_drivePIDController =
+            new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
 
-  // Using a TrapezoidProfile PIDController to allow for smooth turning
-  private final ProfiledPIDController m_turningPIDController =
-      new ProfiledPIDController(
-          ModuleConstants.kPModuleTurningController,
-          0,
-          0,
-          new TrapezoidProfile.Constraints(
-              ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-              ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+    // Using a TrapezoidProfile PIDController to allow for smooth turning
+    private final ProfiledPIDController m_turningPIDController =
+            new ProfiledPIDController(
+                    ModuleConstants.kPModuleTurningController,
+                    0,
+                    0,
+                    new TrapezoidProfile.Constraints(
+                            ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
+                            ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
 
-  public StrafeModule(int driveMotorChannel,
-                      int turningMotorChannel) {
-    m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
-    m_turningMotor = new TalonSRX(turningMotorChannel);
+    public StrafeModule(int driveMotorChannel,
+                        int turningMotorChannel) {
+        m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
+        m_turningMotor = new TalonSRX(turningMotorChannel);
 
-    m_turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, 0, 0 ); //Set the feedback device that is hooked up to the talon
+        m_turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, 0, 0); //Set the feedback device that is hooked up to the talon
 
-    m_turningMotor.setSelectedSensorPosition(0);
+        m_turningMotor.setSelectedSensorPosition(0);
 
-    m_turningMotor.config_kP(0, 1);
-    m_turningMotor.config_kI(0, 0.001);
-    m_turningMotor.config_kD(0, 0.0);
-    
-    m_turningMotor.setNeutralMode(NeutralMode.Brake);
+        m_turningMotor.config_kP(0, 1);
+        m_turningMotor.config_kI(0, 0.001);
+        m_turningMotor.config_kD(0, 0.0);
 
-    m_driveEncoder = m_driveMotor.getEncoder();
+        m_turningMotor.setNeutralMode(NeutralMode.Brake);
 
-    m_turningMotor.configSelectedFeedbackCoefficient(1);
+        m_driveEncoder = m_driveMotor.getEncoder();
 
-    // Set whether turning encoder should be reversed or not
-    m_turningMotor.setInverted(Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
+        m_turningMotor.configSelectedFeedbackCoefficient(1);
 
-    // Limit the PID Controller's input range between -pi and pi and set the input
-    // to be continuous.
-    //m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-    m_turningPIDController.enableContinuousInput(-1023, 1023);
-  }
+        // Set whether turning encoder should be reversed or not
+        m_turningMotor.setInverted(Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
 
-  public void forward(double sp) {
-    m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-    if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(0)) < 10) {
-      m_driveMotor.set(sp);
+        // Limit the PID Controller's input range between -pi and pi and set the input
+        // to be continuous.
+        //m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
+        m_turningPIDController.enableContinuousInput(-1023, 1023);
     }
-  }
 
-  public void strafe(double d) {
-    if (d > 0) { // right
-      d = Math.abs(d);
-      m_turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
-      if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(90)) < 10) {
-        m_driveMotor.set(d);
-      }
-    } else if (d < 0) { // left
-      d = Math.abs(d);
-      m_turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
-      if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(-90)) < 10) {
-        m_driveMotor.set(d);
-      }
-    } else {
-      m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-      m_driveMotor.set(0);
+    public void forward(double sp) {
+        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+        if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(0)) < 10) {
+            m_driveMotor.set(sp);
+        }
     }
-  }
 
-  public void rotate(int deg, double sp) {
-    m_turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
-    if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(deg)) < 10) {
-      m_driveMotor.set(sp);
+    public void strafe(double d) {
+        if (d > 0) { // right
+            d = Math.abs(d);
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(90)) < 10) {
+                m_driveMotor.set(d);
+            }
+        } else if (d < 0) { // left
+            d = Math.abs(d);
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(-90)) < 10) {
+                m_driveMotor.set(d);
+            }
+        } else {
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+            m_driveMotor.set(0);
+        }
     }
-  }
 
-  public void setZero() {
-    m_turningMotor.setSelectedSensorPosition(0);
-  }
+    public void rotate(int deg, double sp) {
+        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
+        if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(deg)) < 10) {
+            m_driveMotor.set(sp);
+        }
+    }
 
-  public double unitConv(double d) {
-    d = d/360;
-    return d*1023;
-  }
+    public void setZero() {
+        m_turningMotor.setSelectedSensorPosition(0);
+    }
+
+    public double unitConv(double d) {
+        d = d / 360;
+        return d * 1023;
+    }
 }
