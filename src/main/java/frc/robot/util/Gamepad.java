@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
 
 /**
- * Handle input from Xbox 360 or Xbox One controllers connected to the Driver Station.
+ * Handle input from Logitech F310 Gamepad controllers connected to the Driver Station.
  *
- * <p>This class handles Xbox input that comes from the Driver Station. Each time a value is
+ * <p>This class handles Logitech input that comes from the Driver Station. Each time a value is
  * requested the most recent value is returned. There is a single class instance for each controller
  * and the mapping of ports to hardware buttons depends on the code in the Driver Station.
  */
