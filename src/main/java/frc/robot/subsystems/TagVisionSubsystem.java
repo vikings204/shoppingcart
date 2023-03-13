@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -10,7 +9,6 @@ public class TagVisionSubsystem extends SubsystemBase {
 
     public TagVisionSubsystem() {
         pv = new PhotonCamera("apriltagvision");
-        //setDefaultCommand(this.run(() -> System.out.println("TagVisionSubsystem fully inactive!!!")));
     }
 
     /*@Override
