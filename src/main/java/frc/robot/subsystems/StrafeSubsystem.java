@@ -40,26 +40,28 @@ public class StrafeSubsystem extends SubsystemBase {
     }
 
     public void drive(double forward, double strafe, double rot) {
-        // forward unhandled
-        double f = EQ.forward(forward);
-        m_frontLeft.forward(f);
-        m_frontRight.forward(f);
-        m_rearLeft.forward(f);
-        m_rearRight.forward(f);
-
-        double s = EQ.strafe(strafe);
-        m_frontLeft.strafe(s);
-        m_frontRight.strafe(s);
-        m_rearLeft.strafe(s);
-        m_rearRight.strafe(s);
-
-        // rot unhandled
-        // FL-135 FR-45 RL-225 RR-315
         double r = EQ.rotate(rot);
-        m_frontLeft.rotate(135, r);
-        m_frontRight.rotate(45, r);
-        m_rearLeft.rotate(225, r);
-        m_rearRight.rotate(315, r);
+        double s = EQ.strafe(strafe);
+        double f = EQ.forward(forward);
+        if (rot != 0) {
+            // FL-135 FR-45 RL-225 RR-315
+            m_frontLeft.rotate(135, r);
+            m_frontRight.rotate(45, r);
+            //m_rearLeft.rotate(225, r);
+            m_rearLeft.rotate(-135, r);
+            //m_rearRight.rotate(315, r);
+            m_rearRight.rotate(-45, r);
+        } else if (strafe != 0) {
+            m_frontLeft.strafe(s);
+            m_frontRight.strafe(s);
+            m_rearLeft.strafe(s);
+            m_rearRight.strafe(s);
+        } else if (forward != 0) {
+            m_frontLeft.forward(f);
+            m_frontRight.forward(f);
+            m_rearLeft.forward(f);
+            m_rearRight.forward(f);
+        }
     }
 
     public void setZero() {
@@ -74,7 +76,7 @@ public class StrafeSubsystem extends SubsystemBase {
             if (Math.abs(in) < Constants204.Controller.LEFT_Y_DEADBAND) {
                 return 0.0;
             } else {
-                return in;
+                return in/2;
             }
         }
 
@@ -82,7 +84,7 @@ public class StrafeSubsystem extends SubsystemBase {
             if (Math.abs(in) < Constants204.Controller.LEFT_X_DEADBAND) {
                 return 0.0;
             } else {
-                return in;
+                return in/2;
             }
         }
 
@@ -90,7 +92,7 @@ public class StrafeSubsystem extends SubsystemBase {
             if (Math.abs(in) < Constants204.Controller.RIGHT_X_DEADBAND) {
                 return 0.0;
             } else {
-                return in;
+                return in/4;
             }
         }
     }

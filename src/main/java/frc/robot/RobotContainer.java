@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N3;
 import frc.robot.subsystems.TagVisionSubsystem;
+import frc.robot.util.Gamepad;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -27,11 +28,11 @@ import frc.robot.subsystems.TagVisionSubsystem;
  */
 public class RobotContainer {
     //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-    private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
+    //private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
     private final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     private final TagVisionSubsystem visionTestSubsystem = new TagVisionSubsystem();
 
-    XboxController m_driverController = new XboxController(Constants204.Controller.PORT);
+    Gamepad m_driverController = new Gamepad(Constants204.Controller.PORT);
     Joystick m_joystick = new Joystick(0);
 
     //private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
@@ -55,18 +56,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
     }
     int i = 1;
-    public Command getTeleopSingleStrafeCommand() {
+    /*public Command getTeleopSingleStrafeCommand() {
         return new RunCommand(
                 () -> {
                     if (m_driverController.getYButton()) {
                         m_singleStrafeDrive.setZero();
-                        /*if((i&2)==1){
-                        m_singleStrafeDrive.m_turningMotor.setInverted(false);
-                        i++;}
-                        else{
-                            m_singleStrafeDrive.m_turningMotor.setInverted(true);
-                            i++;
-                        }*/
                         //canTest();
                     } else if (m_driverController.getXButton()) {
                         //System.out.println(visionTestSubsystem.printLatestID());
@@ -75,14 +69,21 @@ public class RobotContainer {
                     m_singleStrafeDrive.strafe(m_driverController.getLeftX());
                     //System.out.println("LX-CTRL: " + m_driverController.getLeftX());
                 }, m_singleStrafeDrive);
-    }
+    }*/
 
     public Command getTeleopStrafeCommand() {
         return new RunCommand(() -> {
             if (m_driverController.getYButton()) {
                 strafeDrive.setZero();
             } else {
-                strafeDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX());
+                System.out.println("RX: " + m_driverController.getRightX());
+                /*double rot = 0;
+                if (m_driverController.getAButton()) {
+                    rot = -1;
+                } else if (m_driverController.getXButton()) {
+                    rot = 1;
+                }*/
+                strafeDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()/*rot*/);
             }
         }, strafeDrive);
     }

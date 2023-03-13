@@ -21,7 +21,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.util.InterpLUT;
 import frc.robot.Constants204;
-
+import static frc.robot.Constants204.Drivetrain.*;
 
 
 public class SingleStrafeSubsystem extends SubsystemBase {
@@ -48,9 +48,9 @@ public class SingleStrafeSubsystem extends SubsystemBase {
 
     m_turningMotor.setSelectedSensorPosition(0);
 
-    m_turningMotor.config_kP(0, 1);
-    m_turningMotor.config_kI(0, 0.001);
-    m_turningMotor.config_kD(0, 0.0);
+    m_turningMotor.config_kP(0, STRAFE_TURNING_PID_P);
+    m_turningMotor.config_kI(0, STRAFE_TURNING_PID_I);
+    m_turningMotor.config_kD(0, STRAFE_TURNING_PID_D);
     
     m_turningMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -115,7 +115,7 @@ public class SingleStrafeSubsystem extends SubsystemBase {
     // Calculate the turning motor output from the turning PID controller.
     m_driveMotor.set(driveOutput);
     m_turningMotor.set(TalonSRXControlMode.Position, unitConv(state.angle.getDegrees()));
-    //m_turningMotor.set(TalonSRXControlMode.Position, 850);
+    //m_turningMotor.set(TalonSRXControlMode.Position, m_turningPIDController.calculate(m_turningMotor.getSelectedSensorPosition(), unitConv(state.angle.getDegrees())));
     System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
     System.out.println("DEGREES: " + state.angle.getDegrees());
     System.out.println("CALCD: " + unitConv(state.angle.getDegrees()));

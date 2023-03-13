@@ -8,18 +8,18 @@ import frc.robot.util.InterpLUT;
 
 public final class Constants204 {
     public static final class DrivetrainCAN {
-        public static final int FL_DRIVE_MOTOR_ID = 5;
-        public static final int RL_DRIVE_MOTOR_ID = 6;
-        public static final int FR_DRIVE_MOTOR_ID = 7;
-        public static final int RR_DRIVE_MOTOR_ID = 8;
+        public static final int FL_DRIVE_MOTOR_ID = 12;
+        public static final int RL_DRIVE_MOTOR_ID = 15;
+        public static final int FR_DRIVE_MOTOR_ID = 22;
+        public static final int RR_DRIVE_MOTOR_ID = 25;
 
-        public static final int FL_TURNING_MOTOR_ID = 4;//1;
-        public static final int RL_TURNING_MOTOR_ID = 1;//2;
-        public static final int FR_TURNING_MOTOR_ID = 3;
-        public static final int RR_TURNING_MOTOR_ID = 2;//4;
+        public static final int FL_TURNING_MOTOR_ID = 13;
+        public static final int RL_TURNING_MOTOR_ID = 14;
+        public static final int FR_TURNING_MOTOR_ID = 23;
+        public static final int RR_TURNING_MOTOR_ID = 24;
 
-        public static final int SINGLE_STRAFE_DRIVE_MOTOR = 7;
-        public static final int SINGLE_STRAFE_TURNING_MOTOR = 3;
+        public static final int SINGLE_STRAFE_DRIVE_MOTOR = 71;
+        public static final int SINGLE_STRAFE_TURNING_MOTOR = 23;
     }
 
     public static final class ArmCAN {
@@ -79,5 +79,9 @@ public final class Constants204 {
         public static final InterpLUT RL_LUT = new InterpLUT(RL_Input_1, RL_Input_2, RL_Input_3, RL_Input_4, RL_Output_1, RL_Output_2, RL_Output_3, RL_Output_4);
         public static final InterpLUT FR_LUT = new InterpLUT(FR_Input_1, FR_Input_2, FR_Input_3, FR_Input_4, FR_Output_1, FR_Output_2, FR_Output_3, FR_Output_4);
         public static final InterpLUT RR_LUT = new InterpLUT(RR_Input_1, RR_Input_2, RR_Input_3, RR_Input_4, RR_Output_1, RR_Output_2, RR_Output_3, RR_Output_4);
+
+        public static final double STRAFE_TURNING_PID_P = 5;
+        public static final double STRAFE_TURNING_PID_I = 0.001;
+        public static final double STRAFE_TURNING_PID_D = 0.000;
     }
 }

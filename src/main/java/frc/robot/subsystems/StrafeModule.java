@@ -19,6 +19,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+import static frc.robot.Constants204.Drivetrain.*;
 
 
 public class StrafeModule {
@@ -27,7 +28,7 @@ public class StrafeModule {
     private final RelativeEncoder m_driveEncoder;
 
     private final PIDController m_drivePIDController =
-            new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
+            new PIDController(0.1, 1e-4, 1);
 
     // Using a TrapezoidProfile PIDController to allow for smooth turning
     private final ProfiledPIDController m_turningPIDController =
@@ -48,9 +49,9 @@ public class StrafeModule {
 
         m_turningMotor.setSelectedSensorPosition(0);
 
-        m_turningMotor.config_kP(0, 1);
-        m_turningMotor.config_kI(0, 0.001);
-        m_turningMotor.config_kD(0, 0.0);
+        m_turningMotor.config_kP(0, STRAFE_TURNING_PID_P);
+        m_turningMotor.config_kI(0, STRAFE_TURNING_PID_I);
+        m_turningMotor.config_kD(0, STRAFE_TURNING_PID_D);
 
         m_turningMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -59,7 +60,7 @@ public class StrafeModule {
         m_turningMotor.configSelectedFeedbackCoefficient(1);
 
         // Set whether turning encoder should be reversed or not
-        m_turningMotor.setInverted(Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
+        //m_turningMotor.setInverted(Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
 
         // Limit the PID Controller's input range between -pi and pi and set the input
         // to be continuous.
@@ -68,35 +69,91 @@ public class StrafeModule {
     }
 
     public void forward(double sp) {
-        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+       /* m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
         if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(0)) < 10) {
             m_driveMotor.set(sp);
+        }*/
+
+        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+        if (sp > 0) { // forward
+            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+            //sp = Math.abs(sp);
+            //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(180));
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(0)) < 20) {
+                m_driveMotor.set(sp);
+                System.out.println("RX" + sp);
+            }
+            System.out.println("CONV: " + unitConv(0));
+        } else if (sp < 0) { // backward
+            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+
+            //sp = Math.abs(sp);
+            //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(0)) < 20) {
+                m_driveMotor.set(sp);
+                System.out.println("LX: " + sp);
+            }
+            System.out.println("CONV: " + unitConv(180));
+        } else {
+            //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+            m_driveMotor.set(0);
         }
     }
 
     public void strafe(double d) {
         if (d > 0) { // right
+            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
             d = Math.abs(d);
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(90)) < 10) {
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(90)) < 20) {
+                m_driveMotor.set(d);
+                System.out.println("RX" + d);
+            }
+            System.out.println("CONV: " + unitConv(90));
+        } else if (d < 0) { // left
+            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+
+            d = Math.abs(d);
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(-90)) < 20) {
+                m_driveMotor.set(d);
+                System.out.println("LX: " + d);
+            }
+            System.out.println("CONV: " + unitConv(-90));
+        } else {
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+            m_driveMotor.set(0);
+        }
+        return;
+        /*if (d > 0) { // right
+            d = Math.abs(d);
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(90)) < 20) {
                 m_driveMotor.set(d);
             }
         } else if (d < 0) { // left
             d = Math.abs(d);
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(-90)) < 10) {
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(-90)) < 20) {
                 m_driveMotor.set(d);
             }
         } else {
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
             m_driveMotor.set(0);
-        }
+        }*/
     }
 
     public void rotate(int deg, double sp) {
-        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
-        if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(deg)) < 10) {
-            m_driveMotor.set(sp);
+        System.out.println("SP: " + sp);
+        if (sp != 0) {
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
+
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(deg)) < 20) {
+                m_driveMotor.set(sp);
+            }
+        } else {
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+            m_driveMotor.set(0);
         }
     }
 
