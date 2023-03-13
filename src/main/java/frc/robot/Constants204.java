@@ -41,6 +41,7 @@ public final class Constants204 {
         public static final double LEFT_Y_DEADBAND = 0.1;
         public static final double RIGHT_X_DEADBAND = 0.1;
         public static final double RIGHT_Y_DEADBAND = 0.0;
+        public static final double LEFT_X_MAG_DEADBAND = 0.1;
     }
     public static final class Drivetrain {
         public static final double FL_Input_1 = 0.0;

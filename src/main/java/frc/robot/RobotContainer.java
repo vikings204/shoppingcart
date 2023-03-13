@@ -9,16 +9,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.SingleStrafeSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.StrafeSubsystem;
 
 import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.hal.CANData;
-import edu.wpi.first.math.geometry.Quaternion;
-import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.numbers.N3;
 import frc.robot.subsystems.TagVisionSubsystem;
 import frc.robot.util.Gamepad;
+
+import java.util.concurrent.TimeUnit;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -30,9 +29,10 @@ public class RobotContainer {
     //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     //private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
     private final StrafeSubsystem strafeDrive = new StrafeSubsystem();
+    private final ArmSubsystem armControl = new ArmSubsystem();
     private final TagVisionSubsystem visionTestSubsystem = new TagVisionSubsystem();
 
-    Gamepad m_driverController = new Gamepad(Constants204.Controller.PORT);
+    Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
     Joystick m_joystick = new Joystick(0);
 
     //private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
@@ -71,19 +71,36 @@ public class RobotContainer {
                 }, m_singleStrafeDrive);
     }*/
 
+    public Command getTestStrafeCommand() {
+        return new RunCommand(() -> {
+            strafeDrive.TestEncoders();
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                throw new RuntimeException("how tf you crash the test func: " + e);
+            }
+        }, strafeDrive);
+    }
+
     public Command getTeleopStrafeCommand() {
         return new RunCommand(() -> {
-            if (m_driverController.getYButton()) {
+            if (CONTROLLER.getYButton()) {
                 strafeDrive.setZero();
             } else {
-                System.out.println("RX: " + m_driverController.getRightX());
+                System.out.println("RX: " + CONTROLLER.getRightX());
                 /*double rot = 0;
                 if (m_driverController.getAButton()) {
                     rot = -1;
                 } else if (m_driverController.getXButton()) {
                     rot = 1;
                 }*/
-                strafeDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()/*rot*/);
+                strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX()/*rot*/);
+
+                double armB=0.0, armD=0.0, armC=0.0;
+                if (CONTROLLER.getRightBumper()) { armB = 1; } else if (CONTROLLER.getRightLowerButton()) { armB = -1; }
+                if (CONTROLLER.getLeftBumper()) { armD = 1; } else if (CONTROLLER.getLeftLowerButton()) { armD = -1; }
+                if (CONTROLLER.getAButton()) { armC = 1; } else if (CONTROLLER.getXButton()) { armC = -1; }
+                armControl.setArm(armB, armD, armC);
             }
         }, strafeDrive);
     }

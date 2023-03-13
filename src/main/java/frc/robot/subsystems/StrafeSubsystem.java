@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants204;
+import frc.robot.util.Math204;
+import frc.robot.util.PolarCoordinate;
 
 public class StrafeSubsystem extends SubsystemBase {
     private final StrafeModule m_frontLeft =
@@ -39,7 +41,7 @@ public class StrafeSubsystem extends SubsystemBase {
     public void periodic() {
     }
 
-    public void drive(double forward, double strafe, double rot) {
+    public void basicDrive(double forward, double strafe, double rot) {
         double r = EQ.rotate(rot);
         double s = EQ.strafe(strafe);
         double f = EQ.forward(forward);
@@ -61,6 +63,26 @@ public class StrafeSubsystem extends SubsystemBase {
             m_frontRight.forward(f);
             m_rearLeft.forward(f);
             m_rearRight.forward(f);
+        }
+    }
+
+    public void moreDrive(double sx, double sy, double rot) {
+        double r = EQ.rotate(rot);
+        if (rot != 0) {
+            // FL-135 FR-45 RL-225 RR-315
+            m_frontLeft.rotate(135, r);
+            m_frontRight.rotate(45, r);
+            //m_rearLeft.rotate(225, r);
+            m_rearLeft.rotate(-135, r);
+            //m_rearRight.rotate(315, r);
+            m_rearRight.rotate(-45, r);
+        } else if (sx != 0 || sy != 0) {
+            PolarCoordinate pc = Math204.CartesianToPolar(sx, sy);
+            pc.mag = EQ.strafeMag(pc.mag);
+            m_frontLeft.fullStrafe(pc);
+            m_frontRight.fullStrafe(pc);
+            m_rearLeft.fullStrafe(pc);
+            m_rearRight.fullStrafe(pc);
         }
     }
 
@@ -95,5 +117,21 @@ public class StrafeSubsystem extends SubsystemBase {
                 return in/4;
             }
         }
+
+        public static double strafeMag(double in) {
+            if (Math.abs(in) < Constants204.Controller.LEFT_X_MAG_DEADBAND) {
+                return 0.0;
+            } else {
+                return in/2;
+            }
+        }
+    }
+
+    public void TestEncoders() {
+        System.out.println("FL DEG: " + m_frontLeft.getTurnEncDeg());
+        System.out.println("FR DEG: " + m_frontRight.getTurnEncDeg());
+        System.out.println("RL DEG: " + m_rearLeft.getTurnEncDeg());
+        System.out.println("RR DEG: " + m_rearRight.getTurnEncDeg());
+        System.out.println("=======================");
     }
 }

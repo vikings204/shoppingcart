@@ -13,13 +13,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+
+import static frc.robot.Constants204.Controller.LEFT_X_MAG_DEADBAND;
 import static frc.robot.Constants204.Drivetrain.*;
+import frc.robot.util.PolarCoordinate;
 
 
 public class StrafeModule {
@@ -124,23 +123,6 @@ public class StrafeModule {
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
             m_driveMotor.set(0);
         }
-        return;
-        /*if (d > 0) { // right
-            d = Math.abs(d);
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(90)) < 20) {
-                m_driveMotor.set(d);
-            }
-        } else if (d < 0) { // left
-            d = Math.abs(d);
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(-90)) < 20) {
-                m_driveMotor.set(d);
-            }
-        } else {
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-            m_driveMotor.set(0);
-        }*/
     }
 
     public void rotate(int deg, double sp) {
@@ -157,6 +139,18 @@ public class StrafeModule {
         }
     }
 
+    public void fullStrafe(PolarCoordinate pc) {
+        if (pc.mag > LEFT_X_MAG_DEADBAND) {
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(pc.deg));
+            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(pc.deg)) < 20) {
+                m_driveMotor.set(pc.mag);
+            }
+        } else {
+            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+            m_driveMotor.set(0);
+        }
+    }
+
     public void setZero() {
         m_turningMotor.setSelectedSensorPosition(0);
     }
@@ -164,5 +158,13 @@ public class StrafeModule {
     public double unitConv(double d) {
         d = d / 360;
         return d * 1023;
+    }
+
+    public double getTurnEncDeg() {
+        double deg = (m_turningMotor.getSelectedSensorPosition() / 1023) * 360;
+        if (deg > 180) {
+            deg = -(deg-180);
+        }
+        return deg;
     }
 }

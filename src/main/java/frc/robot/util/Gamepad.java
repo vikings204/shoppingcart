@@ -22,7 +22,7 @@ public class Gamepad extends GenericHID {
     public Gamepad(int port) {
         super(port);
 
-        HAL.report(tResourceType.kResourceType_XboxController, port + 1);
+        HAL.report(tResourceType.kResourceType_Controller, port + 1);
     }
 
     /** Represents a digital button on an XboxController. */
@@ -35,8 +35,8 @@ public class Gamepad extends GenericHID {
         kB(2),
         kX(3),
         kY(4),
-        kBack(7),
-        kStart(8);
+        kLeftLower(7),
+        kRightLower(8);
 
         public final int value;
 
@@ -460,79 +460,79 @@ public class Gamepad extends GenericHID {
     }
 
     /**
-     * Read the value of the back button on the controller.
+     * Read the value of the LeftLower button on the controller.
      *
      * @return The state of the button.
      */
-    public boolean getBackButton() {
-        return getRawButton(Button.kBack.value);
+    public boolean getLeftLowerButton() {
+        return getRawButton(Button.kLeftLower.value);
     }
 
     /**
-     * Whether the back button was pressed since the last check.
+     * Whether the LeftLower button was pressed since the last check.
      *
      * @return Whether the button was pressed since the last check.
      */
-    public boolean getBackButtonPressed() {
-        return getRawButtonPressed(Button.kBack.value);
+    public boolean getLeftLowerButtonPressed() {
+        return getRawButtonPressed(Button.kLeftLower.value);
     }
 
     /**
-     * Whether the back button was released since the last check.
+     * Whether the LeftLower button was released since the last check.
      *
      * @return Whether the button was released since the last check.
      */
-    public boolean getBackButtonReleased() {
-        return getRawButtonReleased(Button.kBack.value);
+    public boolean getLeftLowerButtonReleased() {
+        return getRawButtonReleased(Button.kLeftLower.value);
     }
 
     /**
-     * Constructs an event instance around the back button's digital signal.
+     * Constructs an event instance around the LeftLower button's digital signal.
      *
      * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the back button's digital signal attached to the given
+     * @return an event instance representing the LeftLower button's digital signal attached to the given
      *     loop.
      */
-    public BooleanEvent back(EventLoop loop) {
-        return new BooleanEvent(loop, this::getBackButton);
+    public BooleanEvent LeftLower(EventLoop loop) {
+        return new BooleanEvent(loop, this::getLeftLowerButton);
     }
 
     /**
-     * Read the value of the start button on the controller.
+     * Read the value of the RightLower button on the controller.
      *
      * @return The state of the button.
      */
-    public boolean getStartButton() {
-        return getRawButton(Button.kStart.value);
+    public boolean getRightLowerButton() {
+        return getRawButton(Button.kRightLower.value);
     }
 
     /**
-     * Whether the start button was pressed since the last check.
+     * Whether the RightLower button was pressed since the last check.
      *
      * @return Whether the button was pressed since the last check.
      */
-    public boolean getStartButtonPressed() {
-        return getRawButtonPressed(Button.kStart.value);
+    public boolean getRightLowerButtonPressed() {
+        return getRawButtonPressed(Button.kRightLower.value);
     }
 
     /**
-     * Whether the start button was released since the last check.
+     * Whether the RightLower button was released since the last check.
      *
      * @return Whether the button was released since the last check.
      */
-    public boolean getStartButtonReleased() {
-        return getRawButtonReleased(Button.kStart.value);
+    public boolean getRightLowerButtonReleased() {
+        return getRawButtonReleased(Button.kRightLower.value);
     }
 
     /**
-     * Constructs an event instance around the start button's digital signal.
+     * Constructs an event instance around the RightLower button's digital signal.
      *
      * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the start button's digital signal attached to the given
+     * @return an event instance representing the RightLower button's digital signal attached to the given
      *     loop.
      */
-    public BooleanEvent start(EventLoop loop) {
-        return new BooleanEvent(loop, this::getStartButton);
+    public BooleanEvent RightLower(EventLoop loop) {
+        return new BooleanEvent(loop, this::getRightLowerButton);
     }
 
     /**
