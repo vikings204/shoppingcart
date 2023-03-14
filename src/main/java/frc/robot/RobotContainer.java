@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class RobotContainer {
     //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     //private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
-    private final StrafeSubsystem strafeDrive = new StrafeSubsystem();
+    public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     private final ArmSubsystem armControl = new ArmSubsystem();
     private final TagVisionSubsystem visionTestSubsystem = new TagVisionSubsystem();
 
@@ -72,10 +72,11 @@ public class RobotContainer {
     }*/
 
     public Command getTestStrafeCommand() {
+        System.out.println(strafeDrive.TestEncoders() + "\naiushduhw98ahhs9dh9hwhqhh9][a[s]d[][");
         return new RunCommand(() -> {
-            strafeDrive.TestEncoders();
+            System.out.println(strafeDrive.TestEncoders());
             try {
-                TimeUnit.SECONDS.sleep(3);
+                TimeUnit.SECONDS.sleep(0);
             } catch (InterruptedException e) {
                 throw new RuntimeException("how tf you crash the test func: " + e);
             }
@@ -84,24 +85,14 @@ public class RobotContainer {
 
     public Command getTeleopStrafeCommand() {
         return new RunCommand(() -> {
-            if (CONTROLLER.getYButton()) {
-                strafeDrive.setZero();
-            } else {
-                System.out.println("RX: " + CONTROLLER.getRightX());
-                /*double rot = 0;
-                if (m_driverController.getAButton()) {
-                    rot = -1;
-                } else if (m_driverController.getXButton()) {
-                    rot = 1;
-                }*/
-                strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX()/*rot*/);
+            System.out.println("RX: " + CONTROLLER.getRightX());
+            strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
 
-                double armB=0.0, armD=0.0, armC=0.0;
-                if (CONTROLLER.getRightBumper()) { armB = 1; } else if (CONTROLLER.getRightLowerButton()) { armB = -1; }
-                if (CONTROLLER.getLeftBumper()) { armD = 1; } else if (CONTROLLER.getLeftLowerButton()) { armD = -1; }
-                if (CONTROLLER.getAButton()) { armC = 1; } else if (CONTROLLER.getXButton()) { armC = -1; }
-                armControl.setArm(armB, armD, armC);
-            }
+            double armB=0.0, armD=0.0, armC=0.0;
+            if (CONTROLLER.getRightBumper()) { armB = 1; } else if (CONTROLLER.getRightLowerButton()) { armB = -1; }
+            if (CONTROLLER.getLeftBumper()) { armD = 1; } else if (CONTROLLER.getLeftLowerButton()) { armD = -1; }
+            if (CONTROLLER.getAButton()) { armC = 1; } else if (CONTROLLER.getXButton()) { armC = -1; }
+            armControl.setArm(armB, armD, armC);
         }, strafeDrive);
     }
 

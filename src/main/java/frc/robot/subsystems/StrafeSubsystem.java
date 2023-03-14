@@ -127,11 +127,11 @@ public class StrafeSubsystem extends SubsystemBase {
         }
     }
 
-    public void TestEncoders() {
-        System.out.println("FL DEG: " + m_frontLeft.getTurnEncDeg());
-        System.out.println("FR DEG: " + m_frontRight.getTurnEncDeg());
-        System.out.println("RL DEG: " + m_rearLeft.getTurnEncDeg());
-        System.out.println("RR DEG: " + m_rearRight.getTurnEncDeg());
-        System.out.println("=======================");
+    public String TestEncoders() {
+        return ("FL DEG: " + m_frontLeft.getTurnEncDeg() +
+        "\nFR DEG: " + m_frontRight.getTurnEncDeg() +
+        "\nRL DEG: " + m_rearLeft.getTurnEncDeg() +
+        "\nRR DEG: " + m_rearRight.getTurnEncDeg() +
+        "\n==========================");
     }
 }

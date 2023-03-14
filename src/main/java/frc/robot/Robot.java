@@ -18,7 +18,6 @@ public class Robot extends TimedRobot {
 
     private Command autonomousCommand;
     private Command teleopCommand;
-    private Command testCommand;
 
     private RobotContainer robotContainer;
 
@@ -121,7 +120,6 @@ public class Robot extends TimedRobot {
     public void testInit() {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
-        testCommand = robotContainer.getTestStrafeCommand();
     }
 
     /**
@@ -129,8 +127,9 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-        if (testCommand != null) {
-            testCommand.schedule();
+        System.out.println(robotContainer.strafeDrive.TestEncoders());
+        if (robotContainer.CONTROLLER.getYButton()) {
+            robotContainer.strafeDrive.setZero();
         }
     }
 }

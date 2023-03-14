@@ -18,7 +18,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final SparkMaxPIDController dipperPIDCon = dipperMotor.getPIDController();
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
 
-    private final double kP = 0.1;
+    private final double kP = 0.5;
     private final double kI = 1e-4;
     private final double kD = 1;
     private final double kIz = 0;
@@ -33,6 +33,7 @@ public class ArmSubsystem extends SubsystemBase {
         boomPIDCon.setIZone(kIz);
         boomPIDCon.setFF(kFF);
         boomPIDCon.setOutputRange(kMinOutput, kMaxOutput);
+        dipperMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         dipperPIDCon.setP(kP);
         dipperPIDCon.setI(kI);
@@ -40,6 +41,7 @@ public class ArmSubsystem extends SubsystemBase {
         dipperPIDCon.setIZone(kIz);
         dipperPIDCon.setFF(kFF);
         dipperPIDCon.setOutputRange(kMinOutput, kMaxOutput);
+        dipperMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
     /**
@@ -48,6 +50,7 @@ public class ArmSubsystem extends SubsystemBase {
      * binary: 0=none, >0=opened, <0=closed
     **/
     public void setArm(double b, double d, double c) {
+        System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
         double nd = dipperEncoder.getPosition();
         if (b == 0) {

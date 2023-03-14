@@ -25,12 +25,12 @@ public final class Constants204 {
     public static final class ArmCAN {
         public static final int BOOM_MOTOR_ID = 11;
         public static final int DIPPER_MOTOR_ID = 21;
-        public static final int /*CLAW_MOTOR_ID*/CLAW_SERVO_PWM_CH = 1; // controlled with PWM, NOT CAN
+        public static final int /*CLAW_MOTOR_ID*/CLAW_SERVO_PWM_CH = 8; // controlled with PWM, NOT CAN
     }
 
     public static final class Arm {
-        public static final double BOOM_REF_INCREMENT = 0.01;
-        public static final double DIPPER_REF_INCREMENT = 0.01;
+        public static final double BOOM_REF_INCREMENT = 0.1;
+        public static final double DIPPER_REF_INCREMENT = 1;
         public static final double CLAW_CLOSED_EXPOS = 0;
         public static final double CLAW_OPEN_EXPOS = 1;
     }

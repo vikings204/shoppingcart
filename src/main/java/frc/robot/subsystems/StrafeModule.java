@@ -101,24 +101,24 @@ public class StrafeModule {
 
     public void strafe(double d) {
         if (d > 0) { // right
-            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+            //System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
             d = Math.abs(d);
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
             if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(90)) < 20) {
                 m_driveMotor.set(d);
-                System.out.println("RX" + d);
+                //System.out.println("RX" + d);
             }
-            System.out.println("CONV: " + unitConv(90));
+            //System.out.println("CONV: " + unitConv(90));
         } else if (d < 0) { // left
-            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+            //System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
 
             d = Math.abs(d);
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
             if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(-90)) < 20) {
                 m_driveMotor.set(d);
-                System.out.println("LX: " + d);
+                //System.out.println("LX: " + d);
             }
-            System.out.println("CONV: " + unitConv(-90));
+            //System.out.println("CONV: " + unitConv(-90));
         } else {
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
             m_driveMotor.set(0);
@@ -126,7 +126,7 @@ public class StrafeModule {
     }
 
     public void rotate(int deg, double sp) {
-        System.out.println("SP: " + sp);
+        //System.out.println("SP: " + sp);
         if (sp != 0) {
             m_turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
 
