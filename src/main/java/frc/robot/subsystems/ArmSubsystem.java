@@ -17,6 +17,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final RelativeEncoder dipperEncoder = dipperMotor.getEncoder();
     private final SparkMaxPIDController dipperPIDCon = dipperMotor.getPIDController();
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
+    private boolean clawState = false;
 
     private final double kP = 0.5;
     private final double kI = 1e-4;
@@ -45,9 +46,9 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     /**
-     * boom increment, dipper increment, claw binary
-     * increment: 0=none, >0=increase, <0=decrease
-     * binary: 0=none, >0=opened, <0=closed
+     * boom increment, dipper increment, claw binary<br>
+     * increment: 0=none, >0=increase, <0=decrease<br>
+     * binary: 0=none, >0=opened, <0=closed<br>
     **/
     public void setArm(double b, double d, double c) {
         System.out.println("B:"+b + "D:"+d + "C:"+c);
@@ -69,9 +70,16 @@ public class ArmSubsystem extends SubsystemBase {
         boomPIDCon.setReference(nb, CANSparkMax.ControlType.kPosition);
         dipperPIDCon.setReference(nd, CANSparkMax.ControlType.kPosition);
         if (c == 0) {
+            if (clawState) {
+                clawServo.set(Arm.CLAW_CLOSED_EXPOS);
+            } else {
+                clawServo.set(Arm.CLAW_OPEN_EXPOS);
+            }
         } else if (c < 0) {
+            clawState = true;
             clawServo.set(Arm.CLAW_CLOSED_EXPOS);
         } else if (c > 0) {
+            clawState = false;
             clawServo.set(Arm.CLAW_OPEN_EXPOS);
         }
     }

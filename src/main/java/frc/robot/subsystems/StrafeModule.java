@@ -68,23 +68,24 @@ public class StrafeModule {
     }
 
     public void forward(double sp) {
-       /* m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+        System.out.println("SP: " + sp);
+        /* m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
         if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(0)) < 10) {
             m_driveMotor.set(sp);
         }*/
 
         m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
         if (sp > 0) { // forward
-            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+            //System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
             //sp = Math.abs(sp);
             //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(180));
             if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(0)) < 20) {
                 m_driveMotor.set(sp);
                 System.out.println("RX" + sp);
             }
-            System.out.println("CONV: " + unitConv(0));
+            //System.out.println("CONV: " + unitConv(0));
         } else if (sp < 0) { // backward
-            System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
+            //System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
 
             //sp = Math.abs(sp);
             //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
@@ -92,10 +93,9 @@ public class StrafeModule {
                 m_driveMotor.set(sp);
                 System.out.println("LX: " + sp);
             }
-            System.out.println("CONV: " + unitConv(180));
+            //System.out.println("CONV: " + unitConv(180));
         } else {
-            //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-            m_driveMotor.set(0);
+            resetPos();
         }
     }
 
@@ -120,8 +120,7 @@ public class StrafeModule {
             }
             //System.out.println("CONV: " + unitConv(-90));
         } else {
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-            m_driveMotor.set(0);
+            resetPos();
         }
     }
 
@@ -134,8 +133,7 @@ public class StrafeModule {
                 m_driveMotor.set(sp);
             }
         } else {
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-            m_driveMotor.set(0);
+            resetPos();
         }
     }
 
@@ -146,9 +144,13 @@ public class StrafeModule {
                 m_driveMotor.set(pc.mag);
             }
         } else {
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-            m_driveMotor.set(0);
+            resetPos();
         }
+    }
+
+    public void resetPos() {
+        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+        m_driveMotor.set(0);
     }
 
     public void setZero() {

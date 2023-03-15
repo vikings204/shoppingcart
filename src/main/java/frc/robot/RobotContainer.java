@@ -87,10 +87,11 @@ public class RobotContainer {
         return new RunCommand(() -> {
             System.out.println("RX: " + CONTROLLER.getRightX());
             strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
+            //strafeDrive.moreDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
 
             double armB=0.0, armD=0.0, armC=0.0;
-            if (CONTROLLER.getRightBumper()) { armB = 1; } else if (CONTROLLER.getRightLowerButton()) { armB = -1; }
-            if (CONTROLLER.getLeftBumper()) { armD = 1; } else if (CONTROLLER.getLeftLowerButton()) { armD = -1; }
+            if (CONTROLLER.getRightUpperBumper()) { armB = 1; } else if (CONTROLLER.getRightLowerBumper()) { armB = -1; }
+            if (CONTROLLER.getLeftUpperBumper()) { armD = 1; } else if (CONTROLLER.getLeftLowerBumper()) { armD = -1; }
             if (CONTROLLER.getAButton()) { armC = 1; } else if (CONTROLLER.getXButton()) { armC = -1; }
             armControl.setArm(armB, armD, armC);
         }, strafeDrive);

@@ -27,16 +27,16 @@ public class Gamepad extends GenericHID {
 
     /** Represents a digital button on an XboxController. */
     public enum Button {
-        kLeftBumper(5),
-        kRightBumper(6),
+        kLeftUpperBumper(5),
+        kRightUpperBumper(6),
         kLeftStick(9),
         kRightStick(10),
         kA(1),
         kB(2),
         kX(3),
         kY(4),
-        kLeftLower(7),
-        kRightLower(8);
+        kLeftLowerBumper(7),
+        kRightLowerBumper(8);
 
         public final int value;
 
@@ -156,8 +156,8 @@ public class Gamepad extends GenericHID {
      *
      * @return The state of the button.
      */
-    public boolean getLeftBumper() {
-        return getRawButton(Button.kLeftBumper.value);
+    public boolean getLeftUpperBumper() {
+        return getRawButton(Button.kLeftUpperBumper.value);
     }
 
     /**
@@ -165,8 +165,8 @@ public class Gamepad extends GenericHID {
      *
      * @return The state of the button.
      */
-    public boolean getRightBumper() {
-        return getRawButton(Button.kRightBumper.value);
+    public boolean getRightUpperBumper() {
+        return getRawButton(Button.kRightUpperBumper.value);
     }
 
     /**
@@ -174,8 +174,8 @@ public class Gamepad extends GenericHID {
      *
      * @return Whether the button was pressed since the last check.
      */
-    public boolean getLeftBumperPressed() {
-        return getRawButtonPressed(Button.kLeftBumper.value);
+    public boolean getLeftUpperBumperPressed() {
+        return getRawButtonPressed(Button.kLeftUpperBumper.value);
     }
 
     /**
@@ -183,8 +183,8 @@ public class Gamepad extends GenericHID {
      *
      * @return Whether the button was pressed since the last check.
      */
-    public boolean getRightBumperPressed() {
-        return getRawButtonPressed(Button.kRightBumper.value);
+    public boolean getRightUpperBumperPressed() {
+        return getRawButtonPressed(Button.kRightUpperBumper.value);
     }
 
     /**
@@ -192,8 +192,8 @@ public class Gamepad extends GenericHID {
      *
      * @return Whether the button was released since the last check.
      */
-    public boolean getLeftBumperReleased() {
-        return getRawButtonReleased(Button.kLeftBumper.value);
+    public boolean getLeftUpperBumperReleased() {
+        return getRawButtonReleased(Button.kLeftUpperBumper.value);
     }
 
     /**
@@ -201,8 +201,8 @@ public class Gamepad extends GenericHID {
      *
      * @return Whether the button was released since the last check.
      */
-    public boolean getRightBumperReleased() {
-        return getRawButtonReleased(Button.kRightBumper.value);
+    public boolean getRightUpperBumperReleased() {
+        return getRawButtonReleased(Button.kRightUpperBumper.value);
     }
 
     /**
@@ -212,8 +212,8 @@ public class Gamepad extends GenericHID {
      * @return an event instance representing the right bumper's digital signal attached to the given
      *     loop.
      */
-    public BooleanEvent leftBumper(EventLoop loop) {
-        return new BooleanEvent(loop, this::getLeftBumper);
+    public BooleanEvent LeftUpperBumper(EventLoop loop) {
+        return new BooleanEvent(loop, this::getLeftUpperBumper);
     }
 
     /**
@@ -223,8 +223,8 @@ public class Gamepad extends GenericHID {
      * @return an event instance representing the left bumper's digital signal attached to the given
      *     loop.
      */
-    public BooleanEvent rightBumper(EventLoop loop) {
-        return new BooleanEvent(loop, this::getRightBumper);
+    public BooleanEvent RightUpperBumper(EventLoop loop) {
+        return new BooleanEvent(loop, this::getRightUpperBumper);
     }
 
     /**
@@ -460,79 +460,79 @@ public class Gamepad extends GenericHID {
     }
 
     /**
-     * Read the value of the LeftLower button on the controller.
+     * Read the value of the LeftLowerBumper button on the controller.
      *
      * @return The state of the button.
      */
-    public boolean getLeftLowerButton() {
-        return getRawButton(Button.kLeftLower.value);
+    public boolean getLeftLowerBumper() {
+        return getRawButton(Button.kLeftLowerBumper.value);
     }
 
     /**
-     * Whether the LeftLower button was pressed since the last check.
+     * Whether the LeftLowerBumper button was pressed since the last check.
      *
      * @return Whether the button was pressed since the last check.
      */
-    public boolean getLeftLowerButtonPressed() {
-        return getRawButtonPressed(Button.kLeftLower.value);
+    public boolean getLeftLowerBumperPressed() {
+        return getRawButtonPressed(Button.kLeftLowerBumper.value);
     }
 
     /**
-     * Whether the LeftLower button was released since the last check.
+     * Whether the LeftLowerBumper button was released since the last check.
      *
      * @return Whether the button was released since the last check.
      */
-    public boolean getLeftLowerButtonReleased() {
-        return getRawButtonReleased(Button.kLeftLower.value);
+    public boolean getLeftLowerBumperReleased() {
+        return getRawButtonReleased(Button.kLeftLowerBumper.value);
     }
 
     /**
-     * Constructs an event instance around the LeftLower button's digital signal.
+     * Constructs an event instance around the LeftLowerBumper button's digital signal.
      *
      * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the LeftLower button's digital signal attached to the given
+     * @return an event instance representing the LeftLowerBumper button's digital signal attached to the given
      *     loop.
      */
-    public BooleanEvent LeftLower(EventLoop loop) {
-        return new BooleanEvent(loop, this::getLeftLowerButton);
+    public BooleanEvent LeftLowerBumper(EventLoop loop) {
+        return new BooleanEvent(loop, this::getLeftLowerBumper);
     }
 
     /**
-     * Read the value of the RightLower button on the controller.
+     * Read the value of the RightLowerBumper button on the controller.
      *
      * @return The state of the button.
      */
-    public boolean getRightLowerButton() {
-        return getRawButton(Button.kRightLower.value);
+    public boolean getRightLowerBumper() {
+        return getRawButton(Button.kRightLowerBumper.value);
     }
 
     /**
-     * Whether the RightLower button was pressed since the last check.
+     * Whether the RightLowerBumper button was pressed since the last check.
      *
      * @return Whether the button was pressed since the last check.
      */
-    public boolean getRightLowerButtonPressed() {
-        return getRawButtonPressed(Button.kRightLower.value);
+    public boolean getRightLowerBumperPressed() {
+        return getRawButtonPressed(Button.kRightLowerBumper.value);
     }
 
     /**
-     * Whether the RightLower button was released since the last check.
+     * Whether the RightLowerBumper button was released since the last check.
      *
      * @return Whether the button was released since the last check.
      */
-    public boolean getRightLowerButtonReleased() {
-        return getRawButtonReleased(Button.kRightLower.value);
+    public boolean getRightLowerBumperReleased() {
+        return getRawButtonReleased(Button.kRightLowerBumper.value);
     }
 
     /**
-     * Constructs an event instance around the RightLower button's digital signal.
+     * Constructs an event instance around the RightLowerBumper button's digital signal.
      *
      * @param loop the event loop instance to attach the event to.
-     * @return an event instance representing the RightLower button's digital signal attached to the given
+     * @return an event instance representing the RightLowerBumper button's digital signal attached to the given
      *     loop.
      */
-    public BooleanEvent RightLower(EventLoop loop) {
-        return new BooleanEvent(loop, this::getRightLowerButton);
+    public BooleanEvent RightLowerBumper(EventLoop loop) {
+        return new BooleanEvent(loop, this::getRightLowerBumper);
     }
 
     /**

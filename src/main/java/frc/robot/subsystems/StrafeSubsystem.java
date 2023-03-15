@@ -42,27 +42,32 @@ public class StrafeSubsystem extends SubsystemBase {
     }
 
     public void basicDrive(double forward, double strafe, double rot) {
+        //System.out.println("FW:"+forward + " ST:"+strafe + " RT:"+rot);
         double r = EQ.rotate(rot);
         double s = EQ.strafe(strafe);
         double f = EQ.forward(forward);
-        if (rot != 0) {
+        //System.out.println("F:"+f+" S:"+s+" R:"+r);
+        if (r != 0) {
             // FL-135 FR-45 RL-225 RR-315
             m_frontLeft.rotate(135, r);
             m_frontRight.rotate(45, r);
-            //m_rearLeft.rotate(225, r);
             m_rearLeft.rotate(-135, r);
-            //m_rearRight.rotate(315, r);
             m_rearRight.rotate(-45, r);
-        } else if (strafe != 0) {
+        } else if (s != 0) {
             m_frontLeft.strafe(s);
             m_frontRight.strafe(s);
             m_rearLeft.strafe(s);
             m_rearRight.strafe(s);
-        } else if (forward != 0) {
+        } else if (f != 0) {
             m_frontLeft.forward(f);
             m_frontRight.forward(f);
             m_rearLeft.forward(f);
             m_rearRight.forward(f);
+        } else {
+            m_frontLeft.resetPos();
+            m_frontRight.resetPos();
+            m_rearLeft.resetPos();
+            m_rearRight.resetPos();
         }
     }
 
@@ -72,13 +77,12 @@ public class StrafeSubsystem extends SubsystemBase {
             // FL-135 FR-45 RL-225 RR-315
             m_frontLeft.rotate(135, r);
             m_frontRight.rotate(45, r);
-            //m_rearLeft.rotate(225, r);
             m_rearLeft.rotate(-135, r);
-            //m_rearRight.rotate(315, r);
             m_rearRight.rotate(-45, r);
-        } else if (sx != 0 || sy != 0) {
+        } else {
             PolarCoordinate pc = Math204.CartesianToPolar(sx, sy);
             pc.mag = EQ.strafeMag(pc.mag);
+            System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
             m_frontLeft.fullStrafe(pc);
             m_frontRight.fullStrafe(pc);
             m_rearLeft.fullStrafe(pc);
