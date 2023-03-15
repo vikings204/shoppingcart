@@ -33,6 +33,9 @@ public class StrafeSubsystem extends SubsystemBase {
                     Constants204.DrivetrainCAN.RR_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.RR_TURNING_MOTOR_ID
             );
+    private double turningPDeg = 0;
+    private int turningPQuad = 0; // top left is 1 counterclockwise
+    private double turningTotalDeg = 0.0;
 
     public StrafeSubsystem() {
     }
@@ -73,7 +76,7 @@ public class StrafeSubsystem extends SubsystemBase {
 
     public void moreDrive(double sx, double sy, double rot) {
         double r = EQ.rotate(rot);
-        PolarCoordinate pc = Math204.CartesianToPolar(sx, sy);
+        PolarCoordinate pc = Math204.CartesianToPolar(sy*-1, sx*-1);
         pc.mag = EQ.strafeMag(pc.mag*-1);
         if (r != 0) {
             // FL-135 FR-45 RL-225 RR-315
@@ -82,9 +85,11 @@ public class StrafeSubsystem extends SubsystemBase {
             m_rearLeft.rotate(-135, r);
             m_rearRight.rotate(-45, r);
         } else if (pc.mag != 0) {
-            System.out.println("SX:" + sx + " SY:" + sy);
-            //System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
-            m_frontLeft.fullStrafe(pc);
+            //System.out.println("SX:" + sx + " SY:" + sy);
+            System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg+ " C-QUAD: "+ Math204.GetQuadrant(pc.deg));
+            pc.deg = SwerveContinuous(pc.deg);
+            System.out.println("CDEG: " + pc.deg);
+           m_frontLeft.fullStrafe(pc);
             m_frontRight.fullStrafe(pc);
             m_rearLeft.fullStrafe(pc);
             m_rearRight.fullStrafe(pc);
@@ -93,6 +98,9 @@ public class StrafeSubsystem extends SubsystemBase {
             m_frontRight.resetPos();
             m_rearLeft.resetPos();
             m_rearRight.resetPos();
+            turningTotalDeg = 0.0;
+            turningPDeg = 0.0;
+            turningPQuad = 1;
         }
     }
 
@@ -101,6 +109,7 @@ public class StrafeSubsystem extends SubsystemBase {
         m_frontRight.setZero();
         m_rearLeft.setZero();
         m_rearRight.setZero();
+        turningTotalDeg = 0.0;
     }
 
     public void rottenest() {
@@ -113,6 +122,23 @@ public class StrafeSubsystem extends SubsystemBase {
         m_frontLeft.rotate(540, 0.1);
         m_frontLeft.rotate(630, 0.1);
         m_frontLeft.rotate(720, 0.1);
+    }
+
+    public double SwerveContinuous(double cDeg) {
+        double nDeg;
+        int cQuad = Math204.GetQuadrant(cDeg);
+        if ((turningPQuad == 3 || turningPQuad == 4) && cQuad == 1) {
+            nDeg = (360-turningPDeg)+cDeg;
+        } else if ((turningPQuad == 1 || turningPQuad == 2) && cQuad == 4) {
+            nDeg = -((360-cDeg)+turningPDeg);
+        } else {
+            nDeg = cDeg - turningPDeg;
+        }
+
+        turningTotalDeg += nDeg;
+        turningPDeg = cDeg;
+        turningPQuad = cQuad;
+        return turningTotalDeg;
     }
 
     private static class EQ {

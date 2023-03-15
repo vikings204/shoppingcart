@@ -24,8 +24,6 @@ import frc.robot.util.PolarCoordinate;
 public class StrafeModule {
     private final CANSparkMax driveMotor;
     private final TalonSRX turningMotor;
-    private int turningPrevDeg = 1;
-    private int turningPrevQuad = 1; // top right is 4, top left is 1, counterclockwise
     private final RelativeEncoder driveEncoder;
 
     private final PIDController drivePIDCon =
@@ -141,11 +139,7 @@ public class StrafeModule {
 
     public void fullStrafe(PolarCoordinate pc) {
         if (Math.abs(pc.mag) > LEFT_X_MAG_DEADBAND) {
-            if (turningPrevDeg - pc.deg > 0) {
-
-            }
-
-            System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
+            //System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
             turningMotor.set(TalonSRXControlMode.Position, unitConv(pc.deg));
             if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(pc.deg)) < 20) {
                 driveMotor.set(pc.mag);
