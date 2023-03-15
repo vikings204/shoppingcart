@@ -22,15 +22,17 @@ import frc.robot.util.PolarCoordinate;
 
 
 public class StrafeModule {
-    private final CANSparkMax m_driveMotor;
-    private final TalonSRX m_turningMotor;
-    private final RelativeEncoder m_driveEncoder;
+    private final CANSparkMax driveMotor;
+    private final TalonSRX turningMotor;
+    private int turningPrevDeg = 1;
+    private int turningPrevQuad = 1; // top right is 4, top left is 1, counterclockwise
+    private final RelativeEncoder driveEncoder;
 
-    private final PIDController m_drivePIDController =
+    private final PIDController drivePIDCon =
             new PIDController(0.1, 1e-4, 1);
 
     // Using a TrapezoidProfile PIDController to allow for smooth turning
-    private final ProfiledPIDController m_turningPIDController =
+    private final ProfiledPIDController turningPIDCon =
             new ProfiledPIDController(
                     ModuleConstants.kPModuleTurningController,
                     0,
@@ -41,22 +43,22 @@ public class StrafeModule {
 
     public StrafeModule(int driveMotorChannel,
                         int turningMotorChannel) {
-        m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
-        m_turningMotor = new TalonSRX(turningMotorChannel);
+        driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
+        turningMotor = new TalonSRX(turningMotorChannel);
 
-        m_turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, 0, 0); //Set the feedback device that is hooked up to the talon
+        turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, 0, 0); //Set the feedback device that is hooked up to the talon
 
-        m_turningMotor.setSelectedSensorPosition(0);
+        turningMotor.setSelectedSensorPosition(0);
 
-        m_turningMotor.config_kP(0, STRAFE_TURNING_PID_P);
-        m_turningMotor.config_kI(0, STRAFE_TURNING_PID_I);
-        m_turningMotor.config_kD(0, STRAFE_TURNING_PID_D);
+        turningMotor.config_kP(0, STRAFE_TURNING_PID_P);
+        turningMotor.config_kI(0, STRAFE_TURNING_PID_I);
+        turningMotor.config_kD(0, STRAFE_TURNING_PID_D);
 
-        m_turningMotor.setNeutralMode(NeutralMode.Brake);
+        turningMotor.setNeutralMode(NeutralMode.Brake);
 
-        m_driveEncoder = m_driveMotor.getEncoder();
+        driveEncoder = driveMotor.getEncoder();
 
-        m_turningMotor.configSelectedFeedbackCoefficient(1);
+        turningMotor.configSelectedFeedbackCoefficient(1);
 
         // Set whether turning encoder should be reversed or not
         //m_turningMotor.setInverted(Constants.DriveConstants.kFrontLeftTurningEncoderReversed);
@@ -64,7 +66,7 @@ public class StrafeModule {
         // Limit the PID Controller's input range between -pi and pi and set the input
         // to be continuous.
         //m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-        m_turningPIDController.enableContinuousInput(-1023, 1023);
+        turningPIDCon.enableContinuousInput(-1023, 1023);
     }
 
     public void forward(double sp) {
@@ -74,13 +76,13 @@ public class StrafeModule {
             m_driveMotor.set(sp);
         }*/
 
-        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+        turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
         if (sp > 0) { // forward
             //System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
             //sp = Math.abs(sp);
             //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(180));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(0)) < 20) {
-                m_driveMotor.set(sp);
+            if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(0)) < 20) {
+                driveMotor.set(sp);
                 System.out.println("RX" + sp);
             }
             //System.out.println("CONV: " + unitConv(0));
@@ -89,8 +91,8 @@ public class StrafeModule {
 
             //sp = Math.abs(sp);
             //m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(0)) < 20) {
-                m_driveMotor.set(sp);
+            if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(0)) < 20) {
+                driveMotor.set(sp);
                 System.out.println("LX: " + sp);
             }
             //System.out.println("CONV: " + unitConv(180));
@@ -103,9 +105,9 @@ public class StrafeModule {
         if (d > 0) { // right
             //System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
             d = Math.abs(d);
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(90)) < 20) {
-                m_driveMotor.set(d);
+            turningMotor.set(TalonSRXControlMode.Position, unitConv(90));
+            if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(90)) < 20) {
+                driveMotor.set(d);
                 //System.out.println("RX" + d);
             }
             //System.out.println("CONV: " + unitConv(90));
@@ -113,9 +115,9 @@ public class StrafeModule {
             //System.out.println("SENSOR: " + m_turningMotor.getSelectedSensorPosition());
 
             d = Math.abs(d);
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(-90)) < 20) {
-                m_driveMotor.set(d);
+            turningMotor.set(TalonSRXControlMode.Position, unitConv(-90));
+            if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(-90)) < 20) {
+                driveMotor.set(d);
                 //System.out.println("LX: " + d);
             }
             //System.out.println("CONV: " + unitConv(-90));
@@ -127,10 +129,10 @@ public class StrafeModule {
     public void rotate(int deg, double sp) {
         //System.out.println("SP: " + sp);
         if (sp != 0) {
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
+            turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
 
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition() - unitConv(deg)) < 20) {
-                m_driveMotor.set(sp);
+            if (Math.abs(turningMotor.getSelectedSensorPosition() - unitConv(deg)) < 20) {
+                driveMotor.set(sp);
             }
         } else {
             resetPos();
@@ -138,10 +140,15 @@ public class StrafeModule {
     }
 
     public void fullStrafe(PolarCoordinate pc) {
-        if (pc.mag > LEFT_X_MAG_DEADBAND) {
-            m_turningMotor.set(TalonSRXControlMode.Position, unitConv(pc.deg));
-            if (Math.abs(m_turningMotor.getSelectedSensorPosition()-unitConv(pc.deg)) < 20) {
-                m_driveMotor.set(pc.mag);
+        if (Math.abs(pc.mag) > LEFT_X_MAG_DEADBAND) {
+            if (turningPrevDeg - pc.deg > 0) {
+
+            }
+
+            System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
+            turningMotor.set(TalonSRXControlMode.Position, unitConv(pc.deg));
+            if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(pc.deg)) < 20) {
+                driveMotor.set(pc.mag);
             }
         } else {
             resetPos();
@@ -149,12 +156,12 @@ public class StrafeModule {
     }
 
     public void resetPos() {
-        m_turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
-        m_driveMotor.set(0);
+        turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+        driveMotor.set(0);
     }
 
     public void setZero() {
-        m_turningMotor.setSelectedSensorPosition(0);
+        turningMotor.setSelectedSensorPosition(0);
     }
 
     public double unitConv(double d) {
@@ -163,7 +170,7 @@ public class StrafeModule {
     }
 
     public double getTurnEncDeg() {
-        double deg = (m_turningMotor.getSelectedSensorPosition() / 1023) * 360;
+        double deg = (turningMotor.getSelectedSensorPosition() / 1023) * 360;
         if (deg > 180) {
             deg = -(deg-180);
         }

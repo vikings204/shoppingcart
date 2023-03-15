@@ -51,7 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
      * binary: 0=none, >0=opened, <0=closed<br>
     **/
     public void setArm(double b, double d, double c) {
-        System.out.println("B:"+b + "D:"+d + "C:"+c);
+        //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
         double nd = dipperEncoder.getPosition();
         if (b == 0) {

@@ -6,13 +6,19 @@ public class Math204 {
         double rad = Math.atan2(y, x); // returns the angle in radians
 
         // Convert radians to degrees
-        double deg = Math.toDegrees(rad);
+        double deg = (Math.toDegrees(rad) + 90)*-1;
 
         // conv
-        if (deg > 180) {
-            deg = -(deg-180);
-        }
+        /*if (deg > 0) {
+            deg = (deg-360);
+        }*/
 
         return new PolarCoordinate(r, deg);
+    }
+
+    public int GetQuadrant(int deg, int pDeg) {
+        int x = (deg % 360);
+        //if ()
+        return 69;
     }
 }
