@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -85,9 +86,9 @@ public class RobotContainer {
 
     public Command getTeleopStrafeCommand() {
         return new RunCommand(() -> {
-            System.out.println("RX: " + CONTROLLER.getRightX());
-            strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
-            //strafeDrive.moreDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
+            //System.out.println("RX: " + CONTROLLER.getRightX());
+            //strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
+            strafeDrive.moreDrive(CONTROLLER.getLeftX(), CONTROLLER.getLeftY(), CONTROLLER.getRightX());
 
             double armB=0.0, armD=0.0, armC=0.0;
             if (CONTROLLER.getRightUpperBumper()) { armB = 1; } else if (CONTROLLER.getRightLowerBumper()) { armB = -1; }

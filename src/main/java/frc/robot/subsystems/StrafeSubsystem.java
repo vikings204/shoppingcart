@@ -73,20 +73,26 @@ public class StrafeSubsystem extends SubsystemBase {
 
     public void moreDrive(double sx, double sy, double rot) {
         double r = EQ.rotate(rot);
-        if (rot != 0) {
+        PolarCoordinate pc = Math204.CartesianToPolar(sx, sy);
+        pc.mag = EQ.strafeMag(pc.mag*-1);
+        if (r != 0) {
             // FL-135 FR-45 RL-225 RR-315
             m_frontLeft.rotate(135, r);
             m_frontRight.rotate(45, r);
             m_rearLeft.rotate(-135, r);
             m_rearRight.rotate(-45, r);
-        } else {
-            PolarCoordinate pc = Math204.CartesianToPolar(sx, sy);
-            pc.mag = EQ.strafeMag(pc.mag);
-            System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
+        } else if (pc.mag != 0) {
+            System.out.println("SX:" + sx + " SY:" + sy);
+            //System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
             m_frontLeft.fullStrafe(pc);
             m_frontRight.fullStrafe(pc);
             m_rearLeft.fullStrafe(pc);
             m_rearRight.fullStrafe(pc);
+        } else {
+            m_frontLeft.resetPos();
+            m_frontRight.resetPos();
+            m_rearLeft.resetPos();
+            m_rearRight.resetPos();
         }
     }
 
@@ -95,6 +101,18 @@ public class StrafeSubsystem extends SubsystemBase {
         m_frontRight.setZero();
         m_rearLeft.setZero();
         m_rearRight.setZero();
+    }
+
+    public void rottenest() {
+        m_frontLeft.rotate(0, 0.1);
+        m_frontLeft.rotate(90, 0.1);
+        m_frontLeft.rotate(180, 0.1);
+        m_frontLeft.rotate(270, 0.1);
+        m_frontLeft.rotate(360, 0.1);
+        m_frontLeft.rotate(450, 0.1);
+        m_frontLeft.rotate(540, 0.1);
+        m_frontLeft.rotate(630, 0.1);
+        m_frontLeft.rotate(720, 0.1);
     }
 
     private static class EQ {
