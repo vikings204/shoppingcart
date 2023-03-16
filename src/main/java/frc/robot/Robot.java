@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants204.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -132,9 +133,35 @@ public class Robot extends TimedRobot {
         System.out.println(robotContainer.strafeDrive.TestEncoders());
         if (robotContainer.CONTROLLER.getYButton()) {
             robotContainer.strafeDrive.setZero();
+            Drivetrain.FL_LUT.add(0.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            Drivetrain.RL_LUT.add(0.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            Drivetrain.FR_LUT.add(0.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            Drivetrain.RR_LUT.add(0.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+            System.out.println("You have added 0 to the LUT");
+        }
+        if (robotContainer.CONTROLLER.getAButton()) {
+            //robotContainer.strafeDrive.rottenest();
+            Drivetrain.FL_LUT.add(90.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            Drivetrain.RL_LUT.add(90.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            Drivetrain.FR_LUT.add(90.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            Drivetrain.RR_LUT.add(90.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+            System.out.println("You have added 90 to the LUT");
+        }
+        if (robotContainer.CONTROLLER.getBButton()) {
+            //robotContainer.strafeDrive.rottenest();
+            Drivetrain.FL_LUT.add(180.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            Drivetrain.RL_LUT.add(180.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            Drivetrain.FR_LUT.add(180.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            Drivetrain.RR_LUT.add(180.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+            System.out.println("You have added 180 to the LUT");
         }
         if (robotContainer.CONTROLLER.getXButton()) {
-            robotContainer.strafeDrive.rottenest();
+            //robotContainer.strafeDrive.rottenest();
+            Drivetrain.FL_LUT.add(270.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            Drivetrain.RL_LUT.add(270.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            Drivetrain.FR_LUT.add(270.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            Drivetrain.RR_LUT.add(270.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+            System.out.println("You have added 270 to the LUT");
         }
     }
 }

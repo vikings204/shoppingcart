@@ -46,12 +46,12 @@ public final class Constants204 {
     public static final class Drivetrain {
         public static final double FL_Input_1 = 0.0;
         public static final double FL_Input_2 = 90.0;
-        public static final double FL_Input_3 = -90.0;
-        public static final double FL_Input_4 = 180.0;
+        public static final double FL_Input_3 = 180.0;
+        public static final double FL_Input_4 = 270.0;
         public static final double FL_Output_1 = 0.0;
         public static final double FL_Output_2 = 90.0;
-        public static final double FL_Output_3 = -90.0;
-        public static final double FL_Output_4 = 180.0;
+        public static final double FL_Output_3 = 180.0;
+        public static final double FL_Output_4 = 270.0;
         public static final double RL_Input_1 = 0.0;
         public static final double RL_Input_2 = 90.0;
         public static final double RL_Input_3 = -90.0;
@@ -76,10 +76,10 @@ public final class Constants204 {
         public static final double RR_Output_2 = 90.0;
         public static final double RR_Output_3 = -90.0;
         public static final double RR_Output_4 = 180.0; 
-        public static final InterpLUT FL_LUT = new InterpLUT(FL_Input_1, FL_Input_2, FL_Input_3, FL_Input_4, FL_Output_1, FL_Output_2, FL_Output_3, FL_Output_4);
-        public static final InterpLUT RL_LUT = new InterpLUT(RL_Input_1, RL_Input_2, RL_Input_3, RL_Input_4, RL_Output_1, RL_Output_2, RL_Output_3, RL_Output_4);
-        public static final InterpLUT FR_LUT = new InterpLUT(FR_Input_1, FR_Input_2, FR_Input_3, FR_Input_4, FR_Output_1, FR_Output_2, FR_Output_3, FR_Output_4);
-        public static final InterpLUT RR_LUT = new InterpLUT(RR_Input_1, RR_Input_2, RR_Input_3, RR_Input_4, RR_Output_1, RR_Output_2, RR_Output_3, RR_Output_4);
+        public static final InterpLUT FL_LUT = new InterpLUT();
+        public static final InterpLUT RL_LUT = new InterpLUT();
+        public static final InterpLUT FR_LUT = new InterpLUT();
+        public static final InterpLUT RR_LUT = new InterpLUT();
 
         public static final double STRAFE_TURNING_PID_P = 5;
         public static final double STRAFE_TURNING_PID_I = 0.001;

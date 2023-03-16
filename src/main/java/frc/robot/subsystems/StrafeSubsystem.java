@@ -10,25 +10,25 @@ import frc.robot.util.Math204;
 import frc.robot.util.PolarCoordinate;
 
 public class StrafeSubsystem extends SubsystemBase {
-    private final StrafeModule m_frontLeft =
+    public final StrafeModule m_frontLeft =
             new StrafeModule(
                     Constants204.DrivetrainCAN.FL_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.FL_TURNING_MOTOR_ID
             );
 
-    private final StrafeModule m_rearLeft =
+    public final StrafeModule m_rearLeft =
             new StrafeModule(
                     Constants204.DrivetrainCAN.RL_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.RL_TURNING_MOTOR_ID
             );
 
-    private final StrafeModule m_frontRight =
+    public final StrafeModule m_frontRight =
             new StrafeModule(
                     Constants204.DrivetrainCAN.FR_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.FR_TURNING_MOTOR_ID
             );
 
-    private final StrafeModule m_rearRight =
+    public final StrafeModule m_rearRight =
             new StrafeModule(
                     Constants204.DrivetrainCAN.RR_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.RR_TURNING_MOTOR_ID
@@ -80,10 +80,10 @@ public class StrafeSubsystem extends SubsystemBase {
         pc.mag = EQ.strafeMag(pc.mag*-1);
         if (r != 0) {
             // FL-135 FR-45 RL-225 RR-315
-            m_frontLeft.rotate(135, r);
-            m_frontRight.rotate(45, r);
-            m_rearLeft.rotate(-135, r);
-            m_rearRight.rotate(-45, r);
+            m_frontLeft.rotate((int)Constants204.Drivetrain.FL_LUT.get(135.0), r);
+            m_frontRight.rotate((int)Constants204.Drivetrain.FR_LUT.get(45.0), r);
+            m_rearLeft.rotate((int)Constants204.Drivetrain.RL_LUT.get(-135.0), r);
+            m_rearRight.rotate((int)Constants204.Drivetrain.RR_LUT.get(-45.0), r);
         } else if (pc.mag != 0) {
             //System.out.println("SX:" + sx + " SY:" + sy);
             System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg+ " C-QUAD: "+ Math204.GetQuadrant(pc.deg));

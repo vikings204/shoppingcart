@@ -16,15 +16,7 @@ public class InterpLUT {
         mM = m;
     }
 
-    public InterpLUT(double x1, double x2, double x3, double x4, double y1, double y2, double y3, double y4) {
-        mX.add(x1);
-        mX.add(x2);
-        mX.add(x3);
-        mX.add(x4);
-        mX.add(y1);
-        mX.add(y2);
-        mX.add(y3);
-        mX.add(y4);
+    public InterpLUT() {
     }
 
     public void add(double input, double output) {
