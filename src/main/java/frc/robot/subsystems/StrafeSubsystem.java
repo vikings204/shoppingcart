@@ -67,10 +67,10 @@ public class StrafeSubsystem extends SubsystemBase {
             m_rearLeft.forward(f);
             m_rearRight.forward(f);
         } else {
-            m_frontLeft.resetPos();
-            m_frontRight.resetPos();
-            m_rearLeft.resetPos();
-            m_rearRight.resetPos();
+            m_frontLeft.resetPos(0.0);
+            m_frontRight.resetPos(0.0);
+            m_rearLeft.resetPos(0.0);
+            m_rearRight.resetPos(0.0);
         }
     }
 
@@ -94,10 +94,10 @@ public class StrafeSubsystem extends SubsystemBase {
             m_rearLeft.fullStrafe(pc);
             m_rearRight.fullStrafe(pc);
         } else {
-            m_frontLeft.resetPos();
-            m_frontRight.resetPos();
-            m_rearLeft.resetPos();
-            m_rearRight.resetPos();
+            m_frontLeft.resetPos(turningTotalDeg);
+            m_frontRight.resetPos(turningTotalDeg);
+            m_rearLeft.resetPos(turningTotalDeg);
+            m_rearRight.resetPos(turningTotalDeg);
             turningTotalDeg = 0.0;
             turningPDeg = 0.0;
             turningPQuad = 1;

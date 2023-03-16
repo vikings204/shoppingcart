@@ -95,7 +95,7 @@ public class StrafeModule {
             }
             //System.out.println("CONV: " + unitConv(180));
         } else {
-            resetPos();
+            resetPos(0.0);
         }
     }
 
@@ -120,7 +120,7 @@ public class StrafeModule {
             }
             //System.out.println("CONV: " + unitConv(-90));
         } else {
-            resetPos();
+            resetPos(0.0);
         }
     }
 
@@ -133,7 +133,7 @@ public class StrafeModule {
                 driveMotor.set(sp);
             }
         } else {
-            resetPos();
+            resetPos(0.0);
         }
     }
 
@@ -145,12 +145,13 @@ public class StrafeModule {
                 driveMotor.set(pc.mag);
             }
         } else {
-            resetPos();
+            resetPos(pc.deg);
         }
     }
 
-    public void resetPos() {
-        turningMotor.set(TalonSRXControlMode.Position, unitConv(0));
+    public void resetPos(double total) {
+        int revolutions = ((int)total)/360;
+        turningMotor.set(TalonSRXControlMode.Position, unitConv(360*revolutions));
         driveMotor.set(0);
     }
 
