@@ -30,7 +30,7 @@ public final class Constants204 {
 
     public static final class Arm {
         public static final double BOOM_REF_INCREMENT = 0.5;
-        public static final double DIPPER_REF_INCREMENT = 1;
+        public static final double DIPPER_REF_INCREMENT = .5;
         public static final double CLAW_CLOSED_EXPOS = 0;
         public static final double CLAW_OPEN_EXPOS = 1;
     }

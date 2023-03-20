@@ -35,13 +35,14 @@ public class StrafeSubsystem extends SubsystemBase {
             );
     private double turningPDeg = 0;
     private int turningPQuad = 0; // top left is 1 counterclockwise
-    private double turningTotalDeg = 0.0;
+    public double turningTotalDeg = 0.0;
 
     public StrafeSubsystem() {
     }
 
     @Override
     public void periodic() {
+        //System.out.println("Target Degrees "+turningTotalDeg); 
     }
 
     public void basicDrive(double forward, double strafe, double rot) {
@@ -80,30 +81,47 @@ public class StrafeSubsystem extends SubsystemBase {
         pc.mag = EQ.strafeMag(pc.mag*-1);
         if (r != 0) {
             // FL-135 FR-45 RL-225 RR-315
-            m_frontLeft.rotate((int)Constants204.Drivetrain.FL_LUT.get(135.0), r);
+           /* m_frontLeft.rotate((int)Constants204.Drivetrain.FL_LUT.get(135.0), r);
             m_frontRight.rotate((int)Constants204.Drivetrain.FR_LUT.get(45.0), r);
             m_rearLeft.rotate((int)Constants204.Drivetrain.RL_LUT.get(-135.0), r);
-            m_rearRight.rotate((int)Constants204.Drivetrain.RR_LUT.get(-45.0), r);
+            m_rearRight.rotate((int)Constants204.Drivetrain.RR_LUT.get(-45.0), r);*/
+                        m_frontLeft.rotate(135, r);
+                       m_frontRight.rotate(45, r);
+                       m_rearLeft.rotate(-135, r);
+                       m_rearRight.rotate(-45, r);
         } else if (pc.mag != 0) {
             //System.out.println("SX:" + sx + " SY:" + sy);
-            System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg+ " C-QUAD: "+ Math204.GetQuadrant(pc.deg));
+           // System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg+ " C-QUAD: "+ Math204.GetQuadrant(pc.deg));
             pc.deg = SwerveContinuous(pc.deg);
-            System.out.println("CDEG: " + pc.deg);
+           // System.out.println("CDEG: " + pc.deg);
            m_frontLeft.fullStrafe(pc);
             m_frontRight.fullStrafe(pc);
             m_rearLeft.fullStrafe(pc);
             m_rearRight.fullStrafe(pc);
         } else {
-            m_frontLeft.resetPos(turningTotalDeg);
+           /*turningTotalDeg= resetTotal(turningTotalDeg) ;
+           if( turningTotalDeg%360 == 0){ 
+           m_frontLeft.resetPos(turningTotalDeg);
             m_frontRight.resetPos(turningTotalDeg);
             m_rearLeft.resetPos(turningTotalDeg);
             m_rearRight.resetPos(turningTotalDeg);
+            System.out.println("IM HERERERERERE TTD:" + turningTotalDeg );
+           }*/
+           //m_frontLeft.setZero();
+            //m_frontRight.setZero();
+            //m_rearLeft.setZero();
+            //m_rearRight.setZero();*/
+               m_frontLeft.resetPos(0);
+            m_frontRight.resetPos(0);
+            m_rearLeft.resetPos(0);
+            m_rearRight.resetPos(0);
             turningTotalDeg = 0.0;
             turningPDeg = 0.0;
             turningPQuad = 1;
         }
+        //System.out.println("Target Degrees "+turningTotalDeg); 
     }
-
+ 
     public void setZero() {
         m_frontLeft.setZero();
         m_frontRight.setZero();
@@ -113,7 +131,7 @@ public class StrafeSubsystem extends SubsystemBase {
     }
 
     public void rottenest() {
-        m_frontLeft.rotate(0, 0.1);
+       /*m_frontLeft.rotate(0, 0.1);
         m_frontLeft.rotate(90, 0.1);
         m_frontLeft.rotate(180, 0.1);
         m_frontLeft.rotate(270, 0.1);
@@ -121,7 +139,7 @@ public class StrafeSubsystem extends SubsystemBase {
         m_frontLeft.rotate(450, 0.1);
         m_frontLeft.rotate(540, 0.1);
         m_frontLeft.rotate(630, 0.1);
-        m_frontLeft.rotate(720, 0.1);
+        m_frontLeft.rotate(720, 0.1);*/
     }
 
     public double SwerveContinuous(double cDeg) {
@@ -182,4 +200,15 @@ public class StrafeSubsystem extends SubsystemBase {
         "\nRR DEG: " + m_rearRight.getTurnEncDeg() +
         "\n==========================");
     }
-}
+    public double resetTotal(double total) {
+        int revolutions = ((int)total)/360;
+       // System.out.println("Target Degrees "+unitConv(360*revolutions));
+        //turningMotor.set(TalonSRXControlMode.Position, unitConv(360*revolutions));
+        if (revolutions != 0){
+        System.out.println("Revolutions: "+ revolutions + " Degree Target: " + (double)revolutions*360.0);
+       // driveMotor.set(0);
+        }
+        return 360.0* (double)revolutions;
+    }
+    }
+

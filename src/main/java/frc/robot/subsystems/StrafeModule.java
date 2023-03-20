@@ -124,7 +124,7 @@ public class StrafeModule {
         }
     }
 
-    public void rotate(int deg, double sp) {
+    public void rotate(double deg, double sp) {
         //System.out.println("SP: " + sp);
         if (sp != 0) {
             turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
@@ -133,7 +133,7 @@ public class StrafeModule {
                 driveMotor.set(sp);
             }
         } else {
-            resetPos(0.0);
+          // resetPos(0.0);
         }
     }
 
@@ -145,18 +145,23 @@ public class StrafeModule {
                 driveMotor.set(pc.mag);
             }
         } else {
-            resetPos(pc.deg);
+            //resetPos(pc.deg);
         }
     }
 
     public void resetPos(double total) {
-        int revolutions = ((int)total)/360;
-        turningMotor.set(TalonSRXControlMode.Position, unitConv(360*revolutions));
+        //int revolutions = ((int)total)/360;
+       // System.out.println("Target Degrees "+unitConv(360*revolutions));
+        turningMotor.set(TalonSRXControlMode.Position, unitConv(total));
+        
         driveMotor.set(0);
+        //turningMotor.setSelectedSensorPosition(0);
+       // return (double)360*revolutions;
     }
 
     public void setZero() {
         turningMotor.setSelectedSensorPosition(0);
+        System.out.println("Sensor Position: "+ turningMotor.getSelectedSensorPosition());
     }
 
     public double unitConv(double d) {

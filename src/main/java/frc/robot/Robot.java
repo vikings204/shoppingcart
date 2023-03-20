@@ -123,6 +123,7 @@ public class Robot extends TimedRobot {
     public void testInit() {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
+        //teleopCommand.cancel();
     }
 
     /**
@@ -130,22 +131,27 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-        System.out.println(robotContainer.strafeDrive.TestEncoders());
+        //System.out.println(robotContainer.strafeDrive.TestEncoders());
+       
         if (robotContainer.CONTROLLER.getYButton()) {
             robotContainer.strafeDrive.setZero();
-            Drivetrain.FL_LUT.add(0.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
-            Drivetrain.RL_LUT.add(0.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
-            Drivetrain.FR_LUT.add(0.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
-            Drivetrain.RR_LUT.add(0.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
-            System.out.println("You have added 0 to the LUT");
+            robotContainer.strafeDrive.turningTotalDeg = 0.0;
+
+            //Drivetrain.FL_LUT.add(0.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            //Drivetrain.RL_LUT.add(0.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            //Drivetrain.FR_LUT.add(0.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            //  Drivetrain.RR_LUT.add(0.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+           // System.out.println("You have added 0 to the LUT");
         }
         if (robotContainer.CONTROLLER.getAButton()) {
+            robotContainer.armControl.boomStart= robotContainer.armControl.boomEncoder.getPosition();
+            System.out.println("Boom Start is Now: "+ robotContainer.armControl.boomEncoder.getPosition());
             //robotContainer.strafeDrive.rottenest();
-            Drivetrain.FL_LUT.add(90.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
-            Drivetrain.RL_LUT.add(90.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
-            Drivetrain.FR_LUT.add(90.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
-            Drivetrain.RR_LUT.add(90.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
-            System.out.println("You have added 90 to the LUT");
+            //Drivetrain.FL_LUT.add(90.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            //Drivetrain.RL_LUT.add(90.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            //Drivetrain.FR_LUT.add(90.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            //Drivetrain.RR_LUT.add(90.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+            //System.out.println("You have added 90 to the LUT");
         }
         if (robotContainer.CONTROLLER.getBButton()) {
             //robotContainer.strafeDrive.rottenest();
@@ -163,5 +169,18 @@ public class Robot extends TimedRobot {
             Drivetrain.RR_LUT.add(270.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
             System.out.println("You have added 270 to the LUT");
         }
+        if (robotContainer.CONTROLLER.getLeftLowerBumper()) {
+            System.out.println("FL 0 " +Drivetrain.FL_LUT.get(0.0)+ "FR 0 " +Drivetrain.FR_LUT.get(0.0)+"RL 0 " +Drivetrain.RL_LUT.get(0.0)+"RR 0 " +Drivetrain.RR_LUT.get(0.0));
+            System.out.println("FL 90 " +Drivetrain.FL_LUT.get(90.0)+ "FR 90 " +Drivetrain.FR_LUT.get(90.0)+"RL 90 " +Drivetrain.RL_LUT.get(90.0)+"RR 90 " +Drivetrain.RR_LUT.get(90.0));
+            System.out.println("FL 180 " +Drivetrain.FL_LUT.get(180.0)+ "FR 0 " +Drivetrain.FR_LUT.get(0.0)+"RL 0 " +Drivetrain.RL_LUT.get(0.0)+"RR 0 " +Drivetrain.RR_LUT.get(0.0));
+            System.out.println("FL 270 " +Drivetrain.FL_LUT.get(270.0)+ "FR 0 " +Drivetrain.FR_LUT.get(0.0)+"RL 0 " +Drivetrain.RL_LUT.get(0.0)+"RR 0 " +Drivetrain.RR_LUT.get(0.0));
+        
+        } 
+        double armB=0.0, armD=0.0, armC=0.0;
+        if (robotContainer.CONTROLLER.getRightUpperBumper()) { armB = 1; } else if (robotContainer.CONTROLLER.getRightLowerBumper()) { armB = -1; }
+        if (robotContainer.CONTROLLER.getLeftUpperBumper()) { armD = 1; } else if (robotContainer.CONTROLLER.getLeftLowerBumper()) { armD = -1; }
+        if (robotContainer.CONTROLLER.getAButton()) { armC = 1; } else if (robotContainer.CONTROLLER.getXButton()) { armC = -1; }
+        robotContainer.armControl.setArmTest(armB, armD, armC);
+        
     }
 }

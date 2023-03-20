@@ -30,7 +30,7 @@ public class RobotContainer {
     //private final DriveSubsystem m_robotDrive = new DriveSubsystem();
     //private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
-    private final ArmSubsystem armControl = new ArmSubsystem();
+    public final ArmSubsystem armControl = new ArmSubsystem();
     private final TagVisionSubsystem visionTestSubsystem = new TagVisionSubsystem();
 
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);

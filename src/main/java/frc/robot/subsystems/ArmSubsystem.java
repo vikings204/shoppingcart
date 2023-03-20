@@ -11,13 +11,15 @@ import frc.robot.Constants204.ArmCAN;
 
 public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax boomMotor = new CANSparkMax(ArmCAN.BOOM_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final RelativeEncoder boomEncoder = boomMotor.getEncoder();
+    public final RelativeEncoder boomEncoder = boomMotor.getEncoder();
     private final SparkMaxPIDController boomPIDCon = boomMotor.getPIDController();
     private final CANSparkMax dipperMotor = new CANSparkMax(ArmCAN.DIPPER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
     private final RelativeEncoder dipperEncoder = dipperMotor.getEncoder();
     private final SparkMaxPIDController dipperPIDCon = dipperMotor.getPIDController();
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
     private boolean clawState = false;
+    public double boomStart = 0.0;
+    public double boomMax = 8.4;
 
     private final double kP = 0.5;
     private final double kI = 1e-4;
@@ -53,6 +55,41 @@ public class ArmSubsystem extends SubsystemBase {
     public void setArm(double b, double d, double c) {
         //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
+        System.out.println("Boom Enconder Value: "+nb);
+        double nd = dipperEncoder.getPosition();
+        if (b == 0) {
+        } else if (b > 0 && nb<(boomStart+boomMax)) {
+            nb+=Arm.BOOM_REF_INCREMENT;
+        } else if (b < 0&& nb>boomStart) {
+            nb-=Arm.BOOM_REF_INCREMENT;
+        }
+        if (d == 0) {
+        } else if (d > 0) {
+            nd+=Arm.DIPPER_REF_INCREMENT;
+        } else if (d < 0) {
+            nd-=Arm.DIPPER_REF_INCREMENT;
+        }
+
+        boomPIDCon.setReference(nb, CANSparkMax.ControlType.kPosition);
+        dipperPIDCon.setReference(nd, CANSparkMax.ControlType.kPosition);
+        if (c == 0) {
+            if (clawState) {
+                clawServo.set(Arm.CLAW_CLOSED_EXPOS);
+            } else {
+                clawServo.set(Arm.CLAW_OPEN_EXPOS);
+            }
+        } else if (c < 0) {
+            clawState = true;
+            clawServo.set(Arm.CLAW_CLOSED_EXPOS);
+        } else if (c > 0) {
+            clawState = false;
+            clawServo.set(Arm.CLAW_OPEN_EXPOS);
+        }
+    }
+    public void setArmTest(double b, double d, double c) {
+        //System.out.println("B:"+b + "D:"+d + "C:"+c);
+        double nb = boomEncoder.getPosition();
+       // System.out.println("Boom Enconder Value: "+nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
         } else if (b > 0) {
