@@ -32,7 +32,7 @@ public class RobotContainer {
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     public final ArmSubsystem armControl = new ArmSubsystem();
     private final TagVisionSubsystem visionTestSubsystem = new TagVisionSubsystem();
-
+    private int stateMachine = 0;
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
     Joystick m_joystick = new Joystick(0);
 
@@ -97,7 +97,21 @@ public class RobotContainer {
             armControl.setArm(armB, armD, armC);
         }, strafeDrive);
     }
-
+    public Command getAutonomousCommand() {
+    
+        return new RunCommand(() -> {
+            if (stateMachine == 0){
+                if(armControl.boomEncoder.getPosition() <armControl.boomStart+armControl.boomMax){
+                armControl.setArm(-1,0,0);
+                }
+                else
+                {
+                    stateMachine++;
+                }
+            }
+            strafeDrive.moreDrive(0,0,0);
+        }, strafeDrive);
+      }
     public void canTest() {
         //System.out.println(gyrotest.readNext());
         synchronized (this) {
