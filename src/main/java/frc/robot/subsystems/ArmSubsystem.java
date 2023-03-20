@@ -18,7 +18,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final SparkMaxPIDController dipperPIDCon = dipperMotor.getPIDController();
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
     private boolean clawState = false;
-    public double boomStart =0.0;
+    public double boomStart = 0.0;
     public double boomMax = 8.4;
 
     private final double kP = 0.5;
