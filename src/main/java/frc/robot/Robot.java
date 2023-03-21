@@ -145,7 +145,8 @@ public class Robot extends TimedRobot {
         }
         if (robotContainer.CONTROLLER.getAButton()) {
             robotContainer.armControl.boomStart= robotContainer.armControl.boomEncoder.getPosition();
-            System.out.println("Boom Start is Now: "+ robotContainer.armControl.boomEncoder.getPosition());
+            robotContainer.armControl.dipperMax= robotContainer.armControl.dipperEncoder.getPosition();
+            System.out.println("Boom Start is Now: "+ robotContainer.armControl.boomStart+"\n Dipper Max is Now: "+robotContainer.armControl.dipperMax);
             //robotContainer.strafeDrive.rottenest();
             //Drivetrain.FL_LUT.add(90.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
             //Drivetrain.RL_LUT.add(90.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
@@ -177,8 +178,8 @@ public class Robot extends TimedRobot {
         
         } 
         double armB=0.0, armD=0.0, armC=0.0;
-        if (robotContainer.CONTROLLER.getRightUpperBumper()) { armB = 1; } else if (robotContainer.CONTROLLER.getRightLowerBumper()) { armB = -1; }
-        if (robotContainer.CONTROLLER.getLeftUpperBumper()) { armD = 1; } else if (robotContainer.CONTROLLER.getLeftLowerBumper()) { armD = -1; }
+        if (robotContainer.CONTROLLER.getRightUpperBumper()) { armB = -1; } else if (robotContainer.CONTROLLER.getRightLowerBumper()) { armB = 1; }
+        if (robotContainer.CONTROLLER.getLeftUpperBumper()) { armD = -1; } else if (robotContainer.CONTROLLER.getLeftLowerBumper()) { armD = 1; }
         if (robotContainer.CONTROLLER.getAButton()) { armC = 1; } else if (robotContainer.CONTROLLER.getXButton()) { armC = -1; }
         robotContainer.armControl.setArmTest(armB, armD, armC);
         

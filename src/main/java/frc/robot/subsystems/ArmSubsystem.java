@@ -14,12 +14,13 @@ public class ArmSubsystem extends SubsystemBase {
     public final RelativeEncoder boomEncoder = boomMotor.getEncoder();
     private final SparkMaxPIDController boomPIDCon = boomMotor.getPIDController();
     private final CANSparkMax dipperMotor = new CANSparkMax(ArmCAN.DIPPER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private final RelativeEncoder dipperEncoder = dipperMotor.getEncoder();
+    public final RelativeEncoder dipperEncoder = dipperMotor.getEncoder();
     private final SparkMaxPIDController dipperPIDCon = dipperMotor.getPIDController();
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
     private boolean clawState = false;
     public double boomStart = 0.0;
     public double boomMax = 8.4;
+    public double dipperMax = 0.0;
 
     private final double kP = 0.5;
     private final double kI = 1e-4;
@@ -64,7 +65,7 @@ public class ArmSubsystem extends SubsystemBase {
             nb-=Arm.BOOM_REF_INCREMENT;
         }
         if (d == 0) {
-        } else if (d > 0) {
+        } else if (d > 0 && nd< dipperMax) {
             nd+=Arm.DIPPER_REF_INCREMENT;
         } else if (d < 0) {
             nd-=Arm.DIPPER_REF_INCREMENT;
