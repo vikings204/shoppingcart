@@ -84,6 +84,7 @@ public final class Constants204 {
         public static final double STRAFE_TURNING_PID_P = 5;
         public static final double STRAFE_TURNING_PID_I = 0.001;
         public static final double STRAFE_TURNING_PID_D = 0.000;
+        public static final double STRAFE_DRIVE_PID_P = 1.0;
     }
 
     public static final class Vision {

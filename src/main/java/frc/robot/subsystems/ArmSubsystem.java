@@ -19,7 +19,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
     private boolean clawState = false;
     public double boomStart = 0.0;
-    public double boomMax = 8.4;
+    public double boomMax = 7.0;
     public double dipperMax = 0.0;
 
     private final double kP = 0.5;
@@ -37,7 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
         boomPIDCon.setIZone(kIz);
         boomPIDCon.setFF(kFF);
         boomPIDCon.setOutputRange(kMinOutput, kMaxOutput);
-        dipperMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        boomMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         dipperPIDCon.setP(kP);
         dipperPIDCon.setI(kI);

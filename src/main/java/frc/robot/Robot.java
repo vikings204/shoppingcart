@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
             teleopCommand.cancel();
         }
 
-        //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        autonomousCommand = robotContainer.getAutonomousCommand();
 
         /*
          * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
-            //m_autonomousCommand.schedule();
+            autonomousCommand.schedule();
         }
     }
 
@@ -137,6 +137,7 @@ public class Robot extends TimedRobot {
             robotContainer.strafeDrive.setZero();
             robotContainer.strafeDrive.turningTotalDeg = 0.0;
             System.out.println("You have 0'd the turning encoders");
+            robotContainer.autoStateMachine = 0;
 
             //Drivetrain.FL_LUT.add(0.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
             //Drivetrain.RL_LUT.add(0.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
@@ -157,27 +158,21 @@ public class Robot extends TimedRobot {
         }
         if (robotContainer.CONTROLLER.getBButton()) {
             //robotContainer.strafeDrive.rottenest();
-            Drivetrain.FL_LUT.add(180.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
-            Drivetrain.RL_LUT.add(180.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
-            Drivetrain.FR_LUT.add(180.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
-            Drivetrain.RR_LUT.add(180.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
-            System.out.println("You have added 180 to the LUT");
+           // Drivetrain.FL_LUT.add(180.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            //Drivetrain.RL_LUT.add(180.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            //Drivetrain.FR_LUT.add(180.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            //Drivetrain.RR_LUT.add(180.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+            //System.out.println("You have added 180 to the LUT");
         }
         if (robotContainer.CONTROLLER.getXButton()) {
             //robotContainer.strafeDrive.rottenest();
-            Drivetrain.FL_LUT.add(270.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
-            Drivetrain.RL_LUT.add(270.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
-            Drivetrain.FR_LUT.add(270.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
-            Drivetrain.RR_LUT.add(270.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
-            System.out.println("You have added 270 to the LUT");
+            //Drivetrain.FL_LUT.add(270.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
+            //Drivetrain.RL_LUT.add(270.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
+            //Drivetrain.FR_LUT.add(270.0, robotContainer.strafeDrive.m_frontRight.getTurnEncDeg());
+            //Drivetrain.RR_LUT.add(270.0, robotContainer.strafeDrive.m_rearRight.getTurnEncDeg());
+            //System.out.println("You have added 270 to the LUT");
         }
-        if (robotContainer.CONTROLLER.getLeftLowerBumper()) {
-            System.out.println("FL 0 " +Drivetrain.FL_LUT.get(0.0)+ "FR 0 " +Drivetrain.FR_LUT.get(0.0)+"RL 0 " +Drivetrain.RL_LUT.get(0.0)+"RR 0 " +Drivetrain.RR_LUT.get(0.0));
-            System.out.println("FL 90 " +Drivetrain.FL_LUT.get(90.0)+ "FR 90 " +Drivetrain.FR_LUT.get(90.0)+"RL 90 " +Drivetrain.RL_LUT.get(90.0)+"RR 90 " +Drivetrain.RR_LUT.get(90.0));
-            System.out.println("FL 180 " +Drivetrain.FL_LUT.get(180.0)+ "FR 0 " +Drivetrain.FR_LUT.get(0.0)+"RL 0 " +Drivetrain.RL_LUT.get(0.0)+"RR 0 " +Drivetrain.RR_LUT.get(0.0));
-            System.out.println("FL 270 " +Drivetrain.FL_LUT.get(270.0)+ "FR 0 " +Drivetrain.FR_LUT.get(0.0)+"RL 0 " +Drivetrain.RL_LUT.get(0.0)+"RR 0 " +Drivetrain.RR_LUT.get(0.0));
-        
-        } 
+
         double armB=0.0, armD=0.0, armC=0.0;
         if (robotContainer.CONTROLLER.getRightUpperBumper()) { armB = -1; } else if (robotContainer.CONTROLLER.getRightLowerBumper()) { armB = 1; }
         if (robotContainer.CONTROLLER.getLeftUpperBumper()) { armD = -1; } else if (robotContainer.CONTROLLER.getLeftLowerBumper()) { armD = 1; }

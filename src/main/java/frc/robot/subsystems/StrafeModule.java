@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -23,11 +24,11 @@ import frc.robot.util.PolarCoordinate;
 
 public class StrafeModule {
     private final CANSparkMax driveMotor;
-    private final TalonSRX turningMotor;
+    public final TalonSRX turningMotor;
     private final RelativeEncoder driveEncoder;
 
-    private final PIDController drivePIDCon =
-            new PIDController(0.1, 1e-4, 1);
+    // private final PIDController drivePIDCon = new PIDController(0.1, 1e-4, 1);
+    //private SparkMaxPIDController drivePIDCon;
 
     // Using a TrapezoidProfile PIDController to allow for smooth turning
     private final ProfiledPIDController turningPIDCon =

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -31,8 +32,8 @@ public class RobotContainer {
     //private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     public final ArmSubsystem armControl = new ArmSubsystem();
-    private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
-    private int autoStateMachine = 0;
+    //private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
+    public int autoStateMachine = 0;
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
     Joystick JOYSTICK = new Joystick(0);
     private final CAN gyro = new CAN(1, 8, 4);
@@ -100,12 +101,27 @@ public class RobotContainer {
         return new RunCommand(() -> {
             if (autoStateMachine == 0) {
                 if (armControl.boomEncoder.getPosition() < armControl.boomStart + armControl.boomMax) {
-                    armControl.setArm(-1, 0, 0);
+                    armControl.setArm(1, 0, 0);
                 } else {
                     autoStateMachine++;
                 }
             }
-            strafeDrive.moreDrive(0, 0, 0);
+            if (autoStateMachine == 1) {
+
+                    armControl.setArm(0, 0, 1);
+
+                    autoStateMachine++;
+                }
+            if (autoStateMachine ==2){
+                strafeDrive.moreDrive (0,.2,0);
+                //strafeDrive.m_frontLeft.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(135.0));
+                //strafeDrive.m_frontRight.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(45.0));
+                //strafeDrive.m_rearLeft.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(-135.0));
+                //strafeDrive.m_rearRight.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(-45.0));
+            }
+            //if (autoStateMachine ==2) {
+            //    strafeDrive.moreDrive(0, 0, 0);
+            //}
         }, strafeDrive);
     }
 
