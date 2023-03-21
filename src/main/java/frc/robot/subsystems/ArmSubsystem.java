@@ -104,6 +104,7 @@ public class ArmSubsystem extends SubsystemBase {
         } else if (d < 0) {
             nd-=Arm.DIPPER_REF_INCREMENT;
         }
+    //Maybe add some code here to not move the arm unless something is pushed
 
         boomPIDCon.setReference(nb, CANSparkMax.ControlType.kPosition);
         dipperPIDCon.setReference(nd, CANSparkMax.ControlType.kPosition);

@@ -136,6 +136,7 @@ public class Robot extends TimedRobot {
         if (robotContainer.CONTROLLER.getYButton()) {
             robotContainer.strafeDrive.setZero();
             robotContainer.strafeDrive.turningTotalDeg = 0.0;
+            System.out.println("You have 0'd the turning encoders");
 
             //Drivetrain.FL_LUT.add(0.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
             //Drivetrain.RL_LUT.add(0.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());
