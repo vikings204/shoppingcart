@@ -31,14 +31,12 @@ public class RobotContainer {
     //private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     public final ArmSubsystem armControl = new ArmSubsystem();
-    private final TagVisionSubsystem visionTestSubsystem = new TagVisionSubsystem();
-    private int stateMachine = 0;
+    private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
+    private int autoStateMachine = 0;
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
-    Joystick m_joystick = new Joystick(0);
-
-    //private final CustomCANDevice gyrotest = new CustomCANDevice(0, 0x1, 0x2);
-    private final CAN gyrotest = new CAN(1, 8, 4);
-    private final CANData gyrodata = new CANData();
+    Joystick JOYSTICK = new Joystick(0);
+    private final CAN gyro = new CAN(1, 8, 4);
+    private final CANData gyroData = new CANData();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -97,30 +95,29 @@ public class RobotContainer {
             armControl.setArm(armB, armD, armC);
         }, strafeDrive);
     }
+
     public Command getAutonomousCommand() {
-    
         return new RunCommand(() -> {
-            if (stateMachine == 0){
-                if(armControl.boomEncoder.getPosition() <armControl.boomStart+armControl.boomMax){
-                armControl.setArm(-1,0,0);
-                }
-                else
-                {
-                    stateMachine++;
+            if (autoStateMachine == 0) {
+                if (armControl.boomEncoder.getPosition() < armControl.boomStart + armControl.boomMax) {
+                    armControl.setArm(-1, 0, 0);
+                } else {
+                    autoStateMachine++;
                 }
             }
-            strafeDrive.moreDrive(0,0,0);
+            strafeDrive.moreDrive(0, 0, 0);
         }, strafeDrive);
-      }
+    }
+
     public void canTest() {
         //System.out.println(gyrotest.readNext());
         synchronized (this) {
-            gyrotest.readPacketLatest(0, gyrodata);
+            gyro.readPacketLatest(0, gyroData);
             //System.out.println("DATAZERO: " + gyrodata.data[0]);
-            double x = (double) ((gyrodata.data[0] & 0xFF) | (gyrodata.data[1]) << 8) / (1 << 14);
-            double y = (double) ((gyrodata.data[2] & 0xFF) | (gyrodata.data[3]) << 8) / (1 << 14);
-            double z = (double) ((gyrodata.data[4] & 0xFF) | (gyrodata.data[5]) << 8) / (1 << 14);
-            double w = (double) ((gyrodata.data[6] & 0xFF) | (gyrodata.data[7]) << 8) / (1 << 14);
+            double x = (double) ((gyroData.data[0] & 0xFF) | (gyroData.data[1]) << 8) / (1 << 14);
+            double y = (double) ((gyroData.data[2] & 0xFF) | (gyroData.data[3]) << 8) / (1 << 14);
+            double z = (double) ((gyroData.data[4] & 0xFF) | (gyroData.data[5]) << 8) / (1 << 14);
+            double w = (double) ((gyroData.data[6] & 0xFF) | (gyroData.data[7]) << 8) / (1 << 14);
             /*double y = (double) (gyrodata.data[2] | gyrodata.data[3] << 8) / (1 << 14);
             double z = (double) (gyrodata.data[4] | gyrodata.data[5] << 8) / (1 << 14);
             double w = (double) (gyrodata.data[6] | gyrodata.data[7] << 8) / (1 << 14);*/

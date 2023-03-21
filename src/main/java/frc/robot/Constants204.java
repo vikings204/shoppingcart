@@ -85,4 +85,11 @@ public final class Constants204 {
         public static final double STRAFE_TURNING_PID_I = 0.001;
         public static final double STRAFE_TURNING_PID_D = 0.000;
     }
+
+    public static final class Vision {
+        public static final String PHOTONVISION_NAME = "OV9281";
+        public static final double CAMERA_HEIGHT_METERS = 0;
+        public static final double TARGET_HEIGHT_METERS = 0;
+        public static final double CAMERA_PITCH_RADIANS = 0;
+    }
 }

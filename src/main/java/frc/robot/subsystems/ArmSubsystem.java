@@ -52,23 +52,23 @@ public class ArmSubsystem extends SubsystemBase {
      * boom increment, dipper increment, claw binary<br>
      * increment: 0=none, >0=increase, <0=decrease<br>
      * binary: 0=none, >0=opened, <0=closed<br>
-    **/
+     **/
     public void setArm(double b, double d, double c) {
         //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
-        System.out.println("Boom Enconder Value: "+nb);
+        System.out.println("Boom Enconder Value: " + nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
-        } else if (b > 0 && nb<(boomStart+boomMax)) {
-            nb+=Arm.BOOM_REF_INCREMENT;
-        } else if (b < 0&& nb>boomStart) {
-            nb-=Arm.BOOM_REF_INCREMENT;
+        } else if (b > 0 && nb < (boomStart + boomMax)) {
+            nb += Arm.BOOM_REF_INCREMENT;
+        } else if (b < 0 && nb > boomStart) {
+            nb -= Arm.BOOM_REF_INCREMENT;
         }
         if (d == 0) {
         } else if (d > 0 && nd< dipperMax) {
-            nd+=Arm.DIPPER_REF_INCREMENT;
+            nd += Arm.DIPPER_REF_INCREMENT;
         } else if (d < 0) {
-            nd-=Arm.DIPPER_REF_INCREMENT;
+            nd -= Arm.DIPPER_REF_INCREMENT;
         }
 
         boomPIDCon.setReference(nb, CANSparkMax.ControlType.kPosition);
@@ -87,22 +87,23 @@ public class ArmSubsystem extends SubsystemBase {
             clawServo.set(Arm.CLAW_OPEN_EXPOS);
         }
     }
+
     public void setArmTest(double b, double d, double c) {
         //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
-       // System.out.println("Boom Enconder Value: "+nb);
+        // System.out.println("Boom Enconder Value: "+nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
         } else if (b > 0) {
-            nb+=Arm.BOOM_REF_INCREMENT;
+            nb += Arm.BOOM_REF_INCREMENT;
         } else if (b < 0) {
-            nb-=Arm.BOOM_REF_INCREMENT;
+            nb -= Arm.BOOM_REF_INCREMENT;
         }
         if (d == 0) {
         } else if (d > 0) {
-            nd+=Arm.DIPPER_REF_INCREMENT;
+            nd += Arm.DIPPER_REF_INCREMENT;
         } else if (d < 0) {
-            nd-=Arm.DIPPER_REF_INCREMENT;
+            nd -= Arm.DIPPER_REF_INCREMENT;
         }
     //Maybe add some code here to not move the arm unless something is pushed
 
