@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
@@ -12,7 +14,7 @@ import static frc.robot.Constants204.Vision.*;
 import java.util.Objects;
 
 public class TagVisionSubsystem extends SubsystemBase {
-    private PhotonCamera pv;
+    private static PhotonCamera pv;
     private int lcID, mcID, rcID, dsID; // leftcubeID, middlecubeID, rightcubeID, doublesubstationID
     private String currentAlliance = "red";
 
@@ -20,7 +22,7 @@ public class TagVisionSubsystem extends SubsystemBase {
         pv = new PhotonCamera(PHOTONVISION_NAME);
 
         pv.setDriverMode(false);
-        pv.setPipelineIndex(0);
+        pv.setPipelineIndex(1);
         switchAlliance(); // sets to blue
     }
 
@@ -48,7 +50,7 @@ public class TagVisionSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // runs every scheduler loop (every ~20ms)
-        System.out.println("PV-AT_ID: " + getLatestID());
+        //System.out.println("PV-AT_ID: " + getBestTranslation());
     }
 
     public String getLatestID() {
@@ -75,6 +77,33 @@ public class TagVisionSubsystem extends SubsystemBase {
             return "id=" + r.getBestTarget().getFiducialId() + " distance=" + distanceMeters + " x=" + trans.getX() + " y=" + trans.getY() + "" + trans.getAngle();
         } else {
             return "null";
+        }
+    }
+
+    public Translation2d getTranslation() {
+        PhotonPipelineResult r = pv.getLatestResult();
+        if (r.hasTargets()) {
+            double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
+                    CAMERA_HEIGHT_METERS,
+                    TARGET_HEIGHT_METERS,
+                    Units.degreesToRadians(CAMERA_PITCH_DEGREES),
+                    Units.degreesToRadians(r.getBestTarget().getPitch()));
+
+            Translation2d trans = PhotonUtils.estimateCameraToTargetTranslation(
+                    distanceMeters, Rotation2d.fromDegrees(-r.getBestTarget().getYaw()));
+
+            return trans;
+        } else {
+            return null;
+        }
+    }
+
+    public Transform3d getTransform() {
+        PhotonPipelineResult r = pv.getLatestResult();
+        if (r.hasTargets()) {
+            return r.getBestTarget().getBestCameraToTarget();
+        } else {
+            return null;
         }
     }
 }

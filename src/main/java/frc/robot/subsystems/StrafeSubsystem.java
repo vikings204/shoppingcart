@@ -121,6 +121,32 @@ public class StrafeSubsystem extends SubsystemBase {
         }
         //System.out.println("Target Degrees "+turningTotalDeg); 
     }
+
+    public void polarDrive(PolarCoordinate pc, double rot) {
+        double r = EQ.rotate(rot);
+        pc.mag = EQ.strafeMag(pc.mag);
+        if (r != 0) {
+            // FL-135 FR-45 RL-225 RR-315
+            m_frontLeft.rotate(135, r);
+            m_frontRight.rotate(45, r);
+            m_rearLeft.rotate(-135, r);
+            m_rearRight.rotate(-45, r);
+        } else if (pc.mag != 0) {
+            pc.deg = SwerveContinuous(pc.deg);
+            m_frontLeft.fullStrafe(pc);
+            m_frontRight.fullStrafe(pc);
+            m_rearLeft.fullStrafe(pc);
+            m_rearRight.fullStrafe(pc);
+        } else {
+            m_frontLeft.resetPos(0);
+            m_frontRight.resetPos(0);
+            m_rearLeft.resetPos(0);
+            m_rearRight.resetPos(0);
+            turningTotalDeg = 0.0;
+            turningPDeg = 0.0;
+            turningPQuad = 1;
+        }
+    }
  
     public void setZero() {
         m_frontLeft.setZero();

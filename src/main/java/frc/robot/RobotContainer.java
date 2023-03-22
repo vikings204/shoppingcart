@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,6 +20,8 @@ import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.hal.CANData;
 import frc.robot.subsystems.TagVisionSubsystem;
 import frc.robot.util.Gamepad;
+import frc.robot.util.Math204;
+import frc.robot.util.PolarCoordinate;
 
 import java.util.concurrent.TimeUnit;
 
@@ -112,6 +116,17 @@ public class RobotContainer {
                 autoStateMachine++;
             } else if (autoStateMachine == 2) {
                 //System.out.println("driving in autonomous");
+
+                Transform3d tf = tagVision.getTransform();
+                if (tf != null) {
+                    System.out.println("x=" + tf.getX() + " y=" + tf.getY() + " z=" + tf.getZ() + " rot=" + tf.getRotation());
+                    PolarCoordinate pc = Math204.CartesianToPolar(tf.getX(), tf.getY());
+                    pc.mag = pc.mag>0.25 ? 0.25 : pc.mag;
+                    pc.mag = pc.mag<0.1 ? 0 : pc.mag;
+                    System.out.println("deg=" + pc.deg + " mag=" + pc.mag);
+                    pc.mag*=-1;
+                    strafeDrive.polarDrive(pc, 0);
+                }
                 //strafeDrive.moreDrive(0, .21, 0);
 
                 //strafeDrive.m_frontLeft.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(135.0));
