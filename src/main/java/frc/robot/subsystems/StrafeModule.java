@@ -28,7 +28,7 @@ public class StrafeModule {
     private final RelativeEncoder driveEncoder;
 
     // private final PIDController drivePIDCon = new PIDController(0.1, 1e-4, 1);
-    //private SparkMaxPIDController drivePIDCon;
+    private SparkMaxPIDController drivePIDCon;
 
     // Using a TrapezoidProfile PIDController to allow for smooth turning
     private final ProfiledPIDController turningPIDCon =
@@ -44,6 +44,14 @@ public class StrafeModule {
                         int turningMotorChannel) {
         driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
         turningMotor = new TalonSRX(turningMotorChannel);
+
+        drivePIDCon = driveMotor.getPIDController();
+        drivePIDCon.setP(STRAFE_DRIVE_PID_P);
+        drivePIDCon.setI(1e-4);
+        drivePIDCon.setD(1);
+        drivePIDCon.setIZone(0);
+        drivePIDCon.setFF(0);
+        drivePIDCon.setOutputRange(-1, 1);
 
         turningMotor.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.Analog, 0, 0); //Set the feedback device that is hooked up to the talon
 

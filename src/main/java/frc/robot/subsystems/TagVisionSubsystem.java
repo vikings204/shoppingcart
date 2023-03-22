@@ -1,7 +1,11 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import static frc.robot.Constants204.Vision.*;
 
@@ -53,6 +57,24 @@ public class TagVisionSubsystem extends SubsystemBase {
             return "PV-AT_ID: " + r.getBestTarget().getFiducialId();
         } else {
             return "PV-AT-NULL";
+        }
+    }
+
+    public String getBestTranslation() {
+        PhotonPipelineResult r = pv.getLatestResult();
+        if (r.hasTargets()) {
+            double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
+                            CAMERA_HEIGHT_METERS,
+                            TARGET_HEIGHT_METERS,
+                            Units.degreesToRadians(CAMERA_PITCH_DEGREES),
+                            Units.degreesToRadians(r.getBestTarget().getPitch()));
+
+            Translation2d trans = PhotonUtils.estimateCameraToTargetTranslation(
+                    distanceMeters, Rotation2d.fromDegrees(-r.getBestTarget().getYaw()));
+
+            return "id=" + r.getBestTarget().getFiducialId() + " distance=" + distanceMeters + " x=" + trans.getX() + " y=" + trans.getY() + "" + trans.getAngle();
+        } else {
+            return "null";
         }
     }
 }

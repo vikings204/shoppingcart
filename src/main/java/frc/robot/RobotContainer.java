@@ -32,8 +32,8 @@ public class RobotContainer {
     //private final SingleStrafeSubsystem m_singleStrafeDrive = new SingleStrafeSubsystem();
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     public final ArmSubsystem armControl = new ArmSubsystem();
-    //private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
-    public int autoStateMachine = 0;
+    private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
+    public int autoStateMachine = 2;
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
     Joystick JOYSTICK = new Joystick(0);
     private final CAN gyro = new CAN(1, 8, 4);
@@ -105,15 +105,15 @@ public class RobotContainer {
                 } else {
                     autoStateMachine++;
                 }
-            }
-            if (autoStateMachine == 1) {
+            } else if (autoStateMachine == 1) {
 
-                    armControl.setArm(0, 0, 1);
+                armControl.setArm(0, 0, 1);
 
-                    autoStateMachine++;
-                }
-            if (autoStateMachine ==2){
-                strafeDrive.moreDrive (0,.2,0);
+                autoStateMachine++;
+            } else if (autoStateMachine == 2) {
+                //System.out.println("driving in autonomous");
+                //strafeDrive.moreDrive(0, .21, 0);
+
                 //strafeDrive.m_frontLeft.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(135.0));
                 //strafeDrive.m_frontRight.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(45.0));
                 //strafeDrive.m_rearLeft.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(-135.0));

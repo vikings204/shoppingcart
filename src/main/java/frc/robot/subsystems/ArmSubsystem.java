@@ -36,16 +36,18 @@ public class ArmSubsystem extends SubsystemBase {
         boomPIDCon.setD(kD);
         boomPIDCon.setIZone(kIz);
         boomPIDCon.setFF(kFF);
-        boomPIDCon.setOutputRange(kMinOutput, kMaxOutput);
+        //boomPIDCon.setOutputRange(kMinOutput, kMaxOutput);
         boomMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        boomEncoder.setPosition(0);
 
         dipperPIDCon.setP(kP);
         dipperPIDCon.setI(kI);
         dipperPIDCon.setD(kD);
         dipperPIDCon.setIZone(kIz);
         dipperPIDCon.setFF(kFF);
-        dipperPIDCon.setOutputRange(kMinOutput, kMaxOutput);
+        //dipperPIDCon.setOutputRange(kMinOutput, kMaxOutput);
         dipperMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        dipperEncoder.setPosition(0);
     }
 
     /**
@@ -91,7 +93,6 @@ public class ArmSubsystem extends SubsystemBase {
     public void setArmTest(double b, double d, double c) {
         //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
-        // System.out.println("Boom Enconder Value: "+nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
         } else if (b > 0) {
@@ -105,6 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
         } else if (d < 0) {
             nd -= Arm.DIPPER_REF_INCREMENT;
         }
+        System.out.println("TESTBoom Enconder Value: "+nb);
     //Maybe add some code here to not move the arm unless something is pushed
 
         boomPIDCon.setReference(nb, CANSparkMax.ControlType.kPosition);
