@@ -104,6 +104,9 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return new RunCommand(() -> {
             if (autoStateMachine == 0) {
+                armControl.boomStart= armControl.boomEncoder.getPosition();
+                armControl.dipperMax= armControl.dipperEncoder.getPosition();
+                System.out.println("Boom Start is Now: "+ armControl.boomStart+"\n Dipper Max is Now: "+armControl.dipperMax);
                 if (armControl.boomEncoder.getPosition() < armControl.boomStart + armControl.boomMax) {
                     armControl.setArm(1, 0, 0);
                 } else {
@@ -114,7 +117,14 @@ public class RobotContainer {
                 armControl.setArm(0, 0, 1);
 
                 autoStateMachine++;
-            } else if (autoStateMachine == 2) {
+            }
+            else if (autoStateMachine == 2){
+                strafeDrive.setZero();
+                strafeDrive.turningTotalDeg = 0.0;
+                System.out.println("You have 0'd the turning encoders");
+                autoStateMachine++;
+            } 
+            else if (autoStateMachine == 3) {
                 //System.out.println("driving in autonomous");
 
                 Transform3d tf = tagVision.getTransform();
