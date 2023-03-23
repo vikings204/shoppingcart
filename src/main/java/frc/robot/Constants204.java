@@ -30,18 +30,19 @@ public final class Constants204 {
 
     public static final class Arm {
         public static final double BOOM_REF_INCREMENT = 0.5;
-        public static final double DIPPER_REF_INCREMENT = 0.5;
+        public static final double DIPPER_REF_INCREMENT = 0.35;
         public static final double CLAW_CLOSED_EXPOS = 0;
         public static final double CLAW_OPEN_EXPOS = 1;
     }
 
     public static final class Controller {
         public static final int PORT = 1;
-        public static final double LEFT_X_DEADBAND = 0.1;
-        public static final double LEFT_Y_DEADBAND = 0.1;
-        public static final double RIGHT_X_DEADBAND = 0.1;
-        public static final double RIGHT_Y_DEADBAND = 0.1;
-        public static final double LEFT_X_MAG_DEADBAND = 0.1;
+        public static final double LEFT_X_DEADBAND = 0.03;
+        public static final double LEFT_Y_DEADBAND = 0.03;
+        public static final double RIGHT_X_DEADBAND = 0.03;
+        public static final double RIGHT_Y_DEADBAND = 0.03;
+        public static final double LEFT_X_MAG_DEADBAND = 0.03;
+        
     }
     public static final class Drivetrain {
         public static final double FL_Input_1 = 0.0;
@@ -85,6 +86,7 @@ public final class Constants204 {
         public static final double STRAFE_TURNING_PID_I = 0.001;
         public static final double STRAFE_TURNING_PID_D = 0.000;
         public static final double STRAFE_DRIVE_PID_P = 1.0;
+        public static double strafeDivison = 2;
     }
 
     public static final class Vision {

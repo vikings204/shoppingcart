@@ -214,7 +214,7 @@ public class StrafeSubsystem extends SubsystemBase {
             if (Math.abs(in) < Constants204.Controller.LEFT_X_MAG_DEADBAND) {
                 return 0.0;
             } else {
-                return in/2;
+                return in/Constants204.Drivetrain.strafeDivison;
             }
         }
     }

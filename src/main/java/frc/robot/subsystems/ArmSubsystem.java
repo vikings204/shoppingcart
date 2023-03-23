@@ -19,7 +19,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
     private boolean clawState = false;
     public double boomStart = 0.0;
-    public double boomMax = 7.0;
+    public double boomMax = 8.0;
     public double dipperMax = 0.0;
     private double clawSetPoint = 1.0;
 
@@ -78,17 +78,20 @@ public class ArmSubsystem extends SubsystemBase {
         dipperPIDCon.setReference(nd, CANSparkMax.ControlType.kPosition);
         if (c == 0) {
             if (clawState) {
-                clawServo.set(Arm.CLAW_CLOSED_EXPOS);
+                clawServo.set(clawSetPoint);
             } else {
-                clawServo.set(Arm.CLAW_OPEN_EXPOS);
+                clawServo.set(clawSetPoint);
             }
-        } else if (c < 0) {
+        } else if (c < 0 && clawSetPoint >0) {
             clawState = true;
-            clawServo.set(Arm.CLAW_CLOSED_EXPOS);
-        } else if (c > 0) {
-            clawState = false;
-            clawServo.set(Arm.CLAW_OPEN_EXPOS);
+            clawSetPoint -= .01;
+            clawServo.set(clawSetPoint);
+        } else if (c > 0 && clawSetPoint <1.0) {
+            clawState = true;
+            clawSetPoint += .01;
+            clawServo.set(clawSetPoint);
         }
+        System.out.println("Claw SP: "+ clawSetPoint);
     }
 
     public void setArmTest(double b, double d, double c) {
