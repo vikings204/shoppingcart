@@ -107,16 +107,16 @@ public class ArmSubsystem extends SubsystemBase {
         } else if (d < 0) {
             nd -= Arm.DIPPER_REF_INCREMENT;
         }
-        System.out.println("TESTBoom Enconder Value: "+nb);
+        //System.out.println("TESTBoom Enconder Value: "+nb);
     //Maybe add some code here to not move the arm unless something is pushed
 
         boomPIDCon.setReference(nb, CANSparkMax.ControlType.kPosition);
         dipperPIDCon.setReference(nd, CANSparkMax.ControlType.kPosition);
         if (c == 0) {
             if (clawState) {
-                clawServo.set(Arm.CLAW_CLOSED_EXPOS);
+                clawServo.set(clawSetPoint);
             } else {
-                clawServo.set(Arm.CLAW_OPEN_EXPOS);
+                clawServo.set(clawSetPoint);
             }
         } else if (c < 0 && clawSetPoint >0) {
             clawState = true;
@@ -127,6 +127,7 @@ public class ArmSubsystem extends SubsystemBase {
             clawSetPoint += .01;
             clawServo.set(clawSetPoint);
         }
+        System.out.println("Claw SP: "+ clawSetPoint);
     }
 
     /*private double setServoScaleFix(double joyIn) {

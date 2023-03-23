@@ -176,7 +176,7 @@ public class Robot extends TimedRobot {
         double armB=0.0, armD=0.0, armC=0.0;
         if (robotContainer.CONTROLLER.getRightUpperBumper()) { armB = -1; } else if (robotContainer.CONTROLLER.getRightLowerBumper()) { armB = 1; }
         if (robotContainer.CONTROLLER.getLeftUpperBumper()) { armD = -1; } else if (robotContainer.CONTROLLER.getLeftLowerBumper()) { armD = 1; }
-        if (robotContainer.CONTROLLER.getAButton()) { armC = 1; } else if (robotContainer.CONTROLLER.getXButton()) { armC = -1; }
+        if (robotContainer.CONTROLLER.getBButton()) { armC = 1; } else if (robotContainer.CONTROLLER.getXButton()) { armC = -1; }
         robotContainer.armControl.setArmTest(armB, armD, armC);
         
     }

@@ -65,11 +65,11 @@ public class Gamepad extends GenericHID {
     /** Represents an axis on an XboxController. */
     public enum Axis {
         kLeftX(0),
-        kRightX(2),
+        kRightX(4),
         kLeftY(1),
-        kRightY(3),
-        kLeftTrigger(11),
-        kRightTrigger(12);
+        kRightY(5),
+        kLeftTrigger(2),
+        kRightTrigger(3);
 
         public final int value;
 
@@ -586,5 +586,13 @@ public class Gamepad extends GenericHID {
     public BooleanEvent rightTrigger(EventLoop loop) {
         return rightTrigger(0.5, loop);
     }
+
+
+    /*public double getLeftTriggerAxis() {
+        return getRawAxis(Axis.kLeftTrigger.value);
+    }
+    public double getRightTriggerAxis() {
+        return getRawAxis(Axis.kRightTrigger.value);
+    }*/
 }
 
