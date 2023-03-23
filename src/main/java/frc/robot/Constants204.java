@@ -92,7 +92,7 @@ public final class Constants204 {
     public static final class Vision {
         public static final String PHOTONVISION_NAME = "OV9281";
         public static final double CAMERA_HEIGHT_METERS = 0.7112;
-        public static final double TARGET_HEIGHT_METERS = 0.5588;
+        public static final double TARGET_HEIGHT_METERS = 0.61;
         public static final double CAMERA_PITCH_DEGREES = 180;
     }
 }

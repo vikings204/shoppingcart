@@ -37,7 +37,7 @@ public class RobotContainer {
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     public final ArmSubsystem armControl = new ArmSubsystem();
     private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
-    public int autoStateMachine = 2;
+    public int autoStateMachine = 3;
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
     Joystick JOYSTICK = new Joystick(0);
     private final CAN gyro = new CAN(1, 8, 4);
@@ -105,22 +105,23 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         return new RunCommand(() -> {
-            if (autoStateMachine == 0) {
+            if (autoStateMachine == 0) {autoStateMachine = 3;
                 armControl.boomStart= armControl.boomEncoder.getPosition();
                 armControl.dipperMax= armControl.dipperEncoder.getPosition();
                 System.out.println("Boom Start is Now: "+ armControl.boomStart+"\n Dipper Max is Now: "+armControl.dipperMax);
                 if (armControl.boomEncoder.getPosition() < armControl.boomStart + armControl.boomMax) {
-                    armControl.setArm(1, 0, 0);
+                   // armControl.setArm(1, 0, 0);
+
                 } else {
                     autoStateMachine++;
                 }
-            } else if (autoStateMachine == 1) {
+        } else if (autoStateMachine == 1) {autoStateMachine = 3;
 
                 armControl.setArm(0, 0, 1);
 
                 autoStateMachine++;
             }
-            else if (autoStateMachine == 2){
+            else if (autoStateMachine == 2){autoStateMachine = 3;
                 strafeDrive.setZero();
                 strafeDrive.turningTotalDeg = 0.0;
                 System.out.println("You have 0'd the turning encoders");
@@ -134,10 +135,12 @@ public class RobotContainer {
                     System.out.println("x=" + tf.getX() + " y=" + tf.getY() + " z=" + tf.getZ() + " rot=" + tf.getRotation());
                     PolarCoordinate pc = Math204.CartesianToPolar(tf.getX(), tf.getY());
                     pc.mag = pc.mag>0.25 ? 0.25 : pc.mag;
-                    pc.mag = pc.mag<0.1 ? 0 : pc.mag;
+                    pc.mag = pc.mag<0.2 ? 0 : pc.mag;
                     System.out.println("deg=" + pc.deg + " mag=" + pc.mag);
                     pc.mag*=-1;
                     strafeDrive.polarDrive(pc, 0);
+                } else {
+                    System.out.println("tf was null");
                 }
                 //strafeDrive.moreDrive(0, .21, 0);
 
