@@ -21,6 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
     public double boomStart = 0.0;
     public double boomMax = 7.0;
     public double dipperMax = 0.0;
+    private double clawSetPoint = 1.0;
 
     private final double kP = 0.5;
     private final double kI = 1e-4;
@@ -117,12 +118,14 @@ public class ArmSubsystem extends SubsystemBase {
             } else {
                 clawServo.set(Arm.CLAW_OPEN_EXPOS);
             }
-        } else if (c < 0) {
+        } else if (c < 0 && clawSetPoint >0) {
             clawState = true;
-            clawServo.set(Arm.CLAW_CLOSED_EXPOS);
-        } else if (c > 0) {
-            clawState = false;
-            clawServo.set(Arm.CLAW_OPEN_EXPOS);
+            clawSetPoint -= .01;
+            clawServo.set(clawSetPoint);
+        } else if (c > 0 && clawSetPoint <1.0) {
+            clawState = true;
+            clawSetPoint += .01;
+            clawServo.set(clawSetPoint);
         }
     }
 
