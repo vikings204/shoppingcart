@@ -37,11 +37,11 @@ public final class Constants204 {
 
     public static final class Controller {
         public static final int PORT = 1;
-        public static final double LEFT_X_DEADBAND = 0.03;
-        public static final double LEFT_Y_DEADBAND = 0.03;
-        public static final double RIGHT_X_DEADBAND = 0.03;
-        public static final double RIGHT_Y_DEADBAND = 0.03;
-        public static final double LEFT_X_MAG_DEADBAND = 0.03;
+        public static final double LEFT_X_DEADBAND = 0.08;
+        public static final double LEFT_Y_DEADBAND = 0.08;
+        public static final double RIGHT_X_DEADBAND = 0.08;
+        public static final double RIGHT_Y_DEADBAND = 0.08;
+        public static final double LEFT_X_MAG_DEADBAND = 0.08;
         
     }
     public static final class Drivetrain {
@@ -87,6 +87,7 @@ public final class Constants204 {
         public static final double STRAFE_TURNING_PID_D = 0.000;
         public static final double STRAFE_DRIVE_PID_P = 1.0;
         public static double strafeDivison = 2;
+        public static double rotateDivision = 6;
     }
 
     public static final class Vision {

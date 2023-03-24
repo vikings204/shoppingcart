@@ -37,7 +37,7 @@ public class RobotContainer {
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     public final ArmSubsystem armControl = new ArmSubsystem();
     private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
-    public int autoStateMachine = 3;
+    public int autoStateMachine = 0;
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
     Joystick JOYSTICK = new Joystick(0);
     private final CAN gyro = new CAN(1, 8, 4);
@@ -98,34 +98,41 @@ public class RobotContainer {
             if (CONTROLLER.getLeftUpperBumper()) { armD = -1; } else if (CONTROLLER.getLeftTriggerAxis()>0.2) { armD = 1; }
             if (CONTROLLER.getBButton()) { armC = 1; } else if (CONTROLLER.getXButton()) { armC = -1; }
             armControl.setArm(armB, armD, armC);
-            if(CONTROLLER.getLeftStickButton()){ Constants204.Drivetrain.strafeDivison = 2;}
-            if(CONTROLLER.getRightStickButton()){ Constants204.Drivetrain.strafeDivison = 10;}
+            if(CONTROLLER.getLeftStickButton()){ 
+                Constants204.Drivetrain.strafeDivison = 2;
+                Constants204.Drivetrain.rotateDivision = 6;
+            }
+            if(CONTROLLER.getRightStickButton()){ 
+                Constants204.Drivetrain.strafeDivison = 10;
+                Constants204.Drivetrain.rotateDivision = 10;
+            }
         }, strafeDrive);
     }
 
     public Command getAutonomousCommand() {
         return new RunCommand(() -> {
-            if (autoStateMachine == 0) {autoStateMachine = 3;
+            if (autoStateMachine == 0) {
+                 //autoStateMachine = 3;
+                strafeDrive.setZero();
+                strafeDrive.turningTotalDeg = 0.0;
+                System.out.println("You have 0'd the turning encoders");
+            
                 armControl.boomStart= armControl.boomEncoder.getPosition();
                 armControl.dipperMax= armControl.dipperEncoder.getPosition();
                 System.out.println("Boom Start is Now: "+ armControl.boomStart+"\n Dipper Max is Now: "+armControl.dipperMax);
-                if (armControl.boomEncoder.getPosition() < armControl.boomStart + armControl.boomMax) {
-                   // armControl.setArm(1, 0, 0);
-
-                } else {
-                    autoStateMachine++;
-                }
+                
+                 
+                autoStateMachine++;
+        
+        
         } else if (autoStateMachine == 1) {autoStateMachine = 3;
 
-                armControl.setArm(0, 0, 1);
+                //armControl.setArm(0, 0, 1);
 
                 autoStateMachine++;
             }
             else if (autoStateMachine == 2){autoStateMachine = 3;
-                strafeDrive.setZero();
-                strafeDrive.turningTotalDeg = 0.0;
-                System.out.println("You have 0'd the turning encoders");
-                autoStateMachine++;
+
             } 
             else if (autoStateMachine == 3) {
                 //System.out.println("driving in autonomous");
