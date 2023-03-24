@@ -135,9 +135,11 @@ public class RobotContainer {
 
             } 
             else if (autoStateMachine == 3) {
+                strafeDrive.autoDrive(0, 1); // unit in revolutions, will soon become meters as soon as its tested
+
                 //System.out.println("driving in autonomous");
 
-                Transform3d tf = tagVision.getTransform();
+                /*Transform3d tf = tagVision.getTransform();
                 if (tf != null) {
                     System.out.println("x=" + tf.getX() + " y=" + tf.getY() + " z=" + tf.getZ() + " rot=" + tf.getRotation());
                     PolarCoordinate pc = Math204.CartesianToPolar(tf.getX(), tf.getY());
@@ -148,7 +150,7 @@ public class RobotContainer {
                     strafeDrive.polarDrive(pc, 0);
                 } else {
                     System.out.println("tf was null");
-                }
+                }*/
                 //strafeDrive.moreDrive(0, .21, 0);
 
                 //strafeDrive.m_frontLeft.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(135.0));
