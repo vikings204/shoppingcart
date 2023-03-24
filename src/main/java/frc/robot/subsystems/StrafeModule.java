@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.PIDController;
@@ -155,6 +156,15 @@ public class StrafeModule {
             }
         } else {
             //resetPos(pc.deg);
+        }
+    }
+
+    public void directDrive(int deg, double revs) {
+        //double dpec = (meters * Math.PI) / 1024;
+        //double revs = (meters / dpec); // figure out what units the drive encoder uses, once that is good then we can convert m to revs
+        turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
+        if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(deg)) < 20) {
+            drivePIDCon.setReference(revs, CANSparkMax.ControlType.kPosition); // should replace all driveMotor.set with drivePIDcon.set(x, CSM.CT.kVelocity??)
         }
     }
 

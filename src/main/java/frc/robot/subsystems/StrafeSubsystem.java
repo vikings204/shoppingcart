@@ -10,25 +10,26 @@ import frc.robot.util.Math204;
 import frc.robot.util.PolarCoordinate;
 
 public class StrafeSubsystem extends SubsystemBase {
-    public final StrafeModule m_frontLeft =
+    // FL-frontleft, RL-rearleft. FR-frontright, RR-rearright
+    public final StrafeModule FL_MOD =
             new StrafeModule(
                     Constants204.DrivetrainCAN.FL_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.FL_TURNING_MOTOR_ID
             );
 
-    public final StrafeModule m_rearLeft =
+    public final StrafeModule RL_MOD =
             new StrafeModule(
                     Constants204.DrivetrainCAN.RL_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.RL_TURNING_MOTOR_ID
             );
 
-    public final StrafeModule m_frontRight =
+    public final StrafeModule FR_MOD =
             new StrafeModule(
                     Constants204.DrivetrainCAN.FR_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.FR_TURNING_MOTOR_ID
             );
 
-    public final StrafeModule m_rearRight =
+    public final StrafeModule RR_MOD =
             new StrafeModule(
                     Constants204.DrivetrainCAN.RR_DRIVE_MOTOR_ID,
                     Constants204.DrivetrainCAN.RR_TURNING_MOTOR_ID
@@ -53,25 +54,25 @@ public class StrafeSubsystem extends SubsystemBase {
         //System.out.println("F:"+f+" S:"+s+" R:"+r);
         if (r != 0) {
             // FL-135 FR-45 RL-225 RR-315
-            m_frontLeft.rotate(135, r);
-            m_frontRight.rotate(45, r);
-            m_rearLeft.rotate(-135, r);
-            m_rearRight.rotate(-45, r);
+            FL_MOD.rotate(135, r);
+            FR_MOD.rotate(45, r);
+            RL_MOD.rotate(-135, r);
+            RR_MOD.rotate(-45, r);
         } else if (s != 0) {
-            m_frontLeft.strafe(s);
-            m_frontRight.strafe(s);
-            m_rearLeft.strafe(s);
-            m_rearRight.strafe(s);
+            FL_MOD.strafe(s);
+            FR_MOD.strafe(s);
+            RL_MOD.strafe(s);
+            RR_MOD.strafe(s);
         } else if (f != 0) {
-            m_frontLeft.forward(f);
-            m_frontRight.forward(f);
-            m_rearLeft.forward(f);
-            m_rearRight.forward(f);
+            FL_MOD.forward(f);
+            FR_MOD.forward(f);
+            RL_MOD.forward(f);
+            RR_MOD.forward(f);
         } else {
-            m_frontLeft.resetPos(0.0);
-            m_frontRight.resetPos(0.0);
-            m_rearLeft.resetPos(0.0);
-            m_rearRight.resetPos(0.0);
+            FL_MOD.resetPos(0.0);
+            FR_MOD.resetPos(0.0);
+            RL_MOD.resetPos(0.0);
+            RR_MOD.resetPos(0.0);
         }
     }
 
@@ -85,19 +86,19 @@ public class StrafeSubsystem extends SubsystemBase {
             m_frontRight.rotate((int)Constants204.Drivetrain.FR_LUT.get(45.0), r);
             m_rearLeft.rotate((int)Constants204.Drivetrain.RL_LUT.get(-135.0), r);
             m_rearRight.rotate((int)Constants204.Drivetrain.RR_LUT.get(-45.0), r);*/
-                        m_frontLeft.rotate(135, r);
-                       m_frontRight.rotate(45, r);
-                       m_rearLeft.rotate(-135, r);
-                       m_rearRight.rotate(-45, r);
+                        FL_MOD.rotate(135, r);
+                       FR_MOD.rotate(45, r);
+                       RL_MOD.rotate(-135, r);
+                       RR_MOD.rotate(-45, r);
         } else if (pc.mag != 0) {
             //System.out.println("SX:" + sx + " SY:" + sy);
            // System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg+ " C-QUAD: "+ Math204.GetQuadrant(pc.deg));
             pc.deg = SwerveContinuous(pc.deg);
            // System.out.println("CDEG: " + pc.deg);
-           m_frontLeft.fullStrafe(pc);
-            m_frontRight.fullStrafe(pc);
-            m_rearLeft.fullStrafe(pc);
-            m_rearRight.fullStrafe(pc);
+           FL_MOD.fullStrafe(pc);
+            FR_MOD.fullStrafe(pc);
+            RL_MOD.fullStrafe(pc);
+            RR_MOD.fullStrafe(pc);
         } else {
            /*turningTotalDeg= resetTotal(turningTotalDeg) ;
            if( turningTotalDeg%360 == 0){ 
@@ -111,10 +112,10 @@ public class StrafeSubsystem extends SubsystemBase {
             //m_frontRight.setZero();
             //m_rearLeft.setZero();
             //m_rearRight.setZero();*/
-               m_frontLeft.resetPos(0);
-            m_frontRight.resetPos(0);
-            m_rearLeft.resetPos(0);
-            m_rearRight.resetPos(0);
+            FL_MOD.resetPos(0);
+            FR_MOD.resetPos(0);
+            RL_MOD.resetPos(0);
+            RR_MOD.resetPos(0);
             turningTotalDeg = 0.0;
             turningPDeg = 0.0;
             turningPQuad = 1;
@@ -127,32 +128,39 @@ public class StrafeSubsystem extends SubsystemBase {
         pc.mag = EQ.strafeMag(pc.mag);
         if (r != 0) {
             // FL-135 FR-45 RL-225 RR-315
-            m_frontLeft.rotate(135, r);
-            m_frontRight.rotate(45, r);
-            m_rearLeft.rotate(-135, r);
-            m_rearRight.rotate(-45, r);
+            FL_MOD.rotate(135, r);
+            FR_MOD.rotate(45, r);
+            RL_MOD.rotate(-135, r);
+            RR_MOD.rotate(-45, r);
         } else if (pc.mag != 0) {
             pc.deg = SwerveContinuous(pc.deg);
-            m_frontLeft.fullStrafe(pc);
-            m_frontRight.fullStrafe(pc);
-            m_rearLeft.fullStrafe(pc);
-            m_rearRight.fullStrafe(pc);
+            FL_MOD.fullStrafe(pc);
+            FR_MOD.fullStrafe(pc);
+            RL_MOD.fullStrafe(pc);
+            RR_MOD.fullStrafe(pc);
         } else {
-            m_frontLeft.resetPos(0);
-            m_frontRight.resetPos(0);
-            m_rearLeft.resetPos(0);
-            m_rearRight.resetPos(0);
+            FL_MOD.resetPos(0);
+            FR_MOD.resetPos(0);
+            RL_MOD.resetPos(0);
+            RR_MOD.resetPos(0);
             turningTotalDeg = 0.0;
             turningPDeg = 0.0;
             turningPQuad = 1;
         }
     }
+
+    public void autoDrive(int deg, double units) {
+        FL_MOD.directDrive(deg, units);
+        FR_MOD.directDrive(deg, units);
+        RL_MOD.directDrive(deg, units);
+        RR_MOD.directDrive(deg, units);
+    }
  
     public void setZero() {
-        m_frontLeft.setZero();
-        m_frontRight.setZero();
-        m_rearLeft.setZero();
-        m_rearRight.setZero();
+        FL_MOD.setZero();
+        FR_MOD.setZero();
+        RL_MOD.setZero();
+        RR_MOD.setZero();
         turningTotalDeg = 0.0;
     }
 
@@ -220,10 +228,10 @@ public class StrafeSubsystem extends SubsystemBase {
     }
 
     public String TestEncoders() {
-        return ("FL DEG: " + m_frontLeft.getTurnEncDeg() +
-        "\nFR DEG: " + m_frontRight.getTurnEncDeg() +
-        "\nRL DEG: " + m_rearLeft.getTurnEncDeg() +
-        "\nRR DEG: " + m_rearRight.getTurnEncDeg() +
+        return ("FL DEG: " + FL_MOD.getTurnEncDeg() +
+        "\nFR DEG: " + FR_MOD.getTurnEncDeg() +
+        "\nRL DEG: " + RL_MOD.getTurnEncDeg() +
+        "\nRR DEG: " + RR_MOD.getTurnEncDeg() +
         "\n==========================");
     }
     public double resetTotal(double total) {
