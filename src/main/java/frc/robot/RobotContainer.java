@@ -125,18 +125,25 @@ public class RobotContainer {
                 autoStateMachine++;
         
         
-        } else if (autoStateMachine == 1) {autoStateMachine = 3;
+        } else if (autoStateMachine == 2) {
+                autoStateMachine = 3;
 
-                //armControl.setArm(0, 0, 1);
+               // armControl.setArm(0, 0, .15);
+                armControl.setArm(0,1,.15);
 
-                autoStateMachine++;
+                if( armControl.dipperEncoder.getPosition()==armControl.dipperMax+armControl.dipperAuto) autoStateMachine++;
             }
-            else if (autoStateMachine == 2){autoStateMachine = 3;
+            else if (autoStateMachine == 2){
+                
+                autoStateMachine = 3;
+                armControl.setArm(1,0,.15);
+
+                if( armControl.boomEncoder.getPosition()==armControl.boomStart+armControl.boomMax) autoStateMachine++;
 
             } 
             else if (autoStateMachine == 3) {
                 strafeDrive.autoDrive(0, 1); // unit in revolutions, will soon become meters as soon as its tested
-
+                armControl.setArm(0,0,1);
                 //System.out.println("driving in autonomous");
 
                 /*Transform3d tf = tagVision.getTransform();
@@ -158,9 +165,20 @@ public class RobotContainer {
                 //strafeDrive.m_rearLeft.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(-135.0));
                 //strafeDrive.m_rearRight.turningMotor.set(TalonSRXControlMode.Position,  strafeDrive.m_frontLeft.unitConv(-45.0));
             }
-            //if (autoStateMachine ==2) {
-            //    strafeDrive.moreDrive(0, 0, 0);
-            //}
+            else if (autoStateMachine == 4){
+                strafeDrive.moreDrive(0, -1, 0);
+                armControl.setArm(0,0,.15);
+                autoStateMachine ++;
+            }
+            else if (autoStateMachine == 5){
+                strafeDrive.moreDrive(0, 0, 0);
+                armControl.setArm(0,0,1);
+                autoStateMachine ++;
+            }
+            else if (autoStateMachine==6){
+                strafeDrive.moreDrive(0, 0, 0);
+                armControl.setArm(0,0,1);
+            }
         }, strafeDrive);
     }
 

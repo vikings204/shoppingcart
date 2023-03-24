@@ -21,6 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
     public double boomStart = 0.0;
     public double boomMax = 8.0;
     public double dipperMax = 0.0;
+    public double dipperAuto = 50.0;
     private double clawSetPoint = 1.0;
 
     private final double kP = 0.5;
