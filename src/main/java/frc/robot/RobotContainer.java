@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PTZCam;
 import frc.robot.subsystems.StrafeSubsystem;
 
 import edu.wpi.first.wpilibj.CAN;
@@ -37,6 +38,7 @@ public class RobotContainer {
     public final StrafeSubsystem strafeDrive = new StrafeSubsystem();
     public final ArmSubsystem armControl = new ArmSubsystem();
     private final TagVisionSubsystem tagVision = new TagVisionSubsystem();
+    //private final PTZCam ptzCam = new PTZCam();
     public int autoStateMachine = 0;
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
     Joystick JOYSTICK = new Joystick(0);
@@ -122,7 +124,8 @@ public class RobotContainer {
                 System.out.println("Boom Start is Now: "+ armControl.boomStart+"\n Dipper Max is Now: "+armControl.dipperMax);
                 
                  
-                autoStateMachine++;
+                //autoStateMachine++;
+                autoStateMachine = 3;
         
         
         } else if (autoStateMachine == 2) {
@@ -142,8 +145,9 @@ public class RobotContainer {
 
             } 
             else if (autoStateMachine == 3) {
-                strafeDrive.autoDrive(0, 1); // unit in revolutions, will soon become meters as soon as its tested
-                armControl.setArm(0,0,1);
+                strafeDrive.autoDrive(0, -100); // unit in revolutions, will soon become meters as soon as its tested
+                //armControl.setArm(0,0,1);
+                autoStateMachine = 10;
                 //System.out.println("driving in autonomous");
 
                 /*Transform3d tf = tagVision.getTransform();

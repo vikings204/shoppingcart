@@ -60,7 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void setArm(double b, double d, double c) {
         //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
-        System.out.println("Boom Enconder Value: " + nb);
+        //System.out.println("Boom Enconder Value: " + nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
         } else if (b > 0 && nb < (boomStart + boomMax)) {
@@ -92,7 +92,7 @@ public class ArmSubsystem extends SubsystemBase {
             clawSetPoint += .01;
             clawServo.set(clawSetPoint);
         }
-        System.out.println("Claw SP: "+ clawSetPoint);
+        //System.out.println("Claw SP: "+ clawSetPoint);
     }
 
     public void setArmTest(double b, double d, double c) {
@@ -131,7 +131,7 @@ public class ArmSubsystem extends SubsystemBase {
             clawSetPoint += .01;
             clawServo.set(clawSetPoint);
         }
-        System.out.println("Claw SP: "+ clawSetPoint);
+        //System.out.println("Claw SP: "+ clawSetPoint);
     }
 
     /*private double setServoScaleFix(double joyIn) {

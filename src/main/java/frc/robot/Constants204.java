@@ -87,7 +87,7 @@ public final class Constants204 {
         public static final double STRAFE_TURNING_PID_P = 5;
         public static final double STRAFE_TURNING_PID_I = 0.001;
         public static final double STRAFE_TURNING_PID_D = 0.000;
-        public static final double STRAFE_DRIVE_PID_P = 1.0;
+        public static final double STRAFE_DRIVE_PID_P = 0.1;
         public static double strafeDivison = 2; // why is this reassigned
         public static double rotateDivision = 6; // same with this
         public static final double WHEEL_DIAMETER_M = 0.15;
