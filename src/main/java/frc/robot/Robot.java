@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
         //System.out.println(robotContainer.strafeDrive.TestEncoders());
-       
+        robotContainer.strafeDrive.moreDrive(0, 0, 0);
         if (robotContainer.CONTROLLER.getYButton()) {
             robotContainer.strafeDrive.setZero();
             robotContainer.strafeDrive.turningTotalDeg = 0.0;

@@ -118,14 +118,14 @@ public class RobotContainer {
                 strafeDrive.setZero();
                 strafeDrive.turningTotalDeg = 0.0;
                 System.out.println("You have 0'd the turning encoders");
-            
+                strafeDrive.moreDrive(0, 0, 0);
                 armControl.boomStart= armControl.boomEncoder.getPosition();
                 armControl.dipperMax= armControl.dipperEncoder.getPosition();
                 System.out.println("Boom Start is Now: "+ armControl.boomStart+"\n Dipper Max is Now: "+armControl.dipperMax);
                 
                  
                 //autoStateMachine++;
-                autoStateMachine = 3;
+                autoStateMachine = 10;
         
         
         } else if (autoStateMachine == 2) {
@@ -182,6 +182,20 @@ public class RobotContainer {
             else if (autoStateMachine==6){
                 strafeDrive.moreDrive(0, 0, 0);
                 armControl.setArm(0,0,1);
+            } else if (autoStateMachine == 10) {
+                armControl.setArm(0,1,1);
+
+                if (armControl.dipperEncoder.getPosition() == armControl.dipperMax + 15) autoStateMachine++;
+            }
+            else if (autoStateMachine == 11) {
+                strafeDrive.moreDrive(0, -1, 0);
+                try {
+                    TimeUnit.MILLISECONDS.sleep(Constants204.Automation.DRIVE_BACKWARD_MS);
+                } catch (InterruptedException e) {
+                    System.out.println("FAILED TO WAIT FOR SOME FUCKING REASON");
+                }
+                strafeDrive.moreDrive(0, 0, 0);
+                autoStateMachine = 69;
             }
         }, strafeDrive);
     }
