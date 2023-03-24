@@ -42,6 +42,8 @@ public final class Constants204 {
         public static final double RIGHT_X_DEADBAND = 0.08;
         public static final double RIGHT_Y_DEADBAND = 0.08;
         public static final double LEFT_X_MAG_DEADBAND = 0.08;
+        public static final String PTZ_HOSTNAME = "http://10.2.4.69";
+        public static final int PTZ_JOYSTICK_PORT = 2;
         
     }
     public static final class Drivetrain {
