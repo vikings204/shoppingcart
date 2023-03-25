@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants204.Drivetrain;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -84,6 +86,13 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
         }
+
+//        try {
+//            TimeUnit.MILLISECONDS.sleep(Constants204.Automation.DRIVE_BACKWARD_MS);
+//        } catch (InterruptedException e) {
+//            System.out.println("FAILED TO WAIT FOR SOME FUCKING REASON");
+//        }
+//        robotContainer.autoStateMachine++;
     }
 
     /**

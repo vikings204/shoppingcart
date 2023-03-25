@@ -114,6 +114,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return new RunCommand(() -> {
             if (autoStateMachine == 0) {
+                System.out.println("auto0");
                  //autoStateMachine = 3;
                 strafeDrive.setZero();
                 strafeDrive.turningTotalDeg = 0.0;
@@ -183,19 +184,30 @@ public class RobotContainer {
                 strafeDrive.moreDrive(0, 0, 0);
                 armControl.setArm(0,0,1);
             } else if (autoStateMachine == 10) {
-                armControl.setArm(0,1,1);
-
-                if (armControl.dipperEncoder.getPosition() == armControl.dipperMax + 15) autoStateMachine++;
-            }
-            else if (autoStateMachine == 11) {
-                strafeDrive.moreDrive(0, -1, 0);
-                try {
-                    TimeUnit.MILLISECONDS.sleep(Constants204.Automation.DRIVE_BACKWARD_MS);
-                } catch (InterruptedException e) {
-                    System.out.println("FAILED TO WAIT FOR SOME FUCKING REASON");
+                System.out.println("auto10");
+                armControl.setArm(0,-1,1);
+                System.out.println("dipper pos: " + armControl.dipperEncoder.getPosition() + "\n dippermax: " + (armControl.dipperMax+0));
+                if (armControl.dipperEncoder.getPosition() <= armControl.dipperMax-3.5) {
+                    autoStateMachine++;
                 }
+            }
+            else if (autoStateMachine < 350) {
+                System.out.println("auto" + autoStateMachine);
+                Constants204.Drivetrain.strafeDivison = 6;
+                strafeDrive.moreDrive(0, 1, 0);
+                autoStateMachine++;
+
+            }
+            else if (autoStateMachine < 360) {
+                System.out.println("auto" + autoStateMachine);
+                Constants204.Drivetrain.strafeDivison = 6;
+                strafeDrive.moreDrive(0, -1, 0);
+                autoStateMachine++;
+
+            }
+            else {
                 strafeDrive.moreDrive(0, 0, 0);
-                autoStateMachine = 69;
+                autoStateMachine = 400;
             }
         }, strafeDrive);
     }

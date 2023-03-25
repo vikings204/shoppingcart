@@ -92,7 +92,7 @@ public class StrafeSubsystem extends SubsystemBase {
                        RR_MOD.rotate(-45, r);
         } else if (pc.mag != 0) {
             //System.out.println("SX:" + sx + " SY:" + sy);
-           // System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg+ " C-QUAD: "+ Math204.GetQuadrant(pc.deg));
+           //System.out.println("MAG:" + pc.mag);
             pc.deg = SwerveContinuous(pc.deg);
            // System.out.println("CDEG: " + pc.deg);
            FL_MOD.fullStrafe(pc);
