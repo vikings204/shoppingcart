@@ -91,6 +91,9 @@ public final class Constants204 {
         public static double strafeDivison = 2; // why is this reassigned
         public static double rotateDivision = 6; // same with this
         public static final double WHEEL_DIAMETER_M = 0.15;
+
+        public static final double rotateThreshold = 25;
+        public static final double strafeThreshold =25; 
     }
 
     public static final class Vision {

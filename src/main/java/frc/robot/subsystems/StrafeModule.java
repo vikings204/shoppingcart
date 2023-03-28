@@ -15,6 +15,7 @@ import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.Constants204;
 import frc.robot.Constants.ModuleConstants;
 
 import static frc.robot.Constants204.Controller.LEFT_X_MAG_DEADBAND;
@@ -139,7 +140,7 @@ public class StrafeModule {
         if (sp != 0) {
             turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
 
-            if (Math.abs(turningMotor.getSelectedSensorPosition() - unitConv(deg)) < 20) {
+            if (Math.abs(turningMotor.getSelectedSensorPosition() - unitConv(deg)) < Constants204.Drivetrain.rotateThreshold) {
                 driveMotor.set(sp);
             }
         } else {
@@ -151,7 +152,7 @@ public class StrafeModule {
         if (Math.abs(pc.mag) > LEFT_X_MAG_DEADBAND) {
             //System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
             turningMotor.set(TalonSRXControlMode.Position, unitConv(pc.deg));
-            if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(pc.deg)) < 20) {
+            if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(pc.deg)) < Constants204.Drivetrain.strafeThreshold) {
                 driveMotor.set(pc.mag);
             }
         } else {
