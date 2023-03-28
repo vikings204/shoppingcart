@@ -10,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.PIDController;
@@ -63,6 +62,7 @@ public class StrafeModule {
         turningMotor.config_kD(0, STRAFE_TURNING_PID_D);
 
         turningMotor.setNeutralMode(NeutralMode.Brake);
+        driveMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         driveEncoder = driveMotor.getEncoder();
 
@@ -167,7 +167,7 @@ public class StrafeModule {
         } else {
             turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
         }
-        System.out.println("units: " + driveEncoder.getPosition());
+        //System.out.println("units: " + driveEncoder.getPosition());
     }
 
     public void resetPos(double total) {

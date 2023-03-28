@@ -44,6 +44,7 @@ public class RobotContainer {
     Joystick JOYSTICK = new Joystick(0);
     private final CAN gyro = new CAN(1, 8, 4);
     private final CANData gyroData = new CANData();
+    private boolean balanceStop = false;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -61,21 +62,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
     }
-    int i = 1;
-    /*public Command getTeleopSingleStrafeCommand() {
-        return new RunCommand(
-                () -> {
-                    if (m_driverController.getYButton()) {
-                        m_singleStrafeDrive.setZero();
-                        //canTest();
-                    } else if (m_driverController.getXButton()) {
-                        //System.out.println(visionTestSubsystem.printLatestID());
-                    }
-
-                    m_singleStrafeDrive.strafe(m_driverController.getLeftX());
-                    //System.out.println("LX-CTRL: " + m_driverController.getLeftX());
-                }, m_singleStrafeDrive);
-    }*/
 
     public Command getTestStrafeCommand() {
         System.out.println(strafeDrive.TestEncoders() + "\naiushduhw98ahhs9dh9hwhqhh9][a[s]d[][");
@@ -93,7 +79,14 @@ public class RobotContainer {
         return new RunCommand(() -> {
             //System.out.println("RX: " + CONTROLLER.getRightX());
             //strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
-            strafeDrive.moreDrive(CONTROLLER.getLeftX(), CONTROLLER.getLeftY(), CONTROLLER.getRightX());
+            if (CONTROLLER.getYButton()) {
+                balanceStop = !balanceStop;
+            }
+            if (!balanceStop) {
+                strafeDrive.moreDrive(CONTROLLER.getLeftX(), CONTROLLER.getLeftY(), CONTROLLER.getRightX());
+            } else {
+                strafeDrive.balanceStop();
+            }
 
             double armB=0.0, armD=0.0, armC=0.0;
             if (CONTROLLER.getRightUpperBumper()) { armB = -1; } else if (CONTROLLER.getRightTriggerAxis()>0.2) { armB = 1; }

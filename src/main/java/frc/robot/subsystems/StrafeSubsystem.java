@@ -155,6 +155,13 @@ public class StrafeSubsystem extends SubsystemBase {
         RL_MOD.directDrive(deg, units);
         RR_MOD.directDrive(deg, units);
     }
+
+    public void balanceStop() {
+        FL_MOD.directDrive(45, 0);
+        FR_MOD.directDrive(135, 0);
+        RL_MOD.directDrive(-45, 0);
+        RR_MOD.directDrive(-135, 0);
+    }
  
     public void setZero() {
         FL_MOD.setZero();
@@ -176,7 +183,7 @@ public class StrafeSubsystem extends SubsystemBase {
         m_frontLeft.rotate(720, 0.1);*/
     }
 
-    public double SwerveContinuous(double cDeg) {
+    private double SwerveContinuous(double cDeg) {
         double nDeg;
         int cQuad = Math204.GetQuadrant(cDeg);
         if ((turningPQuad == 3 || turningPQuad == 4) && cQuad == 1) {
