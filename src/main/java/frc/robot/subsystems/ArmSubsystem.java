@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.*;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants204.Arm;
@@ -11,6 +8,8 @@ import frc.robot.Constants204.ArmCAN;
 
 public class ArmSubsystem extends SubsystemBase {
     private final CANSparkMax boomMotor = new CANSparkMax(ArmCAN.BOOM_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    private final SparkMaxLimitSwitch boomForwardLimit = boomMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
     public final RelativeEncoder boomEncoder = boomMotor.getEncoder();
     private final SparkMaxPIDController boomPIDCon = boomMotor.getPIDController();
     private final CANSparkMax dipperMotor = new CANSparkMax(ArmCAN.DIPPER_MOTOR_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -40,6 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
         boomPIDCon.setFF(kFF);
         //boomPIDCon.setOutputRange(kMinOutput, kMaxOutput);
         boomMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        boomForwardLimit.enableLimitSwitch(true);
         boomEncoder.setPosition(0);
 
         dipperPIDCon.setP(kP);
@@ -63,9 +63,14 @@ public class ArmSubsystem extends SubsystemBase {
         System.out.println("Boom Enconder Value: " + nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
-        } else if (b > 0 && nb < (boomStart + boomMax)) {
+        /* else if (b > 0 && nb < (boomStart + boomMax)) {
             nb += Arm.BOOM_REF_INCREMENT;
         } else if (b < 0 && nb > boomStart) {
+            nb -= Arm.BOOM_REF_INCREMENT;
+        }*/
+        } else if (b > 0) {
+            nb += Arm.BOOM_REF_INCREMENT;
+        } else if (b < 0) {
             nb -= Arm.BOOM_REF_INCREMENT;
         }
         if (d == 0) {
@@ -99,10 +104,12 @@ public class ArmSubsystem extends SubsystemBase {
         //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
         double nd = dipperEncoder.getPosition();
-        System.out.println("Dipper Enconder Value: " + nd);
+        //System.out.println("Dipper Enconder Value: " + nd);
+        System.out.println("Forward Limit Enabled" + boomForwardLimit.isLimitSwitchEnabled()+ " Limit Switch:"+boomForwardLimit.isPressed());
         if (b == 0) {
         } else if (b > 0) {
             nb += Arm.BOOM_REF_INCREMENT;
+
         } else if (b < 0) {
             nb -= Arm.BOOM_REF_INCREMENT;
         }

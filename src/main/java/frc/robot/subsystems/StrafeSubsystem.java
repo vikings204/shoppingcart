@@ -119,6 +119,10 @@ public class StrafeSubsystem extends SubsystemBase {
             turningTotalDeg = 0.0;
             turningPDeg = 0.0;
             turningPQuad = 1;
+            FL_MOD.setBrakeMode();
+            FR_MOD.setBrakeMode();
+            RL_MOD.setBrakeMode();
+            RR_MOD.setBrakeMode();
         }
         //System.out.println("Target Degrees "+turningTotalDeg); 
     }
@@ -149,18 +153,11 @@ public class StrafeSubsystem extends SubsystemBase {
         }
     }
 
-    public void autoDrive(int deg, double units) {
-        FL_MOD.directDrive(deg, units);
-        FR_MOD.directDrive(deg, units);
-        RL_MOD.directDrive(deg, units);
-        RR_MOD.directDrive(deg, units);
-    }
-
     public void balanceStop() {
-        FL_MOD.directDrive(45, 0);
-        FR_MOD.directDrive(135, 0);
-        RL_MOD.directDrive(-45, 0);
-        RR_MOD.directDrive(-135, 0);
+        FL_MOD.turn(45);
+        FR_MOD.turn(135);
+        RL_MOD.turn(-45);
+        RR_MOD.turn(-135);
     }
  
     public void setZero() {

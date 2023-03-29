@@ -73,7 +73,9 @@ public class RobotContainer {
             //System.out.println("RX: " + CONTROLLER.getRightX());
             //strafeDrive.basicDrive(CONTROLLER.getLeftY(), CONTROLLER.getLeftX(), CONTROLLER.getRightX());
             if (CONTROLLER.getYButton()) {
-                balanceStop = !balanceStop;
+                balanceStop = true;
+            } else if (CONTROLLER.getAButton()) {
+                balanceStop = false;
             }
             if (!balanceStop) {
                 strafeDrive.moreDrive(CONTROLLER.getLeftX(), CONTROLLER.getLeftY(), CONTROLLER.getRightX());
@@ -132,7 +134,7 @@ public class RobotContainer {
 
             } 
             else if (autoStateMachine == 3) {
-                strafeDrive.autoDrive(0, -100); // unit in revolutions, will soon become meters as soon as its tested
+                //strafeDrive.autoDrive(0, -100); // unit in revolutions, will soon become meters as soon as its tested
                 //armControl.setArm(0,0,1);
                 autoStateMachine = 10;
                 //System.out.println("driving in autonomous");

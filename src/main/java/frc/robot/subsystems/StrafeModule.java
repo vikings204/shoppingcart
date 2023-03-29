@@ -159,11 +159,14 @@ public class StrafeModule {
         }
     }
 
-    public void directDrive(int deg, double revs) {
-        //double dpec = (meters * Math.PI) / 1024;
-        //double revs = (meters / dpec); // figure out what units the drive encoder uses, once that is good then we can convert m to revs
-        if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(deg)) < 20) {
-            drivePIDCon.setReference(revs, CANSparkMax.ControlType.kPosition); // should replace all driveMotor.set with drivePIDcon.set(x, CSM.CT.kVelocity??)
+    public void setBrakeMode() {
+        turningMotor.setNeutralMode(NeutralMode.Brake);
+        driveMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
+
+    public void turn(int deg) {
+        if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(deg)) < STRAFE_DRIVE_THRESHOLD) {
+            //drivePIDCon.setReference(revs, CANSparkMax.ControlType.kPosition); // should replace all driveMotor.set with drivePIDcon.set(x, CSM.CT.kVelocity??)
         } else {
             turningMotor.set(TalonSRXControlMode.Position, unitConv(deg));
         }
