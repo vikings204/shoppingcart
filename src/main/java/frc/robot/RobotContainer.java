@@ -4,25 +4,18 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.PTZCam;
 import frc.robot.subsystems.StrafeSubsystem;
 
 import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.hal.CANData;
 import frc.robot.subsystems.TagVisionSubsystem;
 import frc.robot.util.Gamepad;
-import frc.robot.util.Math204;
-import frc.robot.util.PolarCoordinate;
 
 import java.util.concurrent.TimeUnit;
 
@@ -94,12 +87,12 @@ public class RobotContainer {
             if (CONTROLLER.getBButton()) { armC = 1; } else if (CONTROLLER.getXButton()) { armC = -1; }
             armControl.setArm(armB, armD, armC);
             if(CONTROLLER.getLeftStickButton()){ 
-                Constants204.Drivetrain.strafeDivison = 2;
-                Constants204.Drivetrain.rotateDivision = 6;
+                Constants204.Drivetrain.EQ_STRAFE_DIVISOR = 2;
+                Constants204.Drivetrain.EQ_ROTATE_DIVISOR = 6;
             }
             if(CONTROLLER.getRightStickButton()){ 
-                Constants204.Drivetrain.strafeDivison = 10;
-                Constants204.Drivetrain.rotateDivision = 10;
+                Constants204.Drivetrain.EQ_STRAFE_DIVISOR = 10;
+                Constants204.Drivetrain.EQ_ROTATE_DIVISOR = 10;
             }
         }, strafeDrive);
     }
@@ -186,14 +179,14 @@ public class RobotContainer {
             }
             else if (autoStateMachine < 350) {
                 System.out.println("auto" + autoStateMachine);
-                Constants204.Drivetrain.strafeDivison = 6;
+                Constants204.Drivetrain.EQ_STRAFE_DIVISOR = 6;
                 strafeDrive.moreDrive(0, 1, 0);
                 autoStateMachine++;
 
             }
             else if (autoStateMachine < 360) {
                 System.out.println("auto" + autoStateMachine);
-                Constants204.Drivetrain.strafeDivison = 6;
+                Constants204.Drivetrain.EQ_STRAFE_DIVISOR = 6;
                 strafeDrive.moreDrive(0, -1, 0);
                 autoStateMachine++;
 

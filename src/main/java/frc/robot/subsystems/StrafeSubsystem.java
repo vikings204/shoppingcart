@@ -221,7 +221,7 @@ public class StrafeSubsystem extends SubsystemBase {
             if (Math.abs(in) < Constants204.Controller.RIGHT_X_DEADBAND) {
                 return 0.0;
             } else {
-                return in/Constants204.Drivetrain.rotateDivision;
+                return in/Constants204.Drivetrain.EQ_ROTATE_DIVISOR;
             }
         }
 
@@ -229,7 +229,7 @@ public class StrafeSubsystem extends SubsystemBase {
             if (Math.abs(in) < Constants204.Controller.LEFT_X_MAG_DEADBAND) {
                 return 0.0;
             } else {
-                return in/Constants204.Drivetrain.strafeDivison;
+                return in/Constants204.Drivetrain.EQ_STRAFE_DIVISOR;
             }
         }
     }
