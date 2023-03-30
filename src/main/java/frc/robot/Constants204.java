@@ -37,11 +37,11 @@ public final class Constants204 {
 
     public static final class Controller {
         public static final int PORT = 1;
-        public static final double LEFT_X_DEADBAND = 0.08;
-        public static final double LEFT_Y_DEADBAND = 0.08;
-        public static final double RIGHT_X_DEADBAND = 0.08;
-        public static final double RIGHT_Y_DEADBAND = 0.08;
-        public static final double LEFT_X_MAG_DEADBAND = 0.08;
+        public static final double LX_DEADBAND = 0.15;
+        public static final double LY_DEADBAND = 0.15;
+        public static final double RX_DEADBAND = 0.15;
+        public static final double RY_DEADBAND = 0.15;
+        public static final double LX_MAG_DEADBAND = 0.15;
         public static final String PTZ_HOSTNAME = "http://10.2.4.69";
         public static final int PTZ_JOYSTICK_PORT = 2;
         

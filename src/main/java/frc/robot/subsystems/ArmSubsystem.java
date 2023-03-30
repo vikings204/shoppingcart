@@ -63,18 +63,18 @@ public class ArmSubsystem extends SubsystemBase {
         System.out.println("Boom Enconder Value: " + nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
-         else if (b > 0 && nb < (boomStart + boomMax)) {
+        } else if (b > 0 && nb < (boomStart + boomMax)) {
             nb += Arm.BOOM_REF_INCREMENT;
-        } else if (b < 0 ) {
+        } else if (b < 0) {
             nb -= Arm.BOOM_REF_INCREMENT;
-        }/* 
+        }/*
         } else if (b > 0) {
             nb += Arm.BOOM_REF_INCREMENT;
         } else if (b < 0) {
             nb -= Arm.BOOM_REF_INCREMENT;
         }*/
         if (d == 0) {
-        } else if (d > 0 && nd< dipperMax) {
+        } else if (d > 0 && nd < dipperMax) {
             nd += Arm.DIPPER_REF_INCREMENT;
         } else if (d < 0) {
             nd -= Arm.DIPPER_REF_INCREMENT;
@@ -88,11 +88,11 @@ public class ArmSubsystem extends SubsystemBase {
             } else {
                 clawServo.set(clawSetPoint);
             }
-        } else if (c < 0 && clawSetPoint >0) {
+        } else if (c < 0 && clawSetPoint > 0) {
             clawState = true;
             clawSetPoint -= .01;
             clawServo.set(clawSetPoint);
-        } else if (c > 0 && clawSetPoint <1.0) {
+        } else if (c > 0 && clawSetPoint < 1.0) {
             clawState = true;
             clawSetPoint += .01;
             clawServo.set(clawSetPoint);
@@ -105,7 +105,7 @@ public class ArmSubsystem extends SubsystemBase {
         double nb = boomEncoder.getPosition();
         double nd = dipperEncoder.getPosition();
         //System.out.println("Dipper Enconder Value: " + nd);
-        System.out.println("Forward Limit Enabled" + boomForwardLimit.isLimitSwitchEnabled()+ " Limit Switch:"+boomForwardLimit.isPressed());
+        System.out.println("Forward Limit Enabled" + boomForwardLimit.isLimitSwitchEnabled() + " Limit Switch:" + boomForwardLimit.isPressed());
         if (b == 0) {
         } else if (b > 0) {
             nb += Arm.BOOM_REF_INCREMENT;
@@ -120,7 +120,7 @@ public class ArmSubsystem extends SubsystemBase {
             nd -= Arm.DIPPER_REF_INCREMENT;
         }
         //System.out.println("TESTBoom Enconder Value: "+nb);
-    //Maybe add some code here to not move the arm unless something is pushed
+        //Maybe add some code here to not move the arm unless something is pushed
 
         boomPIDCon.setReference(nb, CANSparkMax.ControlType.kPosition);
         dipperPIDCon.setReference(nd, CANSparkMax.ControlType.kPosition);
@@ -130,11 +130,11 @@ public class ArmSubsystem extends SubsystemBase {
             } else {
                 clawServo.set(clawSetPoint);
             }
-        } else if (c < 0 && clawSetPoint >0) {
+        } else if (c < 0 && clawSetPoint > 0) {
             clawState = true;
             clawSetPoint -= .01;
             clawServo.set(clawSetPoint);
-        } else if (c > 0 && clawSetPoint <1.0) {
+        } else if (c > 0 && clawSetPoint < 1.0) {
             clawState = true;
             clawSetPoint += .01;
             clawServo.set(clawSetPoint);

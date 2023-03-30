@@ -17,7 +17,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants204;
 import frc.robot.Constants.ModuleConstants;
 
-import static frc.robot.Constants204.Controller.LEFT_X_MAG_DEADBAND;
+import static frc.robot.Constants204.Controller.LX_MAG_DEADBAND;
 import static frc.robot.Constants204.Drivetrain.*;
 import frc.robot.util.PolarCoordinate;
 
@@ -148,7 +148,7 @@ public class StrafeModule {
     }
 
     public void fullStrafe(PolarCoordinate pc) {
-        if (Math.abs(pc.mag) > LEFT_X_MAG_DEADBAND) {
+        if (Math.abs(pc.mag) > LX_MAG_DEADBAND) {
             //System.out.println("MAG:" + pc.mag + " DEG:" + pc.deg);
             turningMotor.set(TalonSRXControlMode.Position, unitConv(pc.deg));
             if (Math.abs(turningMotor.getSelectedSensorPosition()-unitConv(pc.deg)) < Constants204.Drivetrain.STRAFE_DRIVE_THRESHOLD) {

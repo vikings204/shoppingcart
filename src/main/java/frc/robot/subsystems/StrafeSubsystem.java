@@ -199,7 +199,7 @@ public class StrafeSubsystem extends SubsystemBase {
 
     private static class EQ {
         public static double forward(double in) {
-            if (Math.abs(in) < Constants204.Controller.LEFT_Y_DEADBAND) {
+            if (Math.abs(in) < Constants204.Controller.LY_DEADBAND) {
                 return 0.0;
             } else {
                 return in/2;
@@ -207,7 +207,7 @@ public class StrafeSubsystem extends SubsystemBase {
         }
 
         public static double strafe(double in) {
-            if (Math.abs(in) < Constants204.Controller.LEFT_X_DEADBAND) {
+            if (Math.abs(in) < Constants204.Controller.LX_DEADBAND) {
                 return 0.0;
             } else {
                 return in/3;
@@ -215,7 +215,7 @@ public class StrafeSubsystem extends SubsystemBase {
         }
 
         public static double rotate(double in) {
-            if (Math.abs(in) < Constants204.Controller.RIGHT_X_DEADBAND) {
+            if (Math.abs(in) < Constants204.Controller.RX_DEADBAND) {
                 return 0.0;
             } else {
                 return in/Constants204.Drivetrain.EQ_ROTATE_DIVISOR;
@@ -223,7 +223,7 @@ public class StrafeSubsystem extends SubsystemBase {
         }
 
         public static double strafeMag(double in) {
-            if (Math.abs(in) < Constants204.Controller.LEFT_X_MAG_DEADBAND) {
+            if (Math.abs(in) < Constants204.Controller.LX_MAG_DEADBAND) {
                 return 0.0;
             } else {
                 return in/Constants204.Drivetrain.EQ_STRAFE_DIVISOR;
