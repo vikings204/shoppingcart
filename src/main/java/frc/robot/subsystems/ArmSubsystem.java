@@ -18,7 +18,7 @@ public class ArmSubsystem extends SubsystemBase {
     private final Servo clawServo = new Servo(ArmCAN.CLAW_SERVO_PWM_CH);
     private boolean clawState = false;
     public double boomStart = 0.0;
-    public double boomMax = 18.0;
+    public double boomMax = 25.0;
     public double dipperMax = 0.0;
     public double dipperAuto = 50.0;
     private double clawSetPoint = 1.0;
@@ -63,16 +63,16 @@ public class ArmSubsystem extends SubsystemBase {
         System.out.println("Boom Enconder Value: " + nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
-        /* else if (b > 0 && nb < (boomStart + boomMax)) {
+         else if (b > 0 && nb < (boomStart + boomMax)) {
             nb += Arm.BOOM_REF_INCREMENT;
-        } else if (b < 0 && nb > boomStart) {
+        } else if (b < 0 ) {
             nb -= Arm.BOOM_REF_INCREMENT;
-        }*/
+        }/* 
         } else if (b > 0) {
             nb += Arm.BOOM_REF_INCREMENT;
         } else if (b < 0) {
             nb -= Arm.BOOM_REF_INCREMENT;
-        }
+        }*/
         if (d == 0) {
         } else if (d > 0 && nd< dipperMax) {
             nd += Arm.DIPPER_REF_INCREMENT;
