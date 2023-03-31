@@ -62,6 +62,12 @@ public class StrafeModule {
         turningMotor.config_kD(0, STRAFE_TURNING_PID_D);
 
         turningMotor.setNeutralMode(NeutralMode.Brake);
+        ////////////////////////////
+        //                        // 
+        // MAYBECOMMENTMEOUT!!!!!!//
+        //                        //
+        ////////////////////////////
+        
         driveMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         driveEncoder = driveMotor.getEncoder();
