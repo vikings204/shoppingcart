@@ -99,6 +99,7 @@ public class StrafeSubsystem extends SubsystemBase {
             FR_MOD.fullStrafe(pc);
             RL_MOD.fullStrafe(pc);
             RR_MOD.fullStrafe(pc);
+            System.out.println("Front Left Enc: "+FL_MOD.turningMotor.getSelectedSensorPosition()+"\nFront Right Enc: "+FR_MOD.turningMotor.getSelectedSensorPosition()+"\nBack Left Enc: "+RL_MOD.turningMotor.getSelectedSensorPosition()+"Back Right Enc: "+RR_MOD.turningMotor.getSelectedSensorPosition());
         } else {
            /*turningTotalDeg= resetTotal(turningTotalDeg) ;
            if( turningTotalDeg%360 == 0){ 

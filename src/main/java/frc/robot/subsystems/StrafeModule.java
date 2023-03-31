@@ -67,7 +67,7 @@ public class StrafeModule {
         // MAYBECOMMENTMEOUT!!!!!!//
         //                        //
         ////////////////////////////
-        
+
         driveMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         driveEncoder = driveMotor.getEncoder();
