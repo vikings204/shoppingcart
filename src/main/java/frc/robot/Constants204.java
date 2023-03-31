@@ -29,19 +29,19 @@ public final class Constants204 {
     }
 
     public static final class Arm {
-        public static final double BOOM_REF_INCREMENT = 0.5;
-        public static final double DIPPER_REF_INCREMENT = 0.35;
+        public static final double BOOM_REF_INCREMENT = 0.35;
+        public static final double DIPPER_REF_INCREMENT = 0.45;
         public static final double CLAW_CLOSED_EXPOS = 0;
         public static final double CLAW_OPEN_EXPOS = 1;
     }
 
     public static final class Controller {
         public static final int PORT = 1;
-        public static final double LX_DEADBAND = 0.15;
-        public static final double LY_DEADBAND = 0.15;
-        public static final double RX_DEADBAND = 0.15;
-        public static final double RY_DEADBAND = 0.15;
-        public static final double LX_MAG_DEADBAND = 0.15;
+        public static final double LX_DEADBAND = 0.1;
+        public static final double LY_DEADBAND = 0.1;
+        public static final double RX_DEADBAND = 0.1;
+        public static final double RY_DEADBAND = 0.1;
+        public static final double LX_MAG_DEADBAND = 0.1;
         public static final String PTZ_HOSTNAME = "http://10.2.4.69";
         public static final int PTZ_JOYSTICK_PORT = 2;
         

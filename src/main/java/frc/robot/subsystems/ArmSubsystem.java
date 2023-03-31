@@ -39,7 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
         boomPIDCon.setFF(kFF);
         //boomPIDCon.setOutputRange(kMinOutput, kMaxOutput);
         boomMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        boomForwardLimit.enableLimitSwitch(true);
+        //boomForwardLimit.enableLimitSwitch(true);
         boomEncoder.setPosition(0);
 
         dipperPIDCon.setP(kP);
@@ -60,7 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void setArm(double b, double d, double c) {
         //System.out.println("B:"+b + "D:"+d + "C:"+c);
         double nb = boomEncoder.getPosition();
-        System.out.println("Boom Enconder Value: " + nb);
+       // System.out.println("Boom Enconder Value: " + nb);
         double nd = dipperEncoder.getPosition();
         if (b == 0) {
         } else if (b > 0 && nb < (boomStart + boomMax)) {
@@ -90,11 +90,11 @@ public class ArmSubsystem extends SubsystemBase {
             }
         } else if (c < 0 && clawSetPoint > 0) {
             clawState = true;
-            clawSetPoint -= .01;
+            clawSetPoint -= .05;
             clawServo.set(clawSetPoint);
         } else if (c > 0 && clawSetPoint < 1.0) {
             clawState = true;
-            clawSetPoint += .01;
+            clawSetPoint += .05;
             clawServo.set(clawSetPoint);
         }
         //System.out.println("Claw SP: "+ clawSetPoint);
@@ -105,7 +105,7 @@ public class ArmSubsystem extends SubsystemBase {
         double nb = boomEncoder.getPosition();
         double nd = dipperEncoder.getPosition();
         //System.out.println("Dipper Enconder Value: " + nd);
-        System.out.println("Forward Limit Enabled" + boomForwardLimit.isLimitSwitchEnabled() + " Limit Switch:" + boomForwardLimit.isPressed());
+        //System.out.println("Forward Limit Enabled" + boomForwardLimit.isLimitSwitchEnabled() + " Limit Switch:" + boomForwardLimit.isPressed());
         if (b == 0) {
         } else if (b > 0) {
             nb += Arm.BOOM_REF_INCREMENT;
@@ -132,11 +132,11 @@ public class ArmSubsystem extends SubsystemBase {
             }
         } else if (c < 0 && clawSetPoint > 0) {
             clawState = true;
-            clawSetPoint -= .01;
+            clawSetPoint -= .05;
             clawServo.set(clawSetPoint);
         } else if (c > 0 && clawSetPoint < 1.0) {
             clawState = true;
-            clawSetPoint += .01;
+            clawSetPoint += .05;
             clawServo.set(clawSetPoint);
         }
         //System.out.println("Claw SP: "+ clawSetPoint);
