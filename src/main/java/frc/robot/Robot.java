@@ -166,6 +166,7 @@ public class Robot extends TimedRobot {
             //System.out.println("You have added 90 to the LUT");
         }
         if (robotContainer.CONTROLLER.getBButton()) {
+            robotContainer.canTest();
             //robotContainer.strafeDrive.rottenest();
            // Drivetrain.FL_LUT.add(180.0, robotContainer.strafeDrive.m_frontLeft.getTurnEncDeg());
             //Drivetrain.RL_LUT.add(180.0, robotContainer.strafeDrive.m_rearLeft.getTurnEncDeg());

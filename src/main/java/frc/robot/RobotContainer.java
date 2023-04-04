@@ -234,9 +234,9 @@ public class RobotContainer {
             System.out.println("GYRO-W: " + w);
 
             double[] euler = toEuler(x, y, z, w);
-            System.out.println("EULER-X: " + euler[0] * 180 / 3.1415);
-            System.out.println("EULER-Y: " + euler[1] * 180 / 3.1415);
-            System.out.println("EULER-Z: " + euler[2] * 180 / 3.1415);
+            System.out.println("Yaw: " + Math.toDegrees(euler[0]));
+            //System.out.println("EULER-Y: " + euler[1] * 180 / 3.1415);
+            //System.out.println("EULER-Z: " + euler[2] * 180 / 3.1415);
         }
     }
 
@@ -246,10 +246,12 @@ public class RobotContainer {
         double sqx = _x * _x;
         double sqy = _y * _y;
         double sqz = _z * _z;
-
-        ret[0] = Math.atan2(2.0 * (_x * _y + _z * _w), (sqx - sqy - sqz + sqw));
-        ret[1] = Math.asin(-2.0 * (_x * _z - _y * _w) / (sqx + sqy + sqz + sqw));
-        ret[2] = Math.atan2(2.0 * (_y * _z + _x * _w), (-sqx - sqy + sqz + sqw));
+        ret[0] = Math.atan2(2.0 * (_x * _y + _z * _w), 1.0 -2.0*(sqy - sqz));
+        ret[1]=0.0;
+        ret[2]=0.0;
+       //ret[0] = Math.atan2(2.0 * (_x * _y + _z * _w), (sqx - sqy - sqz + sqw));
+        //ret[1] = Math.asin(-2.0 * (_x * _z - _y * _w) / (sqx + sqy + sqz + sqw));
+        //ret[2] = Math.atan2(2.0 * (_y * _z + _x * _w), (-sqx - sqy + sqz + sqw));
 
         return ret;
     }
